@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="description" content="Simulasi interaktif Titrasi Asid dan Bes KSSM Kimia Tingkatan 4: buret, penunjuk, lengkung pH dan pengiraan kepekatan.">
+  <title>Titrasi Asid &amp; Bes (Acid-Base Titration) (BETA) — Makmal STEM Kimia</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3525cd', 'primary-container': '#4f46e5', 'primary-fixed': '#e2dfff',
+            secondary: '#00687a', accent: '#ea580c', surface: '#faf8ff',
+            'surface-container-low': '#f2f3ff', 'surface-container': '#eaedff',
+            'on-surface': '#131b2e', 'on-surface-variant': '#464555', outline: '#777587', 'outline-variant': '#c7c4d8'
+          },
+          fontFamily: {sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['Inter', 'monospace']}
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="titrasi.css">
+  <link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="feedback.css">
+<script defer src="lab-chrome.js"></script>
+<script defer src="feedback.js"></script>
+</head>
+<body id="lab" class="min-h-screen flex flex-col antialiased">
+
+  <header class="lab-bar" data-lab-header></header>
+
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+
+  <section class="card p-5 sm:p-6">
+    <div class="sim-title-row">
+      <span class="sim-module-logo is-chem" aria-hidden="true">
+        <svg viewBox="0 0 280 160" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M115 20h50m-38 0v48l-38 56q-8 16 10 16h82q18 0 10-16l-38-56V20M102 106h76"/><circle cx="132" cy="92" r="5" fill="currentColor"/><circle cx="152" cy="118" r="6" fill="currentColor"/></svg>
+      </span>
+      <h1><span data-i18n="title">Titrasi Asid &amp; Bes</span> <span class="beta-label">(BETA)</span></h1>
+      <span class="sim-subject-badge" data-i18n="badge">Kimia T4 · Bab 6</span>
+    </div>
+    <p class="mt-2 text-on-surface-variant leading-relaxed max-w-3xl" data-i18n="intro"></p>
+    <div class="mt-4 flex flex-wrap items-center gap-2" role="group" aria-labelledby="presets-label">
+      <span id="presets-label" class="text-xs font-bold uppercase tracking-wider text-outline mr-1" data-i18n="presets">Eksperimen pantas</span>
+      <button class="chip" data-preset="hcl_pp" aria-pressed="false" data-i18n="p_hcl_pp">HCl + fenolftalein</button>
+      <button class="chip" data-preset="hcl_mo" aria-pressed="false" data-i18n="p_hcl_mo">HCl + metil jingga</button>
+      <button class="chip" data-preset="ch3_pp" aria-pressed="false" data-i18n="p_ch3_pp">Asid etanoik + fenolftalein</button>
+      <button class="chip" data-preset="ch3_mo" aria-pressed="false" data-i18n="p_ch3_mo">Asid etanoik + metil jingga</button>
+    </div>
+  </section>
+
+  <div class="grid lg:grid-cols-3 gap-5">
+    <section class="card p-4 sm:p-5 lg:col-span-2 space-y-4 lg:self-start" aria-labelledby="lab-h">
+      <h2 id="lab-h" class="sr-only" data-i18n="labH">Makmal titrasi</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <canvas id="rig" role="img" data-i18n-aria="rigAria" aria-label="Buret dan kelalang kon"></canvas>
+        <canvas id="curve" role="img" data-i18n-aria="curveAria" aria-label="Lengkung titrasi pH melawan isi padu"></canvas>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btn-drop" class="btn btn-primary" data-i18n="drop">Titis 0.1 mL</button>
+        <button id="btn-one" class="btn" data-i18n="addOne">Tambah 1.0 mL</button>
+        <button id="btn-tap" class="btn" aria-pressed="false"><span id="tap-text" data-i18n="tapOpen">Buka paip</span></button>
+        <button id="btn-reset" class="btn" data-i18n="reset">Set semula</button>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div class="read"><small data-i18n="r_v">Bacaan buret (NaOH)</small><b class="num" id="r-v">0.00 mL</b></div>
+        <div class="read"><small data-i18n="r_ph">pH dalam kelalang</small><b class="num" id="r-ph">1.00</b></div>
+        <div class="read"><small data-i18n="r_col">Warna penunjuk</small><b id="r-col" style="font-size:15px"></b></div>
+        <div class="read"><small data-i18n="r_eq">Titik kesetaraan, Vₛ</small><b class="num" id="r-eq"></b></div>
+      </div>
+      <p id="note" class="text-sm text-on-surface-variant bg-surface-container-low rounded-xl px-4 py-3 leading-relaxed" role="status" aria-live="polite"></p>
+      <div id="result" class="read" style="border-color:#fcd34d;background:#fffbeb" hidden><small data-i18n="resH">Keputusan pengiraan</small><div class="eq" id="result-text"></div></div>
+    </section>
+
+    <aside class="space-y-5">
+      <section class="card p-4 sm:p-5 space-y-4" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="font-extrabold text-lg" data-i18n="controls">Kawalan</h2>
+        <div>
+          <div class="text-sm font-bold mb-2" id="acid-label" data-i18n="c_acid">Asid dalam kelalang</div>
+          <div class="flex flex-col gap-2" role="group" aria-labelledby="acid-label">
+            <button class="chip" data-acid="hcl" aria-pressed="true" data-i18n="a_hcl">Asid hidroklorik, HCl (asid kuat)</button>
+            <button class="chip" data-acid="ch3" aria-pressed="false" data-i18n="a_ch3">Asid etanoik, CH₃COOH (asid lemah)</button>
+          </div>
+        </div>
+        <div>
+          <div class="text-sm font-bold mb-2" id="ind-label" data-i18n="c_ind">Penunjuk</div>
+          <div class="flex flex-col gap-2" role="group" aria-labelledby="ind-label">
+            <button class="chip" data-ind="pp" aria-pressed="true" data-i18n="i_pp">Fenolftalein (pH 8.2 – 10.0)</button>
+            <button class="chip" data-ind="mo" aria-pressed="false" data-i18n="i_mo">Metil jingga (pH 3.1 – 4.4)</button>
+            <button class="chip" data-ind="btb" aria-pressed="false" data-i18n="i_btb">Bromotimol biru (pH 6.0 – 7.6)</button>
+          </div>
+        </div>
+        <div>
+          <label for="slider-ma" class="flex justify-between text-sm font-bold"><span data-i18n="c_ma">Kepekatan asid, Mₐ</span><span class="num" style="color:#ea580c" id="out-ma"></span></label>
+          <input type="range" id="slider-ma" min="0.05" max="0.2" step="0.01" value="0.1">
+        </div>
+        <div>
+          <label for="slider-va" class="flex justify-between text-sm font-bold"><span data-i18n="c_va">Isi padu asid, Vₐ</span><span class="num" style="color:#ea580c" id="out-va"></span></label>
+          <input type="range" id="slider-va" min="10" max="50" step="5" value="25">
+        </div>
+        <div>
+          <label for="slider-mb" class="flex justify-between text-sm font-bold"><span data-i18n="c_mb">Kepekatan NaOH, Mb</span><span class="num" style="color:#0891b2" id="out-mb"></span></label>
+          <input type="range" id="slider-mb" min="0.05" max="0.2" step="0.01" value="0.1">
+        </div>
+        <p class="text-xs text-outline leading-relaxed" data-i18n="c_hint">Menukar apa-apa tetapan akan memulakan semula titrasi. Isi padu kesetaraan dihadkan supaya muat dalam buret 50 mL.</p>
+        <div class="flex flex-wrap gap-2">
+          <button id="btn-mystery" class="btn" aria-pressed="false"><span id="mystery-text" data-i18n="mysteryOn">Kepekatan asid tidak diketahui</span></button>
+          <button id="btn-calc" class="btn" hidden data-i18n="calc">Hitung kepekatan</button>
+        </div>
+      </section>
+
+      <section class="card p-4 sm:p-5 space-y-3" aria-labelledby="try-h">
+        <h2 id="try-h" class="font-extrabold text-lg" data-i18n="triesH">Cuba ini</h2>
+        <ol id="tries" class="tries space-y-2 list-decimal list-inside"></ol>
+      </section>
+    </aside>
+  </div>
+
+  <section class="card p-4 sm:p-5" aria-labelledby="eq-h">
+    <h2 id="eq-h" class="font-extrabold text-lg mb-2" data-i18n="eqH">Persamaan dan pengiraan</h2>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="read"><small data-i18n="e_react">Persamaan tindak balas</small><div class="eq" id="eq-react"></div></div>
+      <div class="read"><small data-i18n="e_formula">Formula titrasi (a = b = 1)</small><div class="eq" id="eq-formula"></div></div>
+    </div>
+  </section>
+<section class="feedback-section" id="penilaian" data-simulation-feedback="titrasi" aria-label="Penilaian dan komen"></section>
+</main>
+
+<footer class="text-center text-xs text-outline py-6"></footer>
+
+<script defer src="titrasi-model.js"></script>
+<script defer src="titrasi.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Hukum Kepler KSSM Fizik Tingkatan 4: Hukum I (orbit elips), Hukum II (luas sama dalam masa sama) dan Hukum III (T² ∝ r³).">
+  <title>Hukum Kepler (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="hukum-kepler.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template kepler-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <ellipse cx="24" cy="24" rx="18" ry="11" transform="rotate(-18 24 24)"/>
+          <circle cx="17" cy="26" r="4.5" fill="currentColor"/>
+          <circle cx="38" cy="18" r="2.8" fill="currentColor"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-i18n="title">Hukum Kepler</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-i18n="badge">Fizik T4 · Bab 3</span>
+      </div>
+    </header>
+
+    <div class="lab-work">
+      <section class="lab-visual" aria-labelledby="stage-h">
+        <h2 id="stage-h" data-i18n="stageH">Orbit elips &amp; sapuan luas sama</h2>
+        <div class="lab-simulation-frame">
+          <canvas id="plot" tabindex="0" role="img" data-i18n-aria="plotAria" aria-label="Simulasi orbit planet mengelilingi Matahari mengikut Hukum Kepler I, II dan III. Tekan Space untuk main atau jeda, atau anak panah kiri dan kanan untuk melangkah orbit."></canvas>
+        </div>
+        <div class="kepler-legend" aria-hidden="true">
+          <span><i class="kepler-dot sun"></i><b data-i18n="legSun">Matahari (F₁)</b></span>
+          <span><i class="kepler-dot planet"></i><b data-i18n="legPlanet">Planet</b></span>
+          <span><i class="kepler-dot peri"></i><b data-i18n="legPeri">Sektor Perihelion (ΔA₁)</b></span>
+          <span><i class="kepler-dot aphe"></i><b data-i18n="legAphe">Sektor Afelion (ΔA₂)</b></span>
+        </div>
+      </section>
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="lab-control-title">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+          <span data-i18n="controls">Panel kawalan</span>
+        </h2>
+        <div class="lab-tabs" id="kepler-tabs" role="tablist" aria-labelledby="ctl-h">
+          <button type="button" id="kepler-tab-controls" role="tab" aria-selected="true" aria-controls="kepler-pane-controls" data-i18n="tabControls">Kawalan</button>
+          <button type="button" id="kepler-tab-table" role="tab" aria-selected="false" aria-controls="kepler-pane-table" tabindex="-1" data-i18n="tabTable">Jadual</button>
+        </div>
+        <div class="lab-tab-panes">
+          <div class="lab-control-pane" id="kepler-pane-controls" role="tabpanel" aria-labelledby="kepler-tab-controls">
+            <div class="kepler-presets" role="group" data-i18n-aria="presetGroup" aria-label="Pratetap orbit">
+              <button type="button" id="preset-ellipse" data-preset="ellipse" aria-pressed="true" data-i18n="p_ellipse">Elips KSSM</button>
+              <button type="button" id="preset-earth" data-preset="earth" aria-pressed="false" data-i18n="p_earth">Bumi</button>
+              <button type="button" id="preset-mars" data-preset="mars" aria-pressed="false" data-i18n="p_mars">Marikh</button>
+              <button type="button" id="preset-comet" data-preset="comet" aria-pressed="false" data-i18n="p_comet">Komet</button>
+            </div>
+
+            <div class="kepler-playback">
+              <button type="button" id="btn-play" class="lab-button" aria-pressed="true" data-i18n="pause">Jeda</button>
+              <div class="kepler-speeds" role="group" data-i18n-aria="speedGroup" aria-label="Kelajuan animasi">
+                <button type="button" id="speed-05" data-speed="0.5" aria-pressed="false">0.5×</button>
+                <button type="button" id="speed-1" data-speed="1" aria-pressed="true">1×</button>
+                <button type="button" id="speed-2" data-speed="2" aria-pressed="false">2×</button>
+              </div>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-a" data-i18n="lbl_a">Paksi semi-major, a (AU)</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-a" data-i18n-aria="decrease_a" aria-label="Kurangkan paksi semi-major"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-a" min="0.4" max="3" step="0.1" value="1.2">
+                <button type="button" class="lab-button lab-secondary" id="increase-a" data-i18n-aria="increase_a" aria-label="Tambah paksi semi-major"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-a" for="slider-a"></output>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-e" data-i18n="lbl_e">Kesipian orbit, e</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-e" data-i18n-aria="decrease_e" aria-label="Kurangkan kesipian"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-e" min="0" max="0.75" step="0.05" value="0.5">
+                <button type="button" class="lab-button lab-secondary" id="increase-e" data-i18n-aria="increase_e" aria-label="Tambah kesipian"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-e" for="slider-e"></output>
+            </div>
+
+            <fieldset class="lab-display-options">
+              <legend data-i18n="show">Papar</legend>
+              <div class="lab-display-toggles">
+                <label class="lab-toggle"><input type="checkbox" data-show="areas" checked> <span data-i18n="s_areas">Luas sama ΔA</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="velocity" checked> <span data-i18n="s_velocity">Vektor laju v</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="axes" checked> <span data-i18n="s_axes">Fokus &amp; paksi a</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="radius" checked> <span data-i18n="s_radius">Garis jejari r</span></label>
+              </div>
+            </fieldset>
+
+            <div class="lab-reset-row">
+              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
+            </div>
+          </div>
+
+          <div class="lab-table lab-live-table" id="kepler-pane-table" role="tabpanel" aria-labelledby="kepler-tab-table" tabindex="0" inert>
+            <table>
+              <caption data-i18n="tableCaption">Pengesahan Hukum Kepler III (T² / a³)</caption>
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="colBody">Jasad</th>
+                  <th scope="col">a (AU)</th>
+                  <th scope="col" data-i18n="colT">T (thn)</th>
+                  <th scope="col">T² / a³</th>
+                </tr>
+              </thead>
+              <tbody id="kepler-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="lab-readings" aria-labelledby="feat-h">
+      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
+      <dl>
+        <div><dt data-i18n="f_period">Tempoh orbit, T</dt><dd id="f-period"></dd></div>
+        <div><dt data-i18n="f_ratio">Nisbah T² / a³</dt><dd id="f-ratio"></dd></div>
+        <div><dt data-i18n="f_r">Jarak semasa, r</dt><dd id="f-r"></dd></div>
+        <div><dt data-i18n="f_speed">Laju orbit, v</dt><dd id="f-speed"></dd></div>
+        <div><dt data-i18n="f_area">Luas sektor (Δt = 0.1T)</dt><dd id="f-area"></dd></div>
+      </dl>
+    </section>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="hukum-kepler" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+<script defer src="hukum-kepler-model.js"></script>
+<script defer src="hukum-kepler.js"></script>
+</body>
+</html>

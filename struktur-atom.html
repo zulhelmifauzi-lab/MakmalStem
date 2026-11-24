@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Struktur Atom 3D KSSM Kimia Tingkatan 4: model atom 3D dan Bohr 2D, nombor proton, nombor nukleon, isotop, ion dan susunan elektron.">
+  <title>Struktur Atom 3D (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="struktur-atom.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template atom-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+          <ellipse cx="24" cy="24" rx="18" ry="7.5" transform="rotate(30 24 24)"/>
+          <ellipse cx="24" cy="24" rx="18" ry="7.5" transform="rotate(-30 24 24)"/>
+          <ellipse cx="24" cy="24" rx="18" ry="7.5" transform="rotate(90 24 24)"/>
+          <circle cx="24" cy="24" r="4" fill="currentColor"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-i18n="title">Struktur Atom 3D</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-i18n="badge">Kimia T4 · Bab 2</span>
+      </div>
+    </header>
+
+    <div class="lab-work">
+      <section class="lab-visual" aria-labelledby="atom-h">
+        <h2 id="atom-h" data-i18n="atomH">Model atom 3D interaktif</h2>
+        <div class="lab-simulation-frame">
+          <canvas id="atom" tabindex="0" role="img" data-i18n-aria="atomAria" aria-label="Model atom 3D interaktif: seret untuk memutar kamera 360 darjah, tatal untuk zum atau guna kekunci anak panah."></canvas>
+        </div>
+        <div class="atom-cam-bar" id="atom-cam-bar">
+          <span class="atom-cam-hint" data-i18n="camHint">Seret untuk putar 3D · Tatal untuk zum</span>
+          <div class="atom-cam-btns">
+            <button type="button" id="cam-zoom-out" data-i18n-aria="zoomOutAria" aria-label="Zum keluar">−</button>
+            <button type="button" id="cam-zoom-in" data-i18n-aria="zoomInAria" aria-label="Zum masuk">+</button>
+            <button type="button" id="cam-reset" data-i18n="camReset">Reset 3D</button>
+          </div>
+        </div>
+        <div class="atom-legend" aria-hidden="true">
+          <span><i class="atom-dot p"></i><b data-i18n="lgProton">Proton (+)</b></span>
+          <span><i class="atom-dot n"></i><b data-i18n="lgNeutron">Neutron (0)</b></span>
+          <span><i class="atom-dot e"></i><b data-i18n="lgElectron">Elektron (−)</b></span>
+          <span><i class="atom-dot v"></i><b data-i18n="lgValence">Elektron valens</b></span>
+        </div>
+      </section>
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="lab-control-title">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+          <span data-i18n="controls">Panel kawalan</span>
+        </h2>
+        <div class="lab-tabs" id="atom-tabs" role="tablist" aria-labelledby="ctl-h">
+          <button type="button" id="atom-tab-controls" role="tab" aria-selected="true" aria-controls="atom-pane-controls" data-i18n="tabControls">Kawalan</button>
+          <button type="button" id="atom-tab-elements" role="tab" aria-selected="false" aria-controls="atom-pane-elements" tabindex="-1" data-i18n="tabElements">Unsur (1–20)</button>
+        </div>
+        <div class="lab-tab-panes">
+          <div class="lab-control-pane" id="atom-pane-controls" role="tabpanel" aria-labelledby="atom-tab-controls">
+            <div class="atom-segment" role="group" data-i18n-aria="viewGroup" aria-label="Mod paparan model atom">
+              <button type="button" id="view-3d" aria-pressed="true" data-i18n="view3d">Model 3D</button>
+              <button type="button" id="view-2d" aria-pressed="false" data-i18n="view2d">2D Bohr</button>
+            </div>
+
+            <div class="atom-subhead" data-i18n="presets">Contoh pantas</div>
+            <div class="atom-presets" role="group" data-i18n-aria="presets" aria-label="Contoh pantas">
+              <button type="button" data-preset="na" aria-pressed="true" data-i18n="p_na">Atom Na</button>
+              <button type="button" data-preset="naion" aria-pressed="false" data-i18n="p_naion">Ion Na⁺</button>
+              <button type="button" data-preset="clion" aria-pressed="false" data-i18n="p_clion">Ion Cl⁻</button>
+              <button type="button" data-preset="neon" aria-pressed="false" data-i18n="p_neon">Gas Adi Ne</button>
+              <button type="button" data-preset="deut" aria-pressed="false" data-i18n="p_deut">Isotop H</button>
+              <button type="button" data-preset="c14" aria-pressed="false" data-i18n="p_c14">Karbon-14</button>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-n" data-i18n="c_n">Bilangan neutron, N</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-n" data-i18n-aria="decrease_n" aria-label="Kurangkan neutron"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-n" min="0" max="23" step="1" value="12">
+                <button type="button" class="lab-button lab-secondary" id="increase-n" data-i18n-aria="increase_n" aria-label="Tambah neutron"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-n" for="slider-n"></output>
+            </div>
+
+            <div class="atom-subhead" data-i18n="c_iso">Isotop semula jadi (A)</div>
+            <div class="atom-isos" id="isos"></div>
+
+            <div class="atom-subhead" data-i18n="c_charge">Cas ion (tambah atau buang elektron)</div>
+            <div class="atom-charge-row">
+              <button type="button" id="btn-gain" class="lab-button lab-secondary" data-i18n="gain">+ Elektron</button>
+              <span class="atom-charge-val" id="out-ch"></span>
+              <button type="button" id="btn-lose" class="lab-button lab-secondary" data-i18n="lose">− Elektron</button>
+            </div>
+
+            <fieldset class="lab-display-options">
+              <legend data-i18n="show">Papar</legend>
+              <div class="lab-display-toggles">
+                <label class="lab-toggle"><input type="checkbox" data-show="spin" checked> <span data-i18n="s_spin">Putar elektron</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="valence" checked> <span data-i18n="s_valence">Tonjolkan valens</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="orbits" checked> <span data-i18n="s_orbits">Cincin orbit</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="autoRotate"> <span data-i18n="s_auto">Putar kamera 3D</span></label>
+              </div>
+            </fieldset>
+
+            <div class="lab-reset-row">
+              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
+            </div>
+          </div>
+
+          <div class="lab-control-pane" id="atom-pane-elements" role="tabpanel" aria-labelledby="atom-tab-elements" inert>
+            <div class="atom-subhead" id="el-label" data-i18n="c_el">Unsur (nombor proton Z = 1–20)</div>
+            <div class="atom-elgrid" role="group" aria-labelledby="el-label" id="elgrid">
+              <button type="button" class="el" data-z="1" aria-pressed="false"><small>1</small>H</button>
+              <button type="button" class="el" data-z="2" aria-pressed="false"><small>2</small>He</button>
+              <button type="button" class="el" data-z="3" aria-pressed="false"><small>3</small>Li</button>
+              <button type="button" class="el" data-z="4" aria-pressed="false"><small>4</small>Be</button>
+              <button type="button" class="el" data-z="5" aria-pressed="false"><small>5</small>B</button>
+              <button type="button" class="el" data-z="6" aria-pressed="false"><small>6</small>C</button>
+              <button type="button" class="el" data-z="7" aria-pressed="false"><small>7</small>N</button>
+              <button type="button" class="el" data-z="8" aria-pressed="false"><small>8</small>O</button>
+              <button type="button" class="el" data-z="9" aria-pressed="false"><small>9</small>F</button>
+              <button type="button" class="el" data-z="10" aria-pressed="false"><small>10</small>Ne</button>
+              <button type="button" class="el" data-z="11" aria-pressed="true"><small>11</small>Na</button>
+              <button type="button" class="el" data-z="12" aria-pressed="false"><small>12</small>Mg</button>
+              <button type="button" class="el" data-z="13" aria-pressed="false"><small>13</small>Al</button>
+              <button type="button" class="el" data-z="14" aria-pressed="false"><small>14</small>Si</button>
+              <button type="button" class="el" data-z="15" aria-pressed="false"><small>15</small>P</button>
+              <button type="button" class="el" data-z="16" aria-pressed="false"><small>16</small>S</button>
+              <button type="button" class="el" data-z="17" aria-pressed="false"><small>17</small>Cl</button>
+              <button type="button" class="el" data-z="18" aria-pressed="false"><small>18</small>Ar</button>
+              <button type="button" class="el" data-z="19" aria-pressed="false"><small>19</small>K</button>
+              <button type="button" class="el" data-z="20" aria-pressed="false"><small>20</small>Ca</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="lab-readings" aria-labelledby="feat-h">
+      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
+      <dl>
+        <div><dt data-i18n="r_nuc">Notasi nuklid</dt><dd><span class="nuc" id="r-nuc"></span><br><small id="r-name"></small></dd></div>
+        <div><dt data-i18n="r_z">Nombor proton, Z</dt><dd id="r-z"></dd></div>
+        <div><dt data-i18n="r_a">Nombor nukleon, A</dt><dd id="r-a"></dd></div>
+        <div><dt data-i18n="r_n">Bilangan neutron, N</dt><dd id="r-n"></dd></div>
+        <div><dt data-i18n="r_e">Bilangan elektron</dt><dd id="r-e"></dd></div>
+        <div><dt data-i18n="r_ch">Cas</dt><dd id="r-ch"></dd></div>
+        <div><dt data-i18n="r_arr">Susunan elektron</dt><dd id="r-arr"></dd></div>
+        <div><dt data-i18n="r_gp">Kumpulan · Kala</dt><dd id="r-gp"></dd></div>
+        <div><dt data-i18n="r_val">Elektron valens</dt><dd id="r-val"></dd></div>
+      </dl>
+    </section>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="atom" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+<script defer src="struktur-atom-model.js"></script>
+<script defer src="struktur-atom.js"></script>
+</body>
+</html>

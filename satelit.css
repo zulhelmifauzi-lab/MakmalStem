@@ -1,0 +1,49 @@
+.sat-module .lab-module-logo { color:#9f4122; background:#fff0ea; }
+.sat-module #plot {
+  display:block; width:100%; max-width:520px; border-radius:8px; background:#0b1120;
+  touch-action:none; cursor:pointer;
+}
+.sat-module #note { font-weight:650; }
+.sat-module #tries { margin:10px 0 0; padding-inline-start:1.25rem; color:#534563; }
+.sat-module #tries li + li { margin-top:6px; }
+
+.sat-presets {
+  display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 6px;
+}
+.sat-presets button {
+  flex:1 1 auto; min-height:40px; padding:6px 10px;
+  border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:var(--sim-tint, #f4effb); color:var(--sim-ink, #362951);
+  font:700 .8125rem/1.2 inherit; cursor:pointer; white-space:nowrap;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.sat-presets button:hover { border-color:var(--sim-accent, #634395); }
+.sat-presets button[aria-pressed="true"] {
+  background:#9f4122; border-color:#9f4122; color:#fff;
+}
+
+.sat-actions {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px;
+  margin:2px 0 4px;
+}
+.sat-actions .lab-button {
+  min-height:40px; border-radius:8px;
+}
+
+.sat-legend {
+  display:flex; flex-wrap:wrap; gap:10px 14px; justify-content:center;
+  margin-top:8px; font-size:.8125rem; color:#534563; font-weight:600;
+}
+.sat-legend span { display:inline-flex; align-items:center; gap:5px; }
+.sat-dot {
+  display:inline-block; width:10px; height:10px; border-radius:999px;
+}
+.sat-dot.earth { background:#0284c7; }
+.sat-dot.sat { background:#fbbf24; }
+.sat-dot.station { background:#34d399; }
+.sat-dot.vec { background:#fb7185; }
+
+.lab-live-table tr.is-current {
+  background:#fff4e6 !important;
+  font-weight:750;
+}

@@ -1,0 +1,61 @@
+.kepler-module .lab-module-logo { color:#9f4122; background:#fff0ea; }
+.kepler-module #plot {
+  display:block; width:100%; max-width:520px; border-radius:8px; background:#0b1120;
+  touch-action:none; cursor:pointer;
+}
+.kepler-module #note { font-weight:650; }
+.kepler-module #tries { margin:10px 0 0; padding-inline-start:1.25rem; color:#534563; }
+.kepler-module #tries li + li { margin-top:6px; }
+
+.kepler-presets {
+  display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 6px;
+}
+.kepler-presets button {
+  flex:1 1 auto; min-height:40px; padding:6px 10px;
+  border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:var(--sim-tint, #f4effb); color:var(--sim-ink, #362951);
+  font:700 .8125rem/1.2 inherit; cursor:pointer; white-space:nowrap;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.kepler-presets button:hover { border-color:var(--sim-accent, #634395); }
+.kepler-presets button[aria-pressed="true"] {
+  background:#9f4122; border-color:#9f4122; color:#fff;
+}
+
+.kepler-playback {
+  display:flex; flex-wrap:wrap; align-items:center; gap:6px;
+  margin:2px 0 4px;
+}
+.kepler-playback .lab-button {
+  flex:1 1 auto; min-height:40px; border-radius:8px;
+}
+.kepler-speeds {
+  display:inline-flex; gap:4px;
+}
+.kepler-speeds button {
+  min-width:44px; min-height:40px; padding:6px 8px;
+  border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:var(--sim-tint, #f4effb); color:var(--sim-ink, #362951);
+  font:700 .8125rem/1 inherit; cursor:pointer;
+}
+.kepler-speeds button[aria-pressed="true"] {
+  background:var(--sim-ink, #362951); border-color:var(--sim-ink, #362951); color:#fff;
+}
+
+.kepler-legend {
+  display:flex; flex-wrap:wrap; gap:10px 14px; justify-content:center;
+  margin-top:8px; font-size:.8125rem; color:#534563; font-weight:600;
+}
+.kepler-legend span { display:inline-flex; align-items:center; gap:5px; }
+.kepler-dot {
+  display:inline-block; width:10px; height:10px; border-radius:999px;
+}
+.kepler-dot.sun { background:#fbbf24; }
+.kepler-dot.planet { background:#38bdf8; }
+.kepler-dot.peri { background:rgba(245, 158, 11, 0.65); border:1.5px solid #d97706; border-radius:3px; }
+.kepler-dot.aphe { background:rgba(56, 189, 248, 0.55); border:1.5px solid #0284c7; border-radius:3px; }
+
+.lab-live-table tr.is-current {
+  background:#fff4e6 !important;
+  font-weight:750;
+}

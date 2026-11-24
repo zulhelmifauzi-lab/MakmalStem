@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Hukum Kegravitian Semesta Newton KSSM Fizik Tingkatan 4: daya graviti F = Gm₁m₂/r² dan graf variasi pecutan graviti g melawan jarak r.">
+  <title>Kegravitian Semesta (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="kegravitian.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template grav-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <circle cx="17" cy="24" r="9" fill="currentColor" fill-opacity=".18"/>
+          <circle cx="36" cy="24" r="4" fill="currentColor"/>
+          <path d="M17 11a13 13 0 0 1 13 13" stroke-dasharray="3 3" opacity=".55"/>
+          <path d="M27 24h4m-2-2 2 2-2 2"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-i18n="title">Kegravitian Semesta</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-i18n="badge">Fizik T4 · Bab 3</span>
+      </div>
+    </header>
+
+    <div class="lab-work">
+      <section class="lab-visual" aria-labelledby="stage-h">
+        <h2 id="stage-h" data-i18n="stageH">Medan graviti &amp; graf g melawan r</h2>
+        <div class="lab-simulation-frame">
+          <canvas id="plot" tabindex="0" role="img" data-i18n-aria="plotAria" aria-label="Simulasi daya graviti antara planet dan objek serta graf pecutan graviti melawan jarak. Seret objek atau guna kekunci anak panah untuk mengubah jarak r."></canvas>
+        </div>
+        <div class="grav-legend" aria-hidden="true">
+          <span><i class="grav-dot planet"></i><b data-i18n="legPlanet">Planet (M₁)</b></span>
+          <span><i class="grav-dot obj"></i><b data-i18n="legObj">Objek / Satelit (m₂)</b></span>
+          <span><i class="grav-dot vec"></i><b data-i18n="legVec">Daya graviti (F)</b></span>
+          <span><i class="grav-dot curve"></i><b data-i18n="legCurve">Lengkung g(r)</b></span>
+        </div>
+      </section>
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="lab-control-title">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+          <span data-i18n="controls">Panel kawalan</span>
+        </h2>
+        <div class="lab-tabs" id="grav-tabs" role="tablist" aria-labelledby="ctl-h">
+          <button type="button" id="grav-tab-controls" role="tab" aria-selected="true" aria-controls="grav-pane-controls" data-i18n="tabControls">Kawalan</button>
+          <button type="button" id="grav-tab-table" role="tab" aria-selected="false" aria-controls="grav-pane-table" tabindex="-1" data-i18n="tabTable">Jadual</button>
+        </div>
+        <div class="lab-tab-panes">
+          <div class="lab-control-pane" id="grav-pane-controls" role="tabpanel" aria-labelledby="grav-tab-controls">
+            <div class="grav-presets" role="group" data-i18n-aria="presetGroup" aria-label="Jarak rujukan pantas">
+              <button type="button" id="preset-05" data-preset="0.5" aria-pressed="false" data-i18n="p_inside">0.5R (Dalam)</button>
+              <button type="button" id="preset-10" data-preset="1" aria-pressed="true" data-i18n="p_surface">1R (Permukaan)</button>
+              <button type="button" id="preset-20" data-preset="2" aria-pressed="false" data-i18n="p_orbit">2R (Orbit)</button>
+              <button type="button" id="preset-30" data-preset="3" aria-pressed="false" data-i18n="p_far">3R (Jauh)</button>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-M" data-i18n="lbl_M">Jisim planet, M₁ (× M_Bumi)</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-M" data-i18n-aria="decrease_M" aria-label="Kurangkan jisim planet"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-M" min="0.5" max="3" step="0.5" value="1">
+                <button type="button" class="lab-button lab-secondary" id="increase-M" data-i18n-aria="increase_M" aria-label="Tambah jisim planet"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-M" for="slider-M"></output>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-m" data-i18n="lbl_m">Jisim objek, m₂ (kg)</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-m" data-i18n-aria="decrease_m" aria-label="Kurangkan jisim objek"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-m" min="100" max="2000" step="100" value="500">
+                <button type="button" class="lab-button lab-secondary" id="increase-m" data-i18n-aria="increase_m" aria-label="Tambah jisim objek"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-m" for="slider-m"></output>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-r" data-i18n="lbl_r">Jarak dari pusat, r (× R)</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-r" data-i18n-aria="decrease_r" aria-label="Kurangkan jarak"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-r" min="0.2" max="5" step="0.2" value="1">
+                <button type="button" class="lab-button lab-secondary" id="increase-r" data-i18n-aria="increase_r" aria-label="Tambah jarak"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-r" for="slider-r"></output>
+            </div>
+
+            <fieldset class="lab-display-options">
+              <legend data-i18n="show">Papar</legend>
+              <div class="lab-display-toggles">
+                <label class="lab-toggle"><input type="checkbox" data-show="vectors" checked> <span data-i18n="s_vectors">Vektor daya F</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="distance" checked> <span data-i18n="s_distance">Label jarak r</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="graph" checked> <span data-i18n="s_graph">Graf g lwn r</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="field" checked> <span data-i18n="s_field">Garis medan</span></label>
+              </div>
+            </fieldset>
+
+            <div class="lab-reset-row">
+              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
+            </div>
+          </div>
+
+          <div class="lab-table lab-live-table" id="grav-pane-table" role="tabpanel" aria-labelledby="grav-tab-table" tabindex="0" inert>
+            <table>
+              <caption data-i18n="tableCaption">Variasi g dan F mengikut jarak r</caption>
+              <thead>
+                <tr>
+                  <th scope="col">r (×R)</th>
+                  <th scope="col">g (m s⁻²)</th>
+                  <th scope="col">F (N)</th>
+                </tr>
+              </thead>
+              <tbody id="grav-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="lab-readings" aria-labelledby="feat-h">
+      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
+      <dl>
+        <div><dt data-i18n="f_force">Daya graviti, F</dt><dd id="f-force"></dd></div>
+        <div><dt data-i18n="f_g">Pecutan graviti, g</dt><dd id="f-g"></dd></div>
+        <div><dt data-i18n="f_r">Jarak dari pusat, r</dt><dd id="f-r"></dd></div>
+        <div><dt data-i18n="f_alt">Kedudukan / Altitud</dt><dd id="f-alt"></dd></div>
+        <div><dt data-i18n="f_law">Hubungan Hukum</dt><dd id="f-law"></dd></div>
+      </dl>
+    </section>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="kegravitian" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+<script defer src="kegravitian-model.js"></script>
+<script defer src="kegravitian.js"></script>
+</body>
+</html>

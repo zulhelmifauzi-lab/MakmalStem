@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Simulasi interaktif Jatuh Bebas KSSM Fizik Tingkatan 4: vakum lawan udara, halaju terminal, foto strob, impak tanah dan graf gerakan.">
+  <title>Jatuh Bebas (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="jatuh-bebas.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template fall-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 280 160" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M75 135h130M110 65v52m-9-11 9 11 9-11m54-41v52m-9-11 9 11 9-11"/>
+          <circle cx="110" cy="42" r="14" fill="currentColor" fill-opacity=".25"/>
+          <path d="M162 55q-5-19 20-28 0 22-20 28m-3 3 18-22"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-i18n="title">Jatuh Bebas</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-i18n="badge">Fizik T4 · Bab 2</span>
+      </div>
+    </header>
+
+    <!-- ===== WORKSPACE: SIMULASI KIRI, PANEL KAWALAN KANAN ===== -->
+    <div class="fall-workspace">
+      <!-- KIRI: SIMULASI & BAR RAMALAN -->
+      <div class="fall-stage-col">
+        <section class="fall-stage-card" aria-label="Ruang simulasi jatuh bebas">
+          <div id="stageWrap">
+            <canvas id="stage" aria-label="Simulasi jatuh bebas"></canvas>
+            <div class="fall-hud">
+              <!-- BUCU KIRI ATAS: BULATAN PLANET BERPUTAR + BULATAN MOD (VAKUM / UDARA) DI SEBELAH KANAN -->
+              <div class="fall-loc-hud">
+                <div class="fall-loc-trigger">
+                  <button type="button" class="fall-planet-orb-btn" id="planetOrbBtn" aria-expanded="false" aria-controls="planetDrawer" aria-label="Pilih lokasi planet atau bulan">
+                    <span class="fall-planet-sphere is-bumi" id="planetOrbSphere" aria-hidden="true"></span>
+                  </button>
+                  <span class="fall-loc-caption" id="planetCaption">Bumi</span>
+                </div>
+                <div class="fall-loc-trigger fall-mode-trigger">
+                  <button type="button" class="fall-mode-orb-btn is-vakum" id="modeOrbBtn" aria-label="Tukar mod persekitaran: Vakum atau Udara" title="Tukar mod: Vakum / Udara">
+                    <span id="modeOrbIcon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8"/><path d="M9 3v2.5c0 .7-.4 1.3-1 1.7C6.8 8 6 9.3 6 10.8V19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8.2c0-1.5-.8-2.8-2-3.6-.6-.4-1-1-1-1.7V3"/><path d="M6 12h12" opacity=".45"/></svg>
+                    </span>
+                  </button>
+                  <span class="fall-loc-caption" id="modeCaption" data-i18n="mVakum">Vakum</span>
+                </div>
+              </div>
+
+              <div class="fall-badge fall-timer" id="timerBadge">
+                <div class="st" id="hudS">SEDIA</div>
+                <div class="t-row">
+                  <svg class="t-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5"/><path d="M9 2h6"/><path d="M12 2v3"/></svg>
+                  <div class="t" id="hudT">0.00 s</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- KAWALAN KETINGGIAN MENARA (+/-) ATAS & BAWAH UKURAN -->
+            <span class="fall-h-lbl" id="hLbl" data-i18n="statH" aria-hidden="true">Tinggi</span>
+            <button type="button" class="fall-h-btn" id="hInc" aria-label="Tambah ketinggian (+5 m)" title="Tambah ketinggian (+5 m)">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 3.2v9.6M3.2 8h9.6"/></svg>
+            </button>
+            <button type="button" class="fall-h-btn" id="hDec" aria-label="Kurangkan ketinggian (−5 m)" title="Kurangkan ketinggian (−5 m)">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3.2 8h9.6"/></svg>
+            </button>
+
+            <!-- LACI PILIHAN PLANET / BULAN -->
+            <div class="fall-planet-drawer" id="planetDrawer" role="region" aria-label="Pilihan lokasi graviti" aria-hidden="true" inert>
+              <div class="fall-drawer-head">
+                <b data-i18n="drawerTitle">Pilih Lokasi (Planet / Bulan)</b>
+                <button type="button" class="fall-drawer-close" id="drawerClose" aria-label="Tutup">✕</button>
+              </div>
+              <div class="fall-drawer-list" id="drawerList"></div>
+            </div>
+
+            <div class="fall-pred-popup" id="predRow" role="dialog" aria-label="Ramalan siapa mendarat dulu"></div>
+            <div id="toast" role="status" aria-live="polite"></div>
+            <div id="hint">👆 Ketik checkpoint (+) untuk pilih objek</div>
+            <div id="result" aria-live="polite"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- KANAN: PANEL KAWALAN -->
+      <aside class="fall-ctrl-col">
+        <section class="fall-ctrl-card lab-controls lab-template-controls" aria-labelledby="ctl-h">
+          <h2 id="ctl-h" class="lab-control-title">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+            <span data-i18n="controls">Panel kawalan</span>
+          </h2>
+
+          <div class="fall-play-row" aria-label="Kawalan main balik">
+            <button type="button" class="fall-btn fall-btn-sym go" id="goBtn" title="Mula / Jeda (Space)" aria-label="Mula">▶</button>
+            <button type="button" class="fall-btn fall-btn-sym sec" id="resetBtn" title="Set semula (R)" aria-label="Set Semula">↺</button>
+            <div class="fall-chips" id="speedChips" title="Kelajuan masa">
+              <button type="button" data-s="0.25">¼×</button>
+              <button type="button" data-s="0.5">½×</button>
+              <button type="button" data-s="1" class="on">1×</button>
+              <button type="button" data-s="2">2×</button>
+              <button type="button" data-s="5">5×</button>
+            </div>
+          </div>
+
+          <div class="fall-presets-wrap">
+            <div class="fall-lbl" data-i18n="lblPresets">Eksperimen pantas</div>
+            <div class="fall-presets" id="presets"></div>
+          </div>
+
+          <div class="fall-status-card" id="statusSummary" aria-label="Ringkasan tetapan semasa">
+            <div class="fall-stat-grid">
+              <div class="fall-stat-item">
+                <small data-i18n="statG">Graviti</small>
+                <b id="statG">9.81 m s⁻²</b>
+              </div>
+              <div class="fall-stat-item">
+                <small data-i18n="statH">Tinggi</small>
+                <b id="statH">20 m</b>
+              </div>
+              <div class="fall-stat-item">
+                <small data-i18n="statMode">Mod</small>
+                <b id="statMode">Vakum</b>
+              </div>
+            </div>
+            <div class="fall-mini-tip" id="statTip" data-i18n="statTip">💡 Ketik (+) pada lorong untuk pilih objek atau (+/−) di kiri untuk tinggi.</div>
+            <button type="button" class="fall-reopen-btn" id="reopenResultBtn" data-i18n="viewResult" hidden>🏁 Lihat keputusan</button>
+          </div>
+
+          <div class="fall-toggles-wrap">
+            <div class="fall-lbl" data-i18n="lblDisplay">Paparan &amp; audio</div>
+            <div class="fall-ctrl-toggles" aria-label="Paparan &amp; audio">
+              <button type="button" class="fall-tog on" id="togForce">↕ <span data-i18n="togForce">Daya</span></button>
+              <button type="button" class="fall-tog" id="togStrobe">📸 <span data-i18n="togStrobe">Strob</span></button>
+              <button type="button" class="fall-tog on" id="togSound" title="Bunyi" aria-label="Bunyi">🔊</button>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <!-- ===== BAWAH: DATA, BACAAN LANGSUNG & GRAF ===== -->
+    <div class="fall-bottom-section">
+      <section class="fall-panel-card" id="dataCard" aria-labelledby="data-h">
+        <div class="fall-panel-head">
+          <h2 id="data-h" data-i18n="dataTitle">Data &amp; bacaan langsung</h2>
+          <small id="dataSub">H = 20 m</small>
+        </div>
+        <div class="fall-lanes" id="lanes"></div>
+        <div class="fall-impact-banner" id="impactBanner"></div>
+      </section>
+
+      <section class="fall-panel-card" id="graphCard" aria-labelledby="graph-h">
+        <div class="fall-panel-head">
+          <h2 id="graph-h" data-i18n="graphTitle">Graf gerakan</h2>
+          <div class="fall-chips" id="gTabs">
+            <button type="button" data-g="v" class="on">v–t</button>
+            <button type="button" data-g="s">s–t</button>
+            <button type="button" data-g="a">a–t</button>
+          </div>
+        </div>
+        <div id="graphWrap"><canvas id="graph" aria-label="Graf gerakan jatuh bebas"></canvas></div>
+        <div class="fall-note" data-i18n="graphNote">Garis putus-putus = ramalan teori. Garis penuh = gerakan yang sedang berlaku. Paksi masa mengezum keluar secara automatik.</div>
+      </section>
+    </div>
+
+    <!-- ===== NOTA & VIDEO PEMBELAJARAN + PENILAIAN ===== -->
+    <div class="lab-tail has-companion" data-lab-tail></div>
+
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="jatuh-bebas" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+  <div class="fall-sheet" id="sheet">
+    <div class="fall-sheet-body">
+      <div class="fall-sheet-head">
+        <div><b id="sheetTitle">Pilih objek</b><small id="sheetSub"></small></div>
+        <button type="button" id="sheetClose" aria-label="Tutup">✕</button>
+      </div>
+      <div class="fall-pick-grid" id="sheetGrid"></div>
+      <button type="button" class="fall-btn" id="sheetRemove">🗑 <span data-i18n="removeObj">Keluarkan objek</span></button>
+    </div>
+  </div>
+
+<script defer src="jatuh-bebas-model.js"></script>
+<script defer src="jatuh-bebas.js"></script>
+</body>
+</html>

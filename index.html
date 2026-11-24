@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f59e0b">
+  <meta name="description" content="Terokai simulasi Matematik, Fizik dan Kimia KSSM. Percuma dan tanpa login.">
+  <title>Makmal STEM — Simulasi KSSM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="warm-stem.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body class="dashboard">
+  <a class="btn skip-dashboard" href="#simulasi">Langkau ke katalog</a>
+  <header class="dashboard-header">
+    <div class="dashboard-header-inner">
+      <a class="brand" href="index.html" aria-label="Makmal STEM, laman utama"><img class="logo" src="icon.svg" width="40" height="40" alt=""><span><b>Makmal STEM</b><small>KSSM MALAYSIA</small></span></a>
+      <a class="portal-search" href="#search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/></svg><span>Cari dalam katalog</span></a>
+      <span class="pill"><span class="dot" aria-hidden="true"></span> Percuma · Tanpa login</span>
+    </div>
+  </header>
+  <div class="dashboard-layout">
+    <aside class="dashboard-sidebar">
+      <nav class="sidebar-inner" aria-label="Navigasi dashboard">
+        <span class="sidebar-label">Katalog</span>
+        <button type="button" class="sidebar-item" data-filter="" aria-label="Semua simulasi" title="Semua simulasi" aria-pressed="true" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="sidebar-text">Semua simulasi</span><span class="sidebar-count" data-module-count=""></span></button>
+        <span class="sidebar-label">Subjek</span>
+        <button type="button" class="sidebar-item math" data-filter="Matematik" aria-label="Matematik" title="Matematik" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h15l-7 6 7 6H4"/></svg></span><span class="sidebar-text">Matematik</span><span class="sidebar-count" data-module-count="Matematik"></span></button>
+        <button type="button" class="sidebar-item physics" data-filter="Fizik" aria-label="Fizik" title="Fizik" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 10-12h-8l1-8Z"/></svg></span><span class="sidebar-text">Fizik</span><span class="sidebar-count" data-module-count="Fizik"></span></button>
+        <button type="button" class="sidebar-item chem" data-filter="Kimia" aria-label="Kimia" title="Kimia" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6m-5 0v6l-5.5 8.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-3.5L14 9V3M8 15h8"/></svg></span><span class="sidebar-text">Kimia</span><span class="sidebar-count" data-module-count="Kimia"></span></button>
+        <span class="sidebar-label">Maklumat</span>
+        <a class="sidebar-item sidebar-extra" href="#pratonton" aria-label="Pratonton" title="Pratonton"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 4 3-4 3Z"/></svg></span><span class="sidebar-text">Pratonton</span></a>
+        <a class="sidebar-item sidebar-extra" href="#tentang" aria-label="Tentang Makmal STEM" title="Tentang Makmal STEM"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></span><span class="sidebar-text">Tentang portal</span></a>
+      </nav>
+    </aside>
+    <main class="dashboard-main" id="dashboard">
+      <section class="portal-hero" aria-labelledby="dashboard-title">
+        <div class="portal-intro">
+          <p class="portal-kssm">KSSM Tingkatan 4 dan 5</p>
+          <h1 id="dashboard-title">Terokai sains dan matematik</h1>
+          <p class="portal-lead">Ubah pemboleh ubah dan lihat kesannya dalam simulasi Matematik, Fizik dan Kimia.</p>
+          <a class="portal-button" href="#simulasi">Terokai katalog <span aria-hidden="true">↓</span></a>
+        </div>
+        <section class="portal-feature" id="pratonton" aria-labelledby="preview-title">
+          <div class="portal-feature-header">
+            <h2 id="preview-title">Pratonton simulasi</h2>
+            <span id="slide-position" class="portal-position" aria-hidden="true"></span>
+          </div>
+          <section class="preview carousel" id="hero-carousel" aria-roledescription="karusel" aria-label="Pratonton simulasi">
+            <a id="hero-slide" class="preview-link" href="simulasi.html?id=trigonometri" aria-label="Buka simulasi Graf Fungsi Trigonometri (BETA)">
+              <div class="preview-top">
+                <div class="carousel-frame">
+                  <span class="preview-label">Matematik · Tingkatan 5</span>
+                  <svg viewBox="0 0 280 160" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M20 80h240M35 15v125" stroke-width="1" opacity=".3"/>
+                    <path d="M35 80C65 80 65 25 95 25s30 55 60 55 30 55 60 55 30-55 45-55"/>
+                  </svg>
+                  <span class="portal-formula">y = a sin(bx) + c</span>
+                </div>
+              </div>
+              <div class="preview-bottom">
+                <strong class="portal-preview-name">Graf Fungsi Trigonometri <span class="beta-label">(BETA)</span></strong>
+                <span class="portal-preview-action">Buka simulasi <span aria-hidden="true">↗</span></span>
+              </div>
+            </a>
+            <div class="carousel-controls">
+              <button type="button" class="carousel-arrow" id="slide-prev" aria-label="Slaid sebelumnya">←</button>
+              <button type="button" class="carousel-arrow" id="slide-next" aria-label="Slaid seterusnya">→</button>
+            </div>
+          </section>
+        </section>
+      </section>
+      <section id="simulasi" class="dashboard-catalog" aria-labelledby="catalog-title" tabindex="-1">
+        <div class="dashboard-heading" id="subjek">
+          <h2 id="catalog-title">Semua simulasi</h2>
+          <p id="count" class="count" role="status"></p>
+        </div>
+        <div class="filters catalog-filters" role="group" aria-label="Penapis simulasi">
+          <div class="filter-field filter-search">
+            <label for="search">Cari simulasi</label>
+            <div class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Contoh: kuadratik atau graviti"></div>
+          </div>
+          <div class="filter-field">
+            <label for="level">Tingkatan</label>
+            <select id="level"><option value="">Semua tingkatan</option><option value="4">Tingkatan 4</option><option value="5">Tingkatan 5</option></select>
+          </div>
+          <div class="filter-field">
+            <label for="status">Status</label>
+            <select id="status"><option value="">Semua status</option><option value="ready">Sedia dicuba</option><option value="soon">Coming soon</option></select>
+          </div>
+          <button type="button" id="clear" class="dashboard-clear">Set semula</button>
+        </div>
+        <div class="cards" id="cards"></div>
+        <div id="empty" class="empty" hidden><h3>Tiada simulasi ditemui</h3><p>Cuba kata kunci lain atau lihat semua simulasi.</p><button type="button" id="empty-clear" class="btn">Lihat semua simulasi</button></div>
+        <noscript><p>Hidupkan JavaScript untuk memaparkan katalog simulasi.</p></noscript>
+      </section>
+      <section class="dashboard-about about-compact" id="tentang" aria-labelledby="about-title">
+        <div class="about-grid">
+          <div class="about-copy">
+            <div class="about-eyebrow">
+              <span class="about-badge">Dari Guru STEM · Untuk Guru STEM</span>
+              <span class="about-status"><span class="about-status-dot" aria-hidden="true"></span> Fasa Pembangunan</span>
+            </div>
+            <h2 id="about-title">Tentang Makmal STEM</h2>
+            <p class="about-lead">Dihasilkan <strong>daripada guru STEM kepada guru STEM</strong> sebagai <strong>BBM interaktif</strong> untuk membantu murid memahami konsep dan teori STEM yang abstrak semasa sesi PdP.</p>
+            <p class="about-meta">Portal ini sedang dalam <strong>fasa pembangunan aktif</strong> dan simulasi baharu KSSM Tingkatan 4 &amp; 5 akan dikemas kini secara berkala.</p>
+            <ul class="about-tags" aria-label="Ciri utama">
+              <li>BBM Interaktif PdP</li>
+              <li>Percuma &amp; Tanpa Akaun</li>
+              <li>Kemas Kini Berkala</li>
+            </ul>
+          </div>
+          <figure class="about-visual">
+            <img src="about-founders.jpg" width="760" height="661" loading="lazy" alt="Pembangun Makmal STEM — guru STEM Malaysia">
+          </figure>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer class="site-footer" id="footer" aria-label="Pengaki laman">
+    <div class="site-footer-inner">
+      <div class="site-footer-grid">
+        <div class="site-footer-col">
+          <a class="site-footer-brand" href="#dashboard" aria-label="Makmal STEM, kembali ke atas">
+            <img src="icon.svg" width="36" height="36" alt="">
+            <span><strong>Makmal STEM</strong><small>KSSM MALAYSIA</small></span>
+          </a>
+          <p class="site-footer-desc">Portal simulasi interaktif Matematik, Fizik dan Kimia KSSM Tingkatan 4 &amp; 5. Dihasilkan daripada guru STEM untuk sesi PdP yang lebih visual.</p>
+          <div class="site-footer-pills" aria-label="Kelebihan portal">
+            <span class="site-footer-pill"><span class="site-footer-pill-dot" aria-hidden="true"></span> Percuma · Tanpa Login</span>
+            <span class="site-footer-pill">BBM Interaktif PdP</span>
+            <span class="site-footer-pill">Fasa Pembangunan (BETA)</span>
+          </div>
+        </div>
+        <div class="site-footer-col">
+          <h3>Subjek &amp; Katalog</h3>
+          <ul class="site-footer-links">
+            <li><a href="#simulasi" data-footer-filter="">Semua Simulasi</a></li>
+            <li><a href="index.html?subjek=Fizik#simulasi" data-footer-filter="Fizik">Fizik Tingkatan 4 &amp; 5</a></li>
+            <li><a href="index.html?subjek=Matematik#simulasi" data-footer-filter="Matematik">Matematik Tingkatan 4 &amp; 5</a></li>
+            <li><a href="index.html?subjek=Kimia#simulasi" data-footer-filter="Kimia">Kimia Tingkatan 4 &amp; 5</a></li>
+            <li><a href="index.html?tingkatan=4#simulasi" data-footer-level="4">Katalog Tingkatan 4</a></li>
+            <li><a href="index.html?tingkatan=5#simulasi" data-footer-level="5">Katalog Tingkatan 5</a></li>
+          </ul>
+        </div>
+        <div class="site-footer-col">
+          <h3>Simulasi Popular</h3>
+          <ul class="site-footer-links">
+            <li><a href="jatuh-bebas.html">Jatuh Bebas</a></li>
+            <li><a href="gerakan-linear.html">Gerakan Linear</a></li>
+            <li><a href="daya-paduan.html">Daya Paduan</a></li>
+            <li><a href="graf-trigonometri.html">Graf Fungsi Trigonometri</a></li>
+            <li><a href="transformasi/index.html">Transformasi Geometri</a></li>
+            <li><a href="struktur-atom.html">Struktur Atom</a></li>
+            <li><a href="ikatan-kimia.html">Ikatan Kimia</a></li>
+          </ul>
+        </div>
+        <div class="site-footer-col">
+          <h3>Portal &amp; Sumber</h3>
+          <ul class="site-footer-links">
+            <li><a href="#dashboard">Laman Utama</a></li>
+            <li><a href="#pratonton">Pratonton Simulasi</a></li>
+            <li><a href="#tentang">Tentang Makmal STEM</a></li>
+            <li><a href="#simulasi">Cari dalam Katalog</a></li>
+            <li><a href="#dashboard">Kembali ke atas ↑</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer-bottom">
+        <p>© 2026 Makmal STEM Malaysia · Portal BBM Interaktif KSSM (BETA)</p>
+        <p>Dari guru STEM untuk murid &amp; guru Malaysia 🇲🇾</p>
+      </div>
+    </div>
+  </footer>
+  <script src="workbench-data.js"></script>
+  <script src="catalog.js"></script>
+  <script src="carousel.js"></script>
+</body>
+</html>

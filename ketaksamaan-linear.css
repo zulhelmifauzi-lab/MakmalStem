@@ -1,0 +1,57 @@
+.ineq-module .lab-module-logo { color:#855300; background:#fff2df; }
+.ineq-module #plot {
+  display:block; width:100%; max-width:520px; border-radius:8px; background:#fff;
+  touch-action:none; cursor:crosshair;
+}
+.ineq-module #plot.dragging { cursor:grabbing; }
+.ineq-module #note { font-weight:650; }
+.ineq-module #tries { margin:10px 0 0; padding-inline-start:1.25rem; color:#534563; }
+.ineq-module #tries li + li { margin-top:6px; }
+
+.ineq-segment {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px;
+  padding:3px; border-radius:9px; background:var(--sim-tint, #f4effb); margin-bottom:8px;
+}
+.ineq-segment button {
+  min-height:40px; padding:6px 8px; border:0; border-radius:7px;
+  background:transparent; color:var(--sim-ink, #362951); font:700 .8125rem/1.2 inherit;
+  cursor:pointer; transition:background .15s, color .15s;
+}
+.ineq-segment button[aria-pressed="true"] {
+  background:var(--sim-ink, #362951); color:#fff;
+}
+.ineq-segment.ineq-line-picker button[data-line="0"][aria-pressed="true"] {
+  background:#855300; color:#fff;
+}
+.ineq-segment.ineq-line-picker button[data-line="1"][aria-pressed="true"] {
+  background:#634395; color:#fff;
+}
+
+.ineq-ops {
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px;
+  margin:4px 0 8px;
+}
+.ineq-ops button {
+  min-height:44px; border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:var(--sim-tint, #f4effb); color:var(--sim-ink, #362951);
+  font:800 1.05rem/1 inherit; cursor:pointer;
+}
+.ineq-ops button:hover { border-color:var(--sim-accent, #634395); }
+.ineq-ops button[aria-pressed="true"] {
+  background:var(--sim-accent, #634395); border-color:var(--sim-accent, #634395); color:#fff;
+}
+
+.ineq-legend {
+  display:flex; flex-wrap:wrap; gap:10px 14px; justify-content:center;
+  margin-top:8px; font-size:.8125rem; color:#534563; font-weight:600;
+}
+.ineq-legend span { display:inline-flex; align-items:center; gap:5px; }
+.ineq-swatch {
+  display:inline-block; width:12px; height:12px; border-radius:3px; border:1.5px solid currentColor;
+}
+.ineq-swatch.l1 { background:rgba(180,83,9,.22); color:#b45309; }
+.ineq-swatch.l2 { background:rgba(99,67,149,.22); color:#634395; }
+.ineq-swatch.common { background:rgba(0,108,73,.28); color:#006c49; }
+
+.ineq-status-ok { color:#006c49; font-weight:750; }
+.ineq-status-no { color:#ba1a1a; font-weight:750; }

@@ -1,0 +1,242 @@
+<!doctype html>
+
+<html lang="ms">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Simulasi interaktif Fungsi Kuadratik KSSM Matematik Tingkatan 4: parabola, verteks, paksi simetri, punca dan diskriminan.">
+
+  <title>Fungsi Kuadratik (BETA) — Makmal STEM</title>
+
+  <link rel="icon" href="icon.svg">
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="brand.css">
+
+  <link rel="stylesheet" href="feedback.css">
+
+  <link rel="stylesheet" href="workbench.css">
+
+  <link rel="stylesheet" href="simulation-template.css">
+
+  <link rel="stylesheet" href="kuadratik.css">
+
+  <script defer src="workbench-data.js"></script>
+
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+
+  <script defer src="lesson-videos.js"></script>
+
+</head>
+
+<body class="lab-shell lab-template quad-module">
+
+  <header class="lab-bar" data-lab-header></header>
+
+
+
+  <main class="lab-wrap" id="lab">
+
+    <header class="lab-intro has-module-logo">
+
+      <span class="lab-module-logo" aria-hidden="true">
+
+        <svg id="quad-icon" viewBox="15 -45 250 250" fill="none" stroke="currentColor" stroke-width="7"></svg>
+
+      </span>
+
+      <div class="lab-module-heading">
+
+        <h1><span data-i18n="title">Fungsi Kuadratik</span> <span class="beta-label">(BETA)</span></h1>
+
+        <span class="lab-subject-badge" data-i18n="badge">Matematik T4 · Bab 1</span>
+
+      </div>
+
+    </header>
+
+
+
+    <div class="lab-work">
+
+      <section class="lab-visual" aria-labelledby="graph-h">
+
+        <h2 id="graph-h" data-i18n="graphH">Satah Cartes interaktif</h2>
+
+        <div class="lab-simulation-frame">
+
+          <canvas id="plot" tabindex="0" role="img" data-i18n-aria="plotAria" aria-label="Graf fungsi kuadratik. Guna anak panah untuk menggerakkan verteks."></canvas>
+
+        </div>
+
+      </section>
+
+
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
+
+        <h2 id="ctl-h" class="lab-control-title">
+
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+
+          <span data-i18n="controls">Panel kawalan</span>
+
+        </h2>
+
+        <div class="lab-tabs" id="quad-tabs" role="tablist" aria-labelledby="ctl-h">
+
+          <button type="button" id="quad-tab-controls" role="tab" aria-selected="true" aria-controls="quad-pane-controls" data-i18n="tabControls">Kawalan</button>
+
+          <button type="button" id="quad-tab-table" role="tab" aria-selected="false" aria-controls="quad-pane-table" tabindex="-1" data-i18n="tabTable">Jadual</button>
+
+        </div>
+
+        <div class="lab-tab-panes">
+
+          <div class="lab-control-pane" id="quad-pane-controls" role="tabpanel" aria-labelledby="quad-tab-controls">
+
+            <div class="lab-control lab-step-range">
+
+              <label for="slider-a"><var>a</var></label>
+
+              <div class="lab-stepper">
+
+                <button type="button" class="lab-button lab-secondary" id="decrease-a" data-i18n-aria="decrease_a" aria-label="Kurangkan a"><span aria-hidden="true">−</span></button>
+
+                <input type="range" id="slider-a" min="-5" max="5" step="0.5" value="1">
+
+                <button type="button" class="lab-button lab-secondary" id="increase-a" data-i18n-aria="increase_a" aria-label="Tambah a"><span aria-hidden="true">+</span></button>
+
+              </div>
+
+              <output id="out-a" for="slider-a"></output>
+
+            </div>
+
+            <div class="lab-control lab-step-range">
+
+              <label for="slider-b"><var>b</var></label>
+
+              <div class="lab-stepper">
+
+                <button type="button" class="lab-button lab-secondary" id="decrease-b" data-i18n-aria="decrease_b" aria-label="Kurangkan b"><span aria-hidden="true">−</span></button>
+
+                <input type="range" id="slider-b" min="-20" max="20" step="0.5" value="-2">
+
+                <button type="button" class="lab-button lab-secondary" id="increase-b" data-i18n-aria="increase_b" aria-label="Tambah b"><span aria-hidden="true">+</span></button>
+
+              </div>
+
+              <output id="out-b" for="slider-b"></output>
+
+            </div>
+
+            <div class="lab-control lab-step-range">
+
+              <label for="slider-c"><var>c</var></label>
+
+              <div class="lab-stepper">
+
+                <button type="button" class="lab-button lab-secondary" id="decrease-c" data-i18n-aria="decrease_c" aria-label="Kurangkan c"><span aria-hidden="true">−</span></button>
+
+                <input type="range" id="slider-c" min="-20" max="20" step="0.5" value="-3">
+
+                <button type="button" class="lab-button lab-secondary" id="increase-c" data-i18n-aria="increase_c" aria-label="Tambah c"><span aria-hidden="true">+</span></button>
+
+              </div>
+
+              <output id="out-c" for="slider-c"></output>
+
+            </div>
+
+            <fieldset class="lab-display-options">
+
+              <legend data-i18n="show">Papar</legend>
+
+              <div class="lab-display-toggles">
+
+                <label class="lab-toggle"><input type="checkbox" data-show="axis" checked> <span data-i18n="s_axis">Paksi simetri</span></label>
+
+                <label class="lab-toggle"><input type="checkbox" data-show="vertex" checked> <span data-i18n="s_vertex">Verteks</span></label>
+
+                <label class="lab-toggle"><input type="checkbox" data-show="roots" checked> <span data-i18n="s_roots">Punca</span></label>
+
+                <label class="lab-toggle"><input type="checkbox" data-show="yint" checked> <span data-i18n="s_yint">Pintasan-y</span></label>
+
+              </div>
+
+            </fieldset>
+
+            <div class="lab-reset-row">
+
+              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
+
+            </div>
+
+          </div>
+
+          <div class="lab-table lab-live-table" id="quad-pane-table" role="tabpanel" aria-labelledby="quad-tab-table" tabindex="0" inert>
+
+            <table>
+
+              <caption data-i18n="coordinateCaption">10 pasangan koordinat</caption>
+
+              <thead><tr><th scope="col"><var>x</var></th><th scope="col"><var>y</var></th></tr></thead>
+
+              <tbody id="quad-coordinates"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+
+    <section class="lab-readings" aria-labelledby="feat-h">
+
+      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
+
+      <dl>
+
+        <div><dt data-i18n="f_equation">Persamaan</dt><dd id="f-equation"></dd></div>
+
+        <div><dt data-i18n="f_vertex">Titik Max/Min</dt><dd id="f-vertex"></dd></div>
+
+        <div><dt data-i18n="f_axis">Paksi simetri</dt><dd id="f-axis"></dd></div>
+
+        <div><dt data-i18n="f_yint">Pintasan-y</dt><dd id="f-yint"></dd></div>
+
+        <div><dt data-i18n="f_roots">Punca (pintasan-x)</dt><dd id="f-roots"></dd></div>
+
+      </dl>
+
+    </section>
+
+
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="kuadratik" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+
+  </main>
+
+
+
+<script defer src="fungsi-kuadratik-model.js"></script>
+<script defer src="fungsi-kuadratik.js"></script>
+
+</body>
+
+</html>
+

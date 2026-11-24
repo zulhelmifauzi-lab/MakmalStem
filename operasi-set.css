@@ -1,0 +1,100 @@
+.set-module .lab-module-logo { color:#855300; background:#fff2df; }
+.set-module #venn {
+  display:block; width:100%; max-width:520px; border-radius:8px; background:#fff;
+  touch-action:none; cursor:pointer;
+}
+.set-module #venn.dragging { cursor:grabbing; }
+.set-module #note { font-weight:650; }
+.set-module #tries { margin:10px 0 0; padding-inline-start:1.25rem; color:#534563; }
+.set-module #tries li + li { margin-top:6px; }
+
+.set-segment {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px;
+  padding:3px; border-radius:9px; background:var(--sim-tint, #f4effb); margin-bottom:6px;
+}
+.set-segment button {
+  min-height:40px; padding:6px 8px; border:0; border-radius:7px;
+  background:transparent; color:var(--sim-ink, #362951); font:700 .8125rem/1.2 inherit;
+  cursor:pointer; transition:background .15s, color .15s;
+}
+.set-segment button[aria-pressed="true"] {
+  background:var(--sim-ink, #362951); color:#fff;
+}
+
+.set-presets {
+  display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 6px;
+}
+.set-presets button {
+  flex:1 1 auto; min-height:40px; padding:6px 9px;
+  border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:var(--sim-tint, #f4effb); color:var(--sim-ink, #362951);
+  font:700 .8125rem/1.2 inherit; cursor:pointer; white-space:nowrap;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.set-presets button:hover { border-color:var(--sim-accent, #634395); }
+.set-presets button[aria-pressed="true"] {
+  background:#855300; border-color:#855300; color:#fff;
+}
+
+.set-subhead {
+  margin:4px 0; font-size:.8125rem; font-weight:750; color:var(--sim-ink, #362951);
+}
+
+.set-ops {
+  display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px;
+}
+.set-ops button {
+  flex:1 1 auto; min-height:40px; padding:6px 10px;
+  border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:#fff; color:var(--sim-ink, #362951);
+  font:700 .875rem/1.2 inherit; cursor:pointer; white-space:nowrap;
+}
+.set-ops button:hover { border-color:var(--sim-accent, #634395); background:var(--sim-tint, #f4effb); }
+.set-ops button[aria-pressed="true"] {
+  background:var(--sim-accent, #634395); border-color:var(--sim-accent, #634395); color:#fff;
+}
+
+.set-picker {
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-bottom:8px;
+}
+.set-picker button {
+  min-height:42px; border:1.5px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:#fff; color:var(--sim-ink, #362951); font:800 .9375rem/1 inherit; cursor:pointer;
+}
+.set-picker button[aria-pressed="true"] { color:#fff; }
+
+.set-grid {
+  display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; margin:4px 0 8px;
+}
+.nb {
+  position:relative; min-height:44px; border:2px solid var(--sim-rule, #e2d9ef);
+  border-radius:9px; background:#fff; color:#131b2e;
+  font:800 .9375rem/1 inherit; cursor:pointer;
+  font-variant-numeric:tabular-nums;
+}
+.nb:hover { border-color:var(--sim-accent, #634395); }
+.nb[aria-pressed="true"] { background:#eef2ff; border-color:#4f46e5; }
+.nb i { display:none; position:absolute; bottom:3px; width:6px; height:6px; border-radius:50%; }
+.nb .da { left:5px; background:#4f46e5; }
+.nb .db { left:14px; background:#0891b2; }
+.nb .dc { left:23px; background:#d97706; }
+.nb[data-a="1"] .da, .nb[data-b="1"] .db, .nb[data-c="1"] .dc { display:block; }
+
+.set-hint {
+  margin:0 0 10px; font-size:.8125rem; line-height:1.45; color:#534563;
+}
+.set-clear-row { display:grid; }
+.set-clear-row .lab-button { width:100%; border-radius:8px; }
+
+.set-legend {
+  display:flex; flex-wrap:wrap; gap:10px 14px; justify-content:center;
+  margin-top:8px; font-size:.8125rem; color:#534563; font-weight:600;
+}
+.set-legend span { display:inline-flex; align-items:center; gap:5px; }
+.set-dot {
+  display:inline-block; width:11px; height:11px; border-radius:999px;
+}
+.set-dot.a { background:#4f46e5; }
+.set-dot.b { background:#0891b2; }
+.set-dot.c { background:#d97706; }
+.set-dot.res { background:#f59e0b; border:1.5px solid #b45309; border-radius:3px; }

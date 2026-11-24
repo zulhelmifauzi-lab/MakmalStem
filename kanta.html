@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="description" content="Simulasi interaktif Kanta Cembung dan Cekung KSSM Fizik Tingkatan 4: rajah sinar, titik fokus, kedudukan dan ciri imej.">
+  <title>Kanta Cembung &amp; Cekung (Convex &amp; Concave Lenses) (BETA) — Makmal STEM Fizik</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3525cd', 'primary-container': '#4f46e5', 'primary-fixed': '#e2dfff',
+            secondary: '#00687a', accent: '#ea580c', surface: '#faf8ff',
+            'surface-container-low': '#f2f3ff', 'surface-container': '#eaedff',
+            'on-surface': '#131b2e', 'on-surface-variant': '#464555', outline: '#777587', 'outline-variant': '#c7c4d8'
+          },
+          fontFamily: {sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['Inter', 'monospace']}
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="kanta.css">
+  <link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="feedback.css">
+<script defer src="lab-chrome.js"></script>
+<script defer src="feedback.js"></script>
+</head>
+<body id="lab" class="min-h-screen flex flex-col antialiased">
+
+  <header class="lab-bar" data-lab-header></header>
+
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+
+  <section class="card p-5 sm:p-6">
+    <div class="sim-title-row">
+      <span class="sim-module-logo is-physics" aria-hidden="true">
+        <svg viewBox="0 0 280 160" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M140 15q-42 65 0 130 42-65 0-130Z" fill="currentColor" fill-opacity=".16"/><path d="M25 80h230" opacity=".4"/><path d="M25 38h115l105 84M25 122h115l105-84"/></svg>
+      </span>
+      <h1><span data-i18n="title">Kanta Cembung &amp; Cekung</span> <span class="beta-label">(BETA)</span></h1>
+      <span class="sim-subject-badge" data-i18n="badge">Fizik T4 · Bab 6</span>
+    </div>
+    <p class="mt-2 text-on-surface-variant leading-relaxed max-w-3xl" data-i18n="intro"></p>
+    <div class="mt-4 flex flex-wrap items-center gap-2" role="group" aria-labelledby="presets-label">
+      <span id="presets-label" class="text-xs font-bold uppercase tracking-wider text-outline mr-1" data-i18n="presets">Kedudukan objek</span>
+      <button class="chip" data-preset="far" aria-pressed="false" data-i18n="p_far">u &gt; 2f</button>
+      <button class="chip" data-preset="twof" aria-pressed="false" data-i18n="p_twof">u = 2f</button>
+      <button class="chip" data-preset="mid" aria-pressed="false" data-i18n="p_mid">f &lt; u &lt; 2f</button>
+      <button class="chip" data-preset="atf" aria-pressed="false" data-i18n="p_atf">u = f</button>
+      <button class="chip" data-preset="near" aria-pressed="false" data-i18n="p_near">u &lt; f (pembesar)</button>
+      <button class="chip" data-preset="concave" aria-pressed="false" data-i18n="p_concave">Kanta cekung</button>
+    </div>
+  </section>
+
+  <div class="grid lg:grid-cols-3 gap-5">
+    <section class="card p-4 sm:p-5 lg:col-span-2 space-y-4 lg:self-start" aria-labelledby="bench-h">
+      <h2 id="bench-h" class="sr-only" data-i18n="benchH">Bangku optik</h2>
+      <canvas id="bench" tabindex="0" role="img" data-i18n-aria="benchAria" aria-label="Bangku optik"></canvas>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btn-play" class="btn btn-primary" style="min-width:150px"><span id="play-text" data-i18n="play">Gerakkan objek</span></button>
+        <button id="btn-rays" class="chip" aria-pressed="true" data-i18n="s_rays">Sinar</button>
+        <button id="btn-screen" class="chip" aria-pressed="true" data-i18n="s_screen">Skrin</button>
+        <button id="btn-ext" class="chip" aria-pressed="true" data-i18n="s_ext">Lanjutan sinar</button>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div class="read"><small data-i18n="r_u">Jarak objek, u</small><b class="num" id="r-u"></b></div>
+        <div class="read"><small data-i18n="r_v">Jarak imej, v</small><b class="num" id="r-v"></b></div>
+        <div class="read"><small data-i18n="r_m">Pembesaran, m = v/u</small><b class="num" id="r-m"></b></div>
+        <div class="read"><small data-i18n="r_p">Kuasa kanta, P = 1/f</small><b class="num" id="r-p"></b></div>
+      </div>
+      <div class="read" style="border-color:#fcd34d;background:#fffbeb"><small data-i18n="r_img">Ciri-ciri imej</small><b id="r-img" style="font-size:16px"></b></div>
+      <p id="note" class="text-sm text-on-surface-variant bg-surface-container-low rounded-xl px-4 py-3 leading-relaxed" role="status" aria-live="polite"></p>
+    </section>
+
+    <aside class="space-y-5">
+      <section class="card p-4 sm:p-5 space-y-4" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="font-extrabold text-lg" data-i18n="controls">Kawalan</h2>
+        <div>
+          <div class="text-sm font-bold mb-2" id="type-label" data-i18n="c_type">Jenis kanta</div>
+          <div class="flex gap-2" role="group" aria-labelledby="type-label">
+            <button class="chip" data-type="convex" aria-pressed="true" data-i18n="t_convex">Kanta cembung</button>
+            <button class="chip" data-type="concave" aria-pressed="false" data-i18n="t_concave">Kanta cekung</button>
+          </div>
+        </div>
+        <div>
+          <label for="slider-u" class="flex justify-between text-sm font-bold"><span data-i18n="c_u">Jarak objek, u</span><span class="num" style="color:#4f46e5" id="out-u"></span></label>
+          <input type="range" id="slider-u" min="4" max="60" step="0.5" value="30">
+        </div>
+        <div>
+          <label for="slider-f" class="flex justify-between text-sm font-bold"><span data-i18n="c_f">Panjang fokus, f</span><span class="num" style="color:#0891b2" id="out-f"></span></label>
+          <input type="range" id="slider-f" min="5" max="20" step="1" value="10">
+        </div>
+        <div>
+          <label for="slider-h" class="flex justify-between text-sm font-bold"><span data-i18n="c_h">Tinggi objek, h</span><span class="num" style="color:#ea580c" id="out-h"></span></label>
+          <input type="range" id="slider-h" min="2" max="6" step="0.5" value="4">
+        </div>
+        <p class="text-xs text-outline leading-relaxed" data-i18n="c_hint">Seret objek pada bangku optik, atau pilih bangku dan guna anak panah kiri dan kanan. Skala menegak dikembangkan supaya imej mudah dilihat.</p>
+      </section>
+
+      <section class="card p-4 sm:p-5 space-y-3" aria-labelledby="try-h">
+        <h2 id="try-h" class="font-extrabold text-lg" data-i18n="triesH">Cuba ini</h2>
+        <ol id="tries" class="tries space-y-2 list-decimal list-inside"></ol>
+      </section>
+    </aside>
+  </div>
+
+  <section class="card p-4 sm:p-5" aria-labelledby="eq-h">
+    <h2 id="eq-h" class="font-extrabold text-lg mb-2" data-i18n="eqH">Persamaan kanta (nilai semasa)</h2>
+    <div class="grid md:grid-cols-3 gap-3">
+      <div class="read"><small data-i18n="e_lens">Persamaan kanta</small><div class="eq" id="eq-lens"></div></div>
+      <div class="read"><small data-i18n="e_mag">Pembesaran</small><div class="eq" id="eq-mag"></div></div>
+      <div class="read"><small data-i18n="e_pow">Kuasa kanta</small><div class="eq" id="eq-pow"></div></div>
+    </div>
+  </section>
+<section class="feedback-section" id="penilaian" data-simulation-feedback="kanta" aria-label="Penilaian dan komen"></section>
+</main>
+
+<footer class="text-center text-xs text-outline py-6"></footer>
+
+<script defer src="kanta-model.js"></script>
+<script defer src="kanta.js"></script>
+</body>
+</html>

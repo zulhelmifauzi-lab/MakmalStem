@@ -1,0 +1,25 @@
+.trig-module .lab-module-logo { color:#855300; background:#fff2df; padding:5px; }
+.trig-module #trig-plot {
+  display:block; width:100%; height:clamp(265px,36vw,405px);
+  background:white; border-radius:8px; touch-action:pan-y; cursor:crosshair;
+}
+#trig-plot text { fill:#514764; font-size:12px; }
+#trig-plot :is(line,path) { fill:none; }
+.trig-grid { stroke:#e9e2f1; }
+.trig-axis { stroke:#82768f; stroke-width:1.3; }
+.trig-curve { stroke:#634395; stroke-width:3; }
+.trig-reference { stroke:#81758f; stroke-width:2; stroke-dasharray:5 5; }
+.trig-target { stroke:#007a54; stroke-width:2; stroke-dasharray:7 4; }
+.trig-midline { stroke:#aa82cf; stroke-dasharray:5 5; }
+.trig-asymptote { stroke:#ae424e; stroke-dasharray:5 5; }
+.trig-probe { stroke:#655777; stroke-dasharray:3 3; }
+.trig-probe-dot { fill:#634395; stroke:white; stroke-width:1.5; }
+#trig-plot .trig-probe-label { font-weight:750; paint-order:stroke; stroke:white; stroke-width:4px; }
+.trig-function { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.trig-function label { font-size:.875rem; font-weight:750; }
+.trig-function select { min-width:0; min-height:44px; color:#362951; border-color:#dcd5e8; }
+.trig-module .lab-toggle:has(input:disabled) { opacity:.6; cursor:default; }
+.trig-challenge { margin-top:16px; padding-top:12px; border-top:1px solid var(--lab-line); }
+.trig-challenge h3 { font-size:.95rem; margin-bottom:4px; }
+.trig-challenge-actions { display:flex; flex-wrap:wrap; gap:7px; margin:9px 0 5px; }
+

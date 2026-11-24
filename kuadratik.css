@@ -1,0 +1,9 @@
+.quad-module .lab-module-logo { color:#855300; background:#fff2df; }
+.quad-module #plot {
+  display:block; width:100%; max-width:520px; border-radius:8px; background:#fff;
+  touch-action:pan-y; cursor:crosshair;
+}
+.quad-module #plot.dragging { cursor:grabbing; }
+.quad-module #note { font-weight:650; }
+.quad-module #tries { margin:10px 0 0; padding-inline-start:1.25rem; color:#534563; }
+.quad-module #tries li + li { margin-top:6px; }

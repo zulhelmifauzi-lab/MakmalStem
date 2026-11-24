@@ -1,0 +1,98 @@
+.atom-module .lab-module-logo { color:#006c49; background:#e6f7f0; }
+.atom-module #atom {
+  display:block; width:100%; max-width:520px; border-radius:8px; background:#0c1324;
+  touch-action:none; cursor:grab;
+}
+.atom-module #atom.is-2d { background:#fff; cursor:default; }
+.atom-module #atom.dragging { cursor:grabbing; }
+.atom-module #note { font-weight:650; }
+.atom-module #tries { margin:10px 0 0; padding-inline-start:1.25rem; color:#534563; }
+.atom-module #tries li + li { margin-top:6px; }
+
+.atom-cam-bar {
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px;
+  margin-top:8px;
+}
+.atom-cam-hint {
+  font-size:.8125rem; color:#534563; font-weight:600;
+}
+.atom-cam-btns {
+  display:inline-flex; gap:5px;
+}
+.atom-cam-btns button {
+  min-width:40px; min-height:36px; padding:4px 10px;
+  border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:#fff; color:var(--sim-ink, #362951);
+  font:700 .8125rem/1.2 inherit; cursor:pointer;
+}
+.atom-cam-btns button:hover { border-color:#006c49; background:#f0fdf7; }
+
+.atom-legend {
+  display:flex; flex-wrap:wrap; gap:10px 14px; justify-content:center;
+  margin-top:8px; font-size:.8125rem; color:#534563; font-weight:600;
+}
+.atom-legend span { display:inline-flex; align-items:center; gap:5px; }
+.atom-dot { display:inline-block; width:10px; height:10px; border-radius:999px; }
+.atom-dot.p { background:#ef4444; }
+.atom-dot.n { background:#94a3b8; }
+.atom-dot.e { background:#38bdf8; }
+.atom-dot.v { background:#f59e0b; }
+
+.atom-segment {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px;
+  padding:3px; border-radius:9px; background:var(--sim-tint, #f4effb); margin-bottom:6px;
+}
+.atom-segment button {
+  min-height:40px; padding:6px 8px; border:0; border-radius:7px;
+  background:transparent; color:var(--sim-ink, #362951); font:700 .8125rem/1.2 inherit;
+  cursor:pointer; transition:background .15s, color .15s;
+}
+.atom-segment button[aria-pressed="true"] {
+  background:#006c49; color:#fff;
+}
+
+.atom-subhead {
+  margin:4px 0; font-size:.8125rem; font-weight:750; color:var(--sim-ink, #362951);
+}
+
+.atom-presets, .atom-isos {
+  display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 6px;
+}
+.atom-presets button, .atom-isos button {
+  flex:1 1 auto; min-height:38px; padding:5px 9px;
+  border:1px solid var(--sim-rule, #e2d9ef); border-radius:8px;
+  background:var(--sim-tint, #f4effb); color:var(--sim-ink, #362951);
+  font:700 .8125rem/1.2 inherit; cursor:pointer; white-space:nowrap;
+}
+.atom-presets button:hover, .atom-isos button:hover { border-color:#006c49; }
+.atom-presets button[aria-pressed="true"], .atom-isos button[aria-pressed="true"] {
+  background:#006c49; border-color:#006c49; color:#fff;
+}
+
+.atom-charge-row {
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:6px;
+  margin:2px 0 6px;
+}
+.atom-charge-row .lab-button { min-height:40px; border-radius:8px; }
+.atom-charge-val {
+  min-width:4.2rem; text-align:center; font-weight:800; font-size:1rem;
+  color:var(--sim-ink, #362951); font-variant-numeric:tabular-nums;
+}
+
+.atom-elgrid {
+  display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; margin:4px 0 8px;
+}
+.el {
+  min-height:44px; padding:4px 0; border:2px solid var(--sim-rule, #e2d9ef);
+  border-radius:9px; background:#fff; color:#131b2e;
+  font:800 .875rem/1.1 inherit; cursor:pointer;
+}
+.el small { display:block; font-size:9px; font-weight:650; color:#64748b; }
+.el:hover { border-color:#006c49; }
+.el[aria-pressed="true"] { background:#006c49; border-color:#006c49; color:#fff; }
+.el[aria-pressed="true"] small { color:#bbf7d0; }
+
+.nuc { display:inline-flex; align-items:center; font-weight:800; line-height:1; }
+.nuc .ns { display:inline-flex; flex-direction:column; font-size:15px; margin-right:3px; text-align:right; gap:1px; }
+.nuc .sym { font-size:28px; }
+.nuc .ch { font-size:15px; align-self:flex-start; margin-left:2px; }

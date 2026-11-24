@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Operasi Set KSSM Matematik Tingkatan 4: gambar rajah Venn, kesatuan, persilangan, pelengkap dan seret unsur terus ke rantau Venn.">
+  <title>Operasi Set (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="operasi-set.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template set-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="6" y="10" width="36" height="28" rx="4" opacity=".45"/>
+          <circle cx="19" cy="24" r="9.5" fill="currentColor" fill-opacity=".14"/>
+          <circle cx="29" cy="24" r="9.5" fill="currentColor" fill-opacity=".14"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-i18n="title">Operasi Set</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-i18n="badge">Matematik T4 · Bab 4</span>
+      </div>
+    </header>
+
+    <div class="lab-work">
+      <section class="lab-visual" aria-labelledby="venn-h">
+        <h2 id="venn-h" data-i18n="vennH">Gambar rajah Venn interaktif</h2>
+        <div class="lab-simulation-frame">
+          <canvas id="venn" tabindex="0" role="img" data-i18n-aria="vennAria" aria-label="Gambar rajah Venn. Klik nombor untuk menogol keahlian atau seret nombor terus ke dalam atau luar bulatan set."></canvas>
+        </div>
+        <div class="set-legend" aria-hidden="true">
+          <span><i class="set-dot a"></i><b>Set A</b></span>
+          <span><i class="set-dot b"></i><b>Set B</b></span>
+          <span id="leg-c-wrap" hidden><i class="set-dot c"></i><b>Set C</b></span>
+          <span><i class="set-dot res"></i><b data-i18n="legResult">Kawasan hasil</b></span>
+        </div>
+      </section>
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="lab-control-title">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+          <span data-i18n="controls">Panel kawalan</span>
+        </h2>
+        <div class="lab-tabs" id="set-tabs" role="tablist" aria-labelledby="ctl-h">
+          <button type="button" id="set-tab-controls" role="tab" aria-selected="true" aria-controls="set-pane-controls" data-i18n="tabControls">Kawalan</button>
+          <button type="button" id="set-tab-elements" role="tab" aria-selected="false" aria-controls="set-pane-elements" tabindex="-1" data-i18n="tabElements">Edit Unsur</button>
+        </div>
+        <div class="lab-tab-panes">
+          <div class="lab-control-pane" id="set-pane-controls" role="tabpanel" aria-labelledby="set-tab-controls">
+            <div class="set-segment" role="group" data-i18n-aria="c_sets" aria-label="Bilangan set">
+              <button type="button" id="sets-two" data-three="0" aria-pressed="true" data-i18n="two">Dua set</button>
+              <button type="button" id="sets-three" data-three="1" aria-pressed="false" data-i18n="three">Tiga set</button>
+            </div>
+
+            <div class="set-subhead" data-i18n="presets">Contoh pantas</div>
+            <div class="set-presets" role="group" data-i18n-aria="presets" aria-label="Contoh pantas">
+              <button type="button" id="preset-overlap" data-preset="overlap" aria-pressed="true" data-i18n="p_overlap">Bertindih</button>
+              <button type="button" id="preset-subset" data-preset="subset" aria-pressed="false" data-i18n="p_subset">Subset (A ⊂ B)</button>
+              <button type="button" id="preset-disjoint" data-preset="disjoint" aria-pressed="false" data-i18n="p_disjoint">Tiada persilangan</button>
+              <button type="button" id="preset-three" data-preset="three" aria-pressed="false" data-i18n="p_three">Tiga set</button>
+            </div>
+
+            <div class="set-subhead" id="ops-label" data-i18n="c_ops">Operasi</div>
+            <div class="set-ops" role="group" aria-labelledby="ops-label">
+              <button type="button" data-op="u" data-sets="2" aria-pressed="false">A ∪ B</button>
+              <button type="button" data-op="i" data-sets="2" aria-pressed="true">A ∩ B</button>
+              <button type="button" data-op="ac" data-sets="2" aria-pressed="false">A′</button>
+              <button type="button" data-op="bc" data-sets="2" aria-pressed="false">B′</button>
+              <button type="button" data-op="uc" data-sets="2" aria-pressed="false">(A ∪ B)′</button>
+              <button type="button" data-op="ic" data-sets="2" aria-pressed="false">(A ∩ B)′</button>
+              <button type="button" data-op="amb" data-sets="2" aria-pressed="false">A ∩ B′</button>
+              <button type="button" data-op="bma" data-sets="2" aria-pressed="false">A′ ∩ B</button>
+              <button type="button" data-op="u3" data-sets="3" aria-pressed="false" hidden>A ∪ B ∪ C</button>
+              <button type="button" data-op="i3" data-sets="3" aria-pressed="false" hidden>A ∩ B ∩ C</button>
+              <button type="button" data-op="uc3" data-sets="3" aria-pressed="false" hidden>(A ∪ B ∪ C)′</button>
+              <button type="button" data-op="aub" data-sets="3" aria-pressed="false" hidden>(A ∩ B) ∪ C</button>
+              <button type="button" data-op="abc" data-sets="3" aria-pressed="false" hidden>A ∩ (B ∪ C)</button>
+              <button type="button" data-op="cc" data-sets="3" aria-pressed="false" hidden>C′</button>
+            </div>
+
+            <fieldset class="lab-display-options">
+              <legend data-i18n="show">Papar</legend>
+              <div class="lab-display-toggles">
+                <label class="lab-toggle"><input type="checkbox" data-show="shade" checked> <span data-i18n="s_shade">Lorekan rantau</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="tokens" checked> <span data-i18n="s_tokens">Unsur 1–20</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="counts" checked> <span data-i18n="s_counts">Bilangan unsur</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="labels" checked> <span data-i18n="s_labels">Label set</span></label>
+              </div>
+            </fieldset>
+
+            <div class="lab-reset-row">
+              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
+            </div>
+          </div>
+
+          <div class="lab-control-pane" id="set-pane-elements" role="tabpanel" aria-labelledby="set-tab-elements" inert>
+            <div class="set-subhead" id="active-label" data-i18n="c_active">Set yang diedit</div>
+            <div class="set-picker" role="group" aria-labelledby="active-label">
+              <button type="button" data-active="A" aria-pressed="true">A</button>
+              <button type="button" data-active="B" aria-pressed="false">B</button>
+              <button type="button" data-active="C" aria-pressed="false" hidden>C</button>
+            </div>
+
+            <div class="set-subhead" data-i18n="c_elements">Unsur (ξ = {1, 2, …, 20})</div>
+            <div class="set-grid" id="grid">
+              <button type="button" class="nb" data-n="1" aria-pressed="false">1<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="2" aria-pressed="false">2<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="3" aria-pressed="false">3<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="4" aria-pressed="false">4<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="5" aria-pressed="false">5<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="6" aria-pressed="false">6<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="7" aria-pressed="false">7<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="8" aria-pressed="false">8<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="9" aria-pressed="false">9<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="10" aria-pressed="false">10<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="11" aria-pressed="false">11<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="12" aria-pressed="false">12<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="13" aria-pressed="false">13<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="14" aria-pressed="false">14<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="15" aria-pressed="false">15<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="16" aria-pressed="false">16<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="17" aria-pressed="false">17<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="18" aria-pressed="false">18<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="19" aria-pressed="false">19<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+              <button type="button" class="nb" data-n="20" aria-pressed="false">20<i class="da"></i><i class="db"></i><i class="dc"></i></button>
+            </div>
+            <p class="set-hint" data-i18n="c_hint">Klik nombor di sini atau seret nombor terus pada gambar rajah Venn untuk memindahkannya antara kawasan.</p>
+            <div class="set-clear-row">
+              <button type="button" id="btn-clear" class="lab-button lab-secondary" data-i18n="clear">Kosongkan set ini</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="lab-readings" aria-labelledby="feat-h">
+      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
+      <dl>
+        <div>
+          <dt data-i18n="r_op">Operasi dipilih</dt>
+          <dd><span id="res-expr"></span> = <span id="res-set"></span><br><small id="res-n"></small></dd>
+        </div>
+        <div id="row-a"><dt data-i18n="r_a">Set A</dt><dd id="set-a"></dd></div>
+        <div id="row-b"><dt data-i18n="r_b">Set B</dt><dd id="set-b"></dd></div>
+        <div id="row-c" hidden><dt data-i18n="r_c">Set C</dt><dd id="set-c"></dd></div>
+        <div id="row-law"><dt data-i18n="r_law">Hukum Bilangan Unsur</dt><dd id="law"></dd></div>
+      </dl>
+    </section>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="set" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+<script defer src="operasi-set-model.js"></script>
+<script defer src="operasi-set.js"></script>
+</body>
+</html>

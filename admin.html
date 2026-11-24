@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Panel pentadbir — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <script defer src="workbench-admin.js"></script>
+  <script defer src="feedback-admin.js"></script>
+</head>
+<body>
+  <main class="feedback-admin">
+    <header>
+      <div><a href="index.html">← Makmal STEM</a><h1>Panel pentadbir</h1></div>
+      <button type="button" id="admin-logout" class="feedback-button feedback-secondary" hidden>Log keluar</button>
+    </header>
+    <section class="feedback-card" id="admin-login" aria-labelledby="login-title" hidden>
+      <h2 id="login-title">Log masuk</h2>
+      <form>
+        <label>Kata laluan pentadbir <input type="password" name="password" required autocomplete="current-password" maxlength="500"></label>
+        <button class="feedback-button" type="submit">Log masuk</button>
+      </form>
+    </section>
+    <section class="feedback-card" id="admin-panel" aria-labelledby="queue-title" hidden>
+      <h2 id="queue-title">Hantaran simulasi</h2>
+      <div class="feedback-admin-actions" role="group" aria-label="Bahagian pentadbir">
+        <button type="button" class="feedback-button" data-section="comments" aria-pressed="true">Komen umum</button>
+        <button type="button" class="feedback-button" data-section="messages" aria-pressed="false">Maklum balas peribadi</button>
+        <button type="button" class="feedback-button" data-section="videos" aria-pressed="false">Video pembelajaran</button>
+        <button type="button" class="feedback-button" data-section="editor" aria-pressed="false" hidden disabled>Urus simulasi</button>
+      </div>
+      <div id="admin-review">
+      <label for="admin-view">Paparkan
+        <select id="admin-view"></select>
+      </label>
+      <div id="admin-items"></div>
+      <div class="feedback-admin-actions" id="admin-pages">
+        <button type="button" id="admin-prev" class="feedback-button feedback-secondary">Sebelumnya</button>
+        <span id="admin-page"></span>
+        <button type="button" id="admin-next" class="feedback-button feedback-secondary">Seterusnya</button>
+      </div>
+      </div>
+      <section class="workbench-admin" id="admin-videos" aria-labelledby="admin-videos-title" hidden>
+        <h2 id="admin-videos-title">Video pembelajaran</h2>
+        <label>Simulasi
+          <select id="admin-video-module">
+            <option value="pantulan-cahaya">Pantulan Cahaya</option>
+            <option value="kuadratik">Fungsi Kuadratik</option>
+            <option value="trigonometri">Graf Fungsi Trigonometri</option>
+          </select>
+        </label>
+        <form id="admin-video-form" class="editor-form">
+          <label>Pautan video YouTube <input type="url" name="url" required maxlength="500" placeholder="https://youtu.be/…"></label>
+          <label>Tajuk video <input name="title" maxlength="100" placeholder="Pilihan"></label>
+          <button type="submit" class="feedback-button">Tambah video</button>
+        </form>
+        <div class="editor-list" id="admin-video-list"></div>
+        <p role="status" id="admin-video-status" class="feedback-status"></p>
+      </section>
+      <section class="workbench-admin" id="admin-editor" aria-labelledby="editor-title" hidden>
+        <h2 id="editor-title">Urus simulasi</h2>
+        <button type="button" id="editor-new" class="feedback-button">Tambah simulasi</button>
+        <div class="editor-list" id="editor-list"></div>
+        <form class="editor-form" id="editor-form" hidden>
+          <h3 id="editor-form-title">Simulasi baharu</h3>
+          <div class="editor-layout">
+            <label>ID simulasi <input name="id" required maxlength="64" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="nama-simulasi"></label>
+            <label>Tajuk <input name="title" required maxlength="90"></label>
+            <label>Subjek <select name="subject"><option>Fizik</option><option>Matematik</option><option>Kimia</option></select></label>
+            <label>Tingkatan <select name="level"><option value="4">4</option><option value="5" selected>5</option></select></label>
+          </div>
+          <label>Ringkasan katalog <textarea name="desc" required rows="2" maxlength="240"></textarea></label>
+          <label>Objektif atau arahan <textarea name="objective" rows="2" maxlength="1200"></textarea></label>
+          <label>Tajuk ruang visual <input name="visualTitle" maxlength="80" placeholder="Visual simulasi"></label>
+          <label>Nota pembelajaran <textarea name="notes" rows="3" maxlength="2500"></textarea></label>
+          <div id="editor-upload">
+            <label>Fail HTML <input id="editor-file" type="file" accept=".html,.htm,text/html"></label>
+            <p class="editor-caption" id="editor-file-status">Gunakan satu fail HTML dengan CSS dan JavaScript terbina dalam.</p>
+          </div>
+          <div>
+            <h3>Kawalan dan butang</h3>
+            <p class="editor-caption" id="editor-control-help"></p>
+            <div id="editor-controls"></div>
+            <div class="editor-actions" id="editor-add-controls">
+              <button type="button" id="editor-add-range" class="feedback-button feedback-secondary">Tambah slider</button>
+              <button type="button" id="editor-add-toggle" class="feedback-button feedback-secondary">Tambah kotak tanda</button>
+            </div>
+          </div>
+          <div class="editor-pair">
+            <label>Label butang set semula <input name="resetLabel" maxlength="50" placeholder="Kosongkan untuk sembunyi"></label>
+            <label>Label butang catat ke jadual <input name="recordLabel" maxlength="50" placeholder="Kosongkan untuk sembunyi"></label>
+          </div>
+          <div class="editor-actions">
+            <button class="feedback-button" type="submit" value="save">Simpan draf</button>
+            <a class="feedback-button feedback-secondary" id="editor-preview" target="_blank" rel="noopener" hidden>Pratonton draf</a>
+            <button class="feedback-button feedback-secondary" type="submit" value="publish">Terbitkan</button>
+            <button class="feedback-button feedback-secondary" id="editor-unpublish" type="submit" value="unpublish" hidden>Tarik balik penerbitan</button>
+          </div>
+        </form>
+        <p id="editor-status" class="feedback-status" role="status"></p>
+      </section>
+    </section>
+    <p class="feedback-status" id="admin-status" role="status">Membuka panel…</p>
+    <a id="admin-local-link" class="feedback-button" href="http://127.0.0.1:4173/admin.html" hidden>Buka panel pada pelayan Makmal STEM</a>
+  </main>
+</body>
+</html>

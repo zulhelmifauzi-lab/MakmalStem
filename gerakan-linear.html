@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="description" content="Simulasi interaktif Gerakan Linear KSSM Fizik Tingkatan 4: jarak, sesaran, laju, halaju, pecutan dan graf gerakan.">
+  <title>Gerakan Linear (Linear Motion) (BETA) — Makmal STEM Fizik</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3525cd', 'primary-container': '#4f46e5', 'primary-fixed': '#e2dfff',
+            secondary: '#00687a', accent: '#ea580c', surface: '#faf8ff',
+            'surface-container-low': '#f2f3ff', 'surface-container': '#eaedff', 'surface-container-high': '#e2e7ff',
+            'on-surface': '#131b2e', 'on-surface-variant': '#464555', outline: '#777587', 'outline-variant': '#c7c4d8'
+          },
+          fontFamily: {sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['Inter', 'monospace']},
+          boxShadow: {card: '0 4px 20px -2px rgba(15,23,42,.06), 0 2px 6px -1px rgba(15,23,42,.04)'}
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="gerakan-linear.css">
+  <link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="feedback.css">
+<script defer src="lab-chrome.js"></script>
+<script defer src="feedback.js"></script>
+</head>
+<body id="lab" class="min-h-screen flex flex-col antialiased">
+
+  <header class="lab-bar" data-lab-header></header>
+
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+
+  <section class="card p-5 sm:p-6">
+    <div class="sim-title-row">
+      <span class="sim-module-logo is-physics" aria-hidden="true">
+        <svg viewBox="0 0 280 160" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M30 115h220M40 100h30m-10-20h30m-10-20h30" opacity=".4"/><circle cx="170" cy="80" r="26" fill="currentColor" fill-opacity=".2"/><path d="M140 45h70m-15-12 15 12-15 12"/></svg>
+      </span>
+      <h1><span data-i18n="title">Gerakan Linear</span> <span class="beta-label">(BETA)</span></h1>
+      <span class="sim-subject-badge" data-i18n="badge">Fizik T4 · Bab 2</span>
+    </div>
+    <p class="mt-2 text-on-surface-variant leading-relaxed max-w-3xl" data-i18n="intro">Gerakkan kereta di landasan lurus.</p>
+    <div class="mt-4 flex flex-wrap items-center gap-2" role="group" aria-labelledby="presets-label">
+      <span id="presets-label" class="text-xs font-bold uppercase tracking-wider text-outline mr-1" data-i18n="presets">Senario pantas</span>
+      <button class="chip" data-preset="uniform" aria-pressed="false" data-i18n="p_uniform">Halaju seragam</button>
+      <button class="chip" data-preset="accel" aria-pressed="false" data-i18n="p_accel">Memecut</button>
+      <button class="chip" data-preset="decel" aria-pressed="false" data-i18n="p_decel">Nyahpecut</button>
+      <button class="chip" data-preset="turn" aria-pressed="false" data-i18n="p_turn">Berpatah balik</button>
+    </div>
+  </section>
+
+  <div class="grid lg:grid-cols-3 gap-5">
+    <section class="card p-4 sm:p-5 lg:col-span-2 space-y-4 lg:self-start" aria-labelledby="stage-h">
+      <h2 id="stage-h" class="sr-only" data-i18n="stage">Landasan</h2>
+      <canvas id="track" tabindex="0" role="img" data-i18n-aria="trackAria" aria-label="Landasan"></canvas>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btn-play" class="btn btn-primary" style="min-width:110px"><span id="play-text" data-i18n="play">Main</span></button>
+        <button id="btn-reset" class="btn" data-i18n="reset">Set semula</button>
+        <div class="flex items-center gap-1 ml-auto" role="group" aria-labelledby="speed-label">
+          <span id="speed-label" class="text-xs font-bold uppercase tracking-wider text-outline mr-1" data-i18n="speed">Kelajuan</span>
+          <button class="chip" data-speed="0.25" aria-pressed="false">0.25×</button>
+          <button class="chip" data-speed="0.5" aria-pressed="false">0.5×</button>
+          <button class="chip" data-speed="1" aria-pressed="true">1×</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <div class="read"><small data-i18n="r_time">Masa, t</small><b class="num" id="r-time">0.0 s</b><small>&nbsp;</small></div>
+        <div class="read"><small data-i18n="r_dist">Jarak</small><b class="num" id="r-dist">0.0 m</b><small data-i18n="r_dist_h">magnitud sahaja</small></div>
+        <div class="read"><small data-i18n="r_disp">Sesaran, s</small><b class="num" id="r-disp">0.0 m</b><small data-i18n="r_disp_h">ada arah (+ kanan, − kiri)</small></div>
+        <div class="read"><small data-i18n="r_speed">Laju</small><b class="num" id="r-speed">0.0 m/s</b><small data-i18n="r_speed_h">magnitud halaju</small></div>
+        <div class="read"><small data-i18n="r_vel">Halaju, v</small><b class="num" id="r-vel">0.0 m/s</b><small id="r-dir">&nbsp;</small></div>
+      </div>
+      <p id="note" class="text-sm text-on-surface-variant bg-surface-container-low rounded-xl px-4 py-3 leading-relaxed" role="status" aria-live="polite"></p>
+    </section>
+
+    <aside class="space-y-5">
+      <section class="card p-4 sm:p-5 space-y-4" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="font-extrabold text-lg" data-i18n="controls">Kawalan</h2>
+        <div>
+          <label for="slider-u" class="flex justify-between text-sm font-bold"><span data-i18n="c_u">Halaju awal, u</span><span class="num text-secondary" id="out-u">0 m/s</span></label>
+          <input type="range" id="slider-u" min="-10" max="20" step="0.5" value="0">
+        </div>
+        <div>
+          <label for="slider-a" class="flex justify-between text-sm font-bold"><span data-i18n="c_a">Pecutan, a</span><span class="num text-accent" id="out-a">2 m/s²</span></label>
+          <input type="range" id="slider-a" min="-5" max="5" step="0.5" value="2">
+        </div>
+        <div>
+          <label for="slider-t" class="flex justify-between text-sm font-bold"><span data-i18n="c_t">Tempoh gerakan, t</span><span class="num text-primary" id="out-t">10 s</span></label>
+          <input type="range" id="slider-t" min="1" max="10" step="0.5" value="10">
+        </div>
+        <p class="text-xs text-outline leading-relaxed">x₀ = <span class="num font-bold text-on-surface" id="out-x0">0 m</span> · <span data-i18n="c_x0">Seret kereta atau guna anak panah papan kekunci untuk menukar kedudukan.</span></p>
+      </section>
+
+      <section class="card p-4 sm:p-5 space-y-3" aria-labelledby="try-h">
+        <h2 id="try-h" class="font-extrabold text-lg" data-i18n="triesH">Cuba ini</h2>
+        <ol id="tries" class="tries space-y-2 list-decimal list-inside"></ol>
+      </section>
+    </aside>
+  </div>
+
+  <section class="card p-4 sm:p-5 space-y-4" aria-labelledby="graphs-h">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 id="graphs-h" class="font-extrabold text-lg" data-i18n="graphsH">Graf gerakan</h2>
+      <button id="btn-area" class="chip" aria-pressed="false"><span id="area-text" data-i18n="areaOn">Tunjuk luas di bawah graf</span></button>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <figure><figcaption class="text-sm font-bold mb-1" style="color:#4f46e5" data-i18n="g_s">Sesaran–masa (s–t)</figcaption><canvas id="g-s" role="img" data-i18n-aria="g_s" aria-label="Graf sesaran-masa"></canvas></figure>
+      <figure><figcaption class="text-sm font-bold mb-1" style="color:#0891b2" data-i18n="g_v">Halaju–masa (v–t)</figcaption><canvas id="g-v" role="img" data-i18n-aria="g_v" aria-label="Graf halaju-masa"></canvas></figure>
+      <figure><figcaption class="text-sm font-bold mb-1" style="color:#ea580c" data-i18n="g_a">Pecutan–masa (a–t)</figcaption><canvas id="g-a" role="img" data-i18n-aria="g_a" aria-label="Graf pecutan-masa"></canvas></figure>
+    </div>
+    <p id="area-note" class="text-sm text-on-surface-variant leading-relaxed" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card p-4 sm:p-5" aria-labelledby="eq-h">
+    <h2 id="eq-h" class="font-extrabold text-lg mb-2" data-i18n="eqH">Persamaan gerakan (nilai semasa)</h2>
+    <div class="grid md:grid-cols-3 gap-3">
+      <div class="read eq" id="eq1"></div><div class="read eq" id="eq2"></div><div class="read eq" id="eq3"></div>
+    </div>
+  </section>
+<section class="feedback-section" id="penilaian" data-simulation-feedback="linear" aria-label="Penilaian dan komen"></section>
+</main>
+
+<footer class="text-center text-xs text-outline py-6"></footer>
+
+<script defer src="gerakan-linear-model.js"></script>
+<script defer src="gerakan-linear.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Ketaksamaan Linear dalam Dua Pemboleh Ubah KSSM Matematik Tingkatan 4: garis sempadan padu dan putus-putus, rantau berlorek, titik ujian dan sistem ketaksamaan linear.">
+  <title>Ketaksamaan Linear (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="ketaksamaan-linear.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template ineq-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="10,10 38,10 38,18 10,36" fill="currentColor" fill-opacity=".18" stroke="none"/>
+          <path d="M10 38h28M10 10v28" opacity=".45"/>
+          <path d="M10 36L38 18" stroke-dasharray="4 3"/>
+          <circle cx="24" cy="18" r="3" fill="currentColor"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-i18n="title">Ketaksamaan Linear</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-i18n="badge">Matematik T4 · Bab 6</span>
+      </div>
+    </header>
+
+    <div class="lab-work">
+      <section class="lab-visual" aria-labelledby="graph-h">
+        <h2 id="graph-h" data-i18n="graphH">Satah Cartes interaktif</h2>
+        <div class="lab-simulation-frame">
+          <canvas id="plot" tabindex="0" role="img" data-i18n-aria="plotAria" aria-label="Graf ketaksamaan linear dalam dua pemboleh ubah. Seret titik ujian P atau guna kekunci anak panah untuk menggerakkan P."></canvas>
+        </div>
+        <div class="ineq-legend" id="ineq-legend" aria-hidden="true">
+          <span><i class="ineq-swatch l1"></i><b data-i18n="leg1">Ketaksamaan 1</b></span>
+          <span id="leg2-wrap" hidden><i class="ineq-swatch l2"></i><b data-i18n="leg2">Ketaksamaan 2</b></span>
+          <span id="legR-wrap" hidden><i class="ineq-swatch common"></i><b data-i18n="legR">Rantau sepunya (R)</b></span>
+        </div>
+      </section>
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="lab-control-title">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+          <span data-i18n="controls">Panel kawalan</span>
+        </h2>
+        <div class="lab-tabs" id="ineq-tabs" role="tablist" aria-labelledby="ctl-h">
+          <button type="button" id="ineq-tab-controls" role="tab" aria-selected="true" aria-controls="ineq-pane-controls" data-i18n="tabControls">Kawalan</button>
+          <button type="button" id="ineq-tab-table" role="tab" aria-selected="false" aria-controls="ineq-pane-table" tabindex="-1" data-i18n="tabTable">Jadual</button>
+        </div>
+        <div class="lab-tab-panes">
+          <div class="lab-control-pane" id="ineq-pane-controls" role="tabpanel" aria-labelledby="ineq-tab-controls">
+            <div class="ineq-segment" role="group" data-i18n-aria="modeGroup" aria-label="Mod ketaksamaan">
+              <button type="button" id="mode-single" aria-pressed="true" data-i18n="modeSingle">1 Ketaksamaan</button>
+              <button type="button" id="mode-system" aria-pressed="false" data-i18n="modeSystem">Sistem (2)</button>
+            </div>
+            <div class="ineq-segment ineq-line-picker" id="line-picker" role="group" data-i18n-aria="lineGroup" aria-label="Pilih ketaksamaan" hidden>
+              <button type="button" id="pick-0" data-line="0" aria-pressed="true" data-i18n="line1">Ketaksamaan 1</button>
+              <button type="button" id="pick-1" data-line="1" aria-pressed="false" data-i18n="line2">Ketaksamaan 2</button>
+            </div>
+            <div class="ineq-ops" role="group" data-i18n-aria="opGroup" aria-label="Simbol ketaksamaan">
+              <button type="button" id="op-gt" data-op=">" aria-pressed="false">&gt;</button>
+              <button type="button" id="op-gte" data-op=">=" aria-pressed="true">≥</button>
+              <button type="button" id="op-lt" data-op="<" aria-pressed="false">&lt;</button>
+              <button type="button" id="op-lte" data-op="<=" aria-pressed="false">≤</button>
+            </div>
+            <div class="lab-control lab-step-range">
+              <label for="slider-m"><var>m</var></label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-m" data-i18n-aria="decrease_m" aria-label="Kurangkan m"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-m" min="-4" max="4" step="0.5" value="1">
+                <button type="button" class="lab-button lab-secondary" id="increase-m" data-i18n-aria="increase_m" aria-label="Tambah m"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-m" for="slider-m"></output>
+            </div>
+            <div class="lab-control lab-step-range">
+              <label for="slider-c"><var>c</var></label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-c" data-i18n-aria="decrease_c" aria-label="Kurangkan c"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-c" min="-8" max="8" step="0.5" value="1">
+                <button type="button" class="lab-button lab-secondary" id="increase-c" data-i18n-aria="increase_c" aria-label="Tambah c"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-c" for="slider-c"></output>
+            </div>
+            <fieldset class="lab-display-options">
+              <legend data-i18n="show">Papar</legend>
+              <div class="lab-display-toggles">
+                <label class="lab-toggle"><input type="checkbox" data-show="shade" checked> <span data-i18n="s_shade">Rantau berlorek</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="point" checked> <span data-i18n="s_point">Titik ujian P</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="intercepts" checked> <span data-i18n="s_intercepts">Pintasan</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="labels" checked> <span data-i18n="s_labels">Label rantau</span></label>
+              </div>
+            </fieldset>
+            <div class="lab-reset-row">
+              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
+            </div>
+          </div>
+          <div class="lab-table lab-live-table" id="ineq-pane-table" role="tabpanel" aria-labelledby="ineq-tab-table" tabindex="0" inert>
+            <table>
+              <caption id="table-caption" data-i18n="coordinateCaption">10 pasangan koordinat garis sempadan</caption>
+              <thead><tr><th scope="col"><var>x</var></th><th scope="col"><var>y</var></th></tr></thead>
+              <tbody id="ineq-coordinates"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="lab-readings" aria-labelledby="feat-h">
+      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
+      <dl>
+        <div><dt data-i18n="f_ineq">Ketaksamaan</dt><dd id="f-ineq"></dd></div>
+        <div><dt data-i18n="f_boundary">Garis sempadan</dt><dd id="f-boundary"></dd></div>
+        <div><dt data-i18n="f_region">Rantau berlorek</dt><dd id="f-region"></dd></div>
+        <div><dt data-i18n="f_point">Titik ujian P</dt><dd id="f-point"></dd></div>
+        <div><dt id="f-extra-label" data-i18n="f_intercepts">Pintasan</dt><dd id="f-extra"></dd></div>
+      </dl>
+    </section>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="ketaksamaan-linear" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+<script defer src="ketaksamaan-linear-model.js"></script>
+<script defer src="ketaksamaan-linear.js"></script>
+</body>
+</html>

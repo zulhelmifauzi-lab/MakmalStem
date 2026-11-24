@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulasi — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <script defer src="workbench-data.js"></script>
+  <script defer src="lesson-videos.js"></script>
+  <script defer src="workbench.js"></script>
+  <script defer src="lab-language.js"></script>
+</head>
+<body class="lab-shell">
+  <header class="lab-bar">
+    <div class="lab-wrap">
+      <a class="brand" href="index.html" aria-label="Makmal STEM, laman utama">
+        <img class="logo" src="icon.svg" width="36" height="36" alt=""><span><b>Makmal STEM</b><small>KSSM MALAYSIA</small></span>
+      </a>
+      <div class="lab-header-actions"><button class="lab-language" type="button" data-language-toggle="optics" aria-label="Tukar bahasa / Switch language">BM | EN</button><a class="lab-home-btn" href="index.html" aria-label="Laman utama" title="Kembali ke laman utama"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5"/><path d="M5.5 9.5V20h4.5v-6h4v6h4.5V9.5"/></svg></a></div>
+    </div>
+  </header>
+  <main class="lab-wrap" id="lab">
+    <p id="lab-status" role="status">Memuatkan simulasi…</p>
+    <div id="lab-content" hidden>
+      <header class="lab-intro" id="module-header">
+        <span class="lab-module-logo" id="module-logo" aria-hidden="true" hidden>
+          <svg viewBox="30 -38 220 220" fill="none" stroke="currentColor" stroke-width="7"></svg>
+        </span>
+        <p id="module-meta"></p>
+        <div class="lab-module-heading">
+          <h1><span id="module-title"></span> <span class="beta-label" id="module-beta">(BETA)</span></h1>
+          <span class="lab-subject-badge" id="module-subject-badge" hidden>Fizik T4 · Bab 6</span>
+        </div>
+        <p id="module-objective"></p>
+      </header>
+      <div class="lab-work" id="lab-work">
+        <section class="lab-visual" aria-labelledby="visual-title">
+          <h2 id="visual-title">Visual simulasi</h2>
+          <div id="visual-stage"></div>
+          <p class="lab-stage-caption" id="visual-caption" hidden></p>
+        </section>
+        <section class="lab-controls lab-paper" id="control-panel" aria-labelledby="control-title">
+          <h2 id="control-title" class="lab-control-title">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/>
+            </svg>
+            Panel kawalan
+          </h2>
+          <div class="lab-tabs" id="lab-tabs" role="tablist" aria-label="Panel kawalan" hidden>
+            <button type="button" id="tab-kawalan" role="tab" aria-controls="control-pane" aria-selected="true">Kawalan</button>
+            <button type="button" id="tab-jadual" role="tab" aria-controls="records-panel" aria-selected="false" tabindex="-1">Jadual <span id="tab-record-count" aria-hidden="true" hidden></span></button>
+          </div>
+          <div class="lab-control-pane" id="control-pane">
+            <div id="module-controls"></div>
+            <div class="lab-actions">
+              <button type="button" class="lab-button lab-secondary" id="module-reset" hidden></button>
+              <button type="button" class="lab-button" id="module-record" hidden></button>
+            </div>
+          </div>
+          <p id="control-status" role="status"></p>
+        </section>
+      </div>
+      <section class="lab-readings" id="readings-panel" aria-labelledby="readings-title" hidden>
+        <h2 id="readings-title">Bacaan langsung</h2>
+        <dl id="live-readings"></dl>
+      </section>
+      <div class="lab-tail">
+        <section class="lab-paper lab-records" id="records-panel" aria-labelledby="records-title" hidden>
+          <div class="lab-records-header">
+            <h2 id="records-title">Jadual rekod amali</h2>
+            <button type="button" class="lab-button lab-secondary" id="record-clear" disabled>Kosongkan jadual</button>
+          </div>
+          <p id="records-empty">Catat bacaan daripada panel kawalan untuk mengisi jadual.</p>
+          <div class="lab-table" id="record-table" tabindex="0" role="region" aria-label="Bacaan direkodkan" hidden>
+            <table><thead id="record-head"></thead><tbody id="record-body"></tbody></table>
+          </div>
+        </section>
+        <section class="lab-paper lab-notes" id="notes-panel" aria-labelledby="notes-title" hidden>
+          <h2 id="notes-title">Nota pembelajaran</h2>
+          <p id="module-notes"></p>
+        </section>
+        <section class="lab-paper lab-video" id="learning-video" aria-labelledby="learning-video-title" hidden>
+          <h2 id="learning-video-title">Video pembelajaran</h2>
+          <div class="lab-video-frame">
+            <a class="lab-video-preview" id="lesson-video-link" target="_blank" rel="noopener">
+              <img id="lesson-video-thumbnail" alt="" width="320" height="180">
+              <span class="lab-video-play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M7 3.5v17l14-8.5z"/></svg>
+              </span>
+            </a>
+            <div class="lab-video-arrows" id="lesson-video-arrows" hidden>
+              <button type="button" class="carousel-arrow" id="lesson-video-prev" aria-label="Video sebelumnya">←</button>
+              <button type="button" class="carousel-arrow" id="lesson-video-next" aria-label="Video seterusnya">→</button>
+            </div>
+          </div>
+          <div class="lab-video-meta">
+            <strong id="lesson-video-name"></strong>
+            <span id="lesson-video-position" hidden></span>
+          </div>
+        </section>
+      </div>
+      <section id="penilaian" class="feedback-section" data-simulation-feedback hidden aria-label="Penilaian dan komen"></section>
+    </div>
+  </main>
+</body>
+</html>

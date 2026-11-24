@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Satelit Buatan Manusia KSSM Fizik Tingkatan 4: halaju orbit v = √(GM/r), halaju lepas vₑ = √(2GM/r) dan orbit geopegun 24 jam.">
+  <title>Satelit Buatan Manusia (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="satelit.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template sat-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="19" cy="29" r="9" fill="currentColor" fill-opacity=".16"/>
+          <path d="M12 13a18 18 0 0 1 24 23" stroke-dasharray="3 3" opacity=".55"/>
+          <rect x="29" y="10" width="8" height="8" rx="1.5" fill="currentColor" fill-opacity=".25"/>
+          <path d="M25 14h4m8 0h4M33 18v3"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-i18n="title">Satelit Buatan Manusia</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-i18n="badge">Fizik T4 · Bab 3</span>
+      </div>
+    </header>
+
+    <div class="lab-work">
+      <section class="lab-visual" aria-labelledby="stage-h">
+        <h2 id="stage-h" data-i18n="stageH">Pelancaran satelit &amp; orbit mengelilingi Bumi</h2>
+        <div class="lab-simulation-frame">
+          <canvas id="plot" tabindex="0" role="img" data-i18n-aria="plotAria" aria-label="Simulasi satelit buatan manusia mengelilingi Bumi. Tekan Space untuk main atau jeda, atau tekan R untuk melancarkan semula satelit."></canvas>
+        </div>
+        <div class="sat-legend" aria-hidden="true">
+          <span><i class="sat-dot earth"></i><b data-i18n="legEarth">Bumi</b></span>
+          <span><i class="sat-dot sat"></i><b data-i18n="legSat">Satelit</b></span>
+          <span><i class="sat-dot station"></i><b data-i18n="legStation">Stesen Bumi</b></span>
+          <span><i class="sat-dot vec"></i><b data-i18n="legVec">Vektor laju / graviti</b></span>
+        </div>
+      </section>
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
+        <h2 id="ctl-h" class="lab-control-title">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+          <span data-i18n="controls">Panel kawalan</span>
+        </h2>
+        <div class="lab-tabs" id="sat-tabs" role="tablist" aria-labelledby="ctl-h">
+          <button type="button" id="sat-tab-controls" role="tab" aria-selected="true" aria-controls="sat-pane-controls" data-i18n="tabControls">Kawalan</button>
+          <button type="button" id="sat-tab-table" role="tab" aria-selected="false" aria-controls="sat-pane-table" tabindex="-1" data-i18n="tabTable">Jadual</button>
+        </div>
+        <div class="lab-tab-panes">
+          <div class="lab-control-pane" id="sat-pane-controls" role="tabpanel" aria-labelledby="sat-tab-controls">
+            <div class="sat-presets" role="group" data-i18n-aria="presetGroup" aria-label="Pratetap satelit">
+              <button type="button" id="preset-geo" data-preset="geo" aria-pressed="true" data-i18n="p_geo">Geopegun (GEO)</button>
+              <button type="button" id="preset-leo" data-preset="leo" aria-pressed="false" data-i18n="p_leo">ISS / LEO</button>
+              <button type="button" id="preset-gps" data-preset="gps" aria-pressed="false" data-i18n="p_gps">GPS / MEO</button>
+              <button type="button" id="preset-escape" data-preset="escape" aria-pressed="false" data-i18n="p_escape">Halaju Lepas</button>
+            </div>
+
+            <div class="sat-actions">
+              <button type="button" id="btn-play" class="lab-button" aria-pressed="true" data-i18n="pause">Jeda</button>
+              <button type="button" id="btn-relaunch" class="lab-button lab-secondary" data-i18n="relaunch">Lancar semula</button>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-h" data-i18n="lbl_h">Altitud orbit, h (km)</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-h" data-i18n-aria="decrease_h" aria-label="Kurangkan altitud"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-h" min="400" max="40000" step="200" value="35800">
+                <button type="button" class="lab-button lab-secondary" id="increase-h" data-i18n-aria="increase_h" aria-label="Tambah altitud"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-h" for="slider-h"></output>
+            </div>
+
+            <div class="lab-control lab-step-range lab-range-stacked">
+              <label for="slider-ratio" data-i18n="lbl_ratio">Nisbah laju pelancaran, v / v_orbit</label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" id="decrease-ratio" data-i18n-aria="decrease_ratio" aria-label="Kurangkan nisbah laju"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-ratio" min="0.5" max="1.55" step="0.05" value="1">
+                <button type="button" class="lab-button lab-secondary" id="increase-ratio" data-i18n-aria="increase_ratio" aria-label="Tambah nisbah laju"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="out-ratio" for="slider-ratio"></output>
+            </div>
+
+            <fieldset class="lab-display-options">
+              <legend data-i18n="show">Papar</legend>
+              <div class="lab-display-toggles">
+                <label class="lab-toggle"><input type="checkbox" data-show="trail" checked> <span data-i18n="s_trail">Jejak orbit</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="velocity" checked> <span data-i18n="s_velocity">Vektor laju v</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="station" checked> <span data-i18n="s_station">Stesen Bumi</span></label>
+                <label class="lab-toggle"><input type="checkbox" data-show="refOrbit" checked> <span data-i18n="s_refOrbit">Orbit rujukan</span></label>
+              </div>
+            </fieldset>
+
+            <div class="lab-reset-row">
+              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
+            </div>
+          </div>
+
+          <div class="lab-table lab-live-table" id="sat-pane-table" role="tabpanel" aria-labelledby="sat-tab-table" tabindex="0" inert>
+            <table>
+              <caption data-i18n="tableCaption">Perbandingan satelit mengikut altitud orbit</caption>
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="colSat">Satelit</th>
+                  <th scope="col">h (km)</th>
+                  <th scope="col">v (km/s)</th>
+                  <th scope="col">vₑ (km/s)</th>
+                  <th scope="col" data-i18n="colT">T (jam)</th>
+                </tr>
+              </thead>
+              <tbody id="sat-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="lab-readings" aria-labelledby="feat-h">
+      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
+      <dl>
+        <div><dt data-i18n="f_vorb">Halaju orbit, v</dt><dd id="f-vorb"></dd></div>
+        <div><dt data-i18n="f_vesc">Halaju lepas, vₑ</dt><dd id="f-vesc"></dd></div>
+        <div><dt data-i18n="f_vlaunch">Laju pelancaran</dt><dd id="f-vlaunch"></dd></div>
+        <div><dt data-i18n="f_period">Tempoh orbit, T</dt><dd id="f-period"></dd></div>
+        <div><dt data-i18n="f_status">Status trajektori</dt><dd id="f-status"></dd></div>
+      </dl>
+    </section>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="satelit" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+<script defer src="satelit-model.js"></script>
+<script defer src="satelit.js"></script>
+</body>
+</html>

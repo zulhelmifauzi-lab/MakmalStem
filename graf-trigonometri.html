@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Graf Fungsi Trigonometri (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="trigonometri.css">
+  <link rel="stylesheet" href="feedback.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="lesson-videos.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="trigonometri.js"></script>
+</head>
+<body class="lab-shell lab-template trig-module">
+  <header class="lab-bar" data-lab-header data-lang-id="language"></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 280 160" fill="none" stroke="currentColor" stroke-width="7">
+          <path d="M20 80h240M35 15v125" stroke-width="1" opacity=".3"/><path d="M35 80C65 80 65 25 95 25s30 55 60 55 30-55 60-55 30 55 30 55"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span data-en="Trigonometric Functions">Graf Fungsi Trigonometri</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge" data-en="Mathematics F5 · Ch 6">Matematik T5 · Bab 6</span>
+      </div>
+    </header>
+
+    <div class="lab-work">
+      <section class="lab-visual" aria-labelledby="visual-title">
+        <h2 id="visual-title" data-en="Interactive Cartesian plane">Satah Cartes interaktif</h2>
+        <div class="lab-simulation-frame">
+          <svg id="trig-plot" viewBox="0 0 520 360" tabindex="0" role="img"
+            aria-labelledby="visual-title" aria-describedby="trig-graph-help"></svg>
+        </div>
+        <p class="lab-stage-caption" id="trig-graph-help" data-en="Touch the graph or use the left and right arrow keys to read coordinates.">Sentuh graf atau guna anak panah kiri dan kanan untuk membaca koordinat.</p>
+      </section>
+
+      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="control-title">
+        <h2 id="control-title" class="lab-control-title">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+          <span data-en="Control panel">Panel kawalan</span>
+        </h2>
+        <div class="lab-tabs" role="tablist" aria-labelledby="control-title">
+          <button type="button" role="tab" id="controls-tab" aria-controls="controls-pane" aria-selected="true" data-en="Controls">Kawalan</button>
+          <button type="button" role="tab" id="table-tab" aria-controls="table-pane" tabindex="-1" aria-selected="false" data-en="Table">Jadual</button>
+        </div>
+        <div class="lab-tab-panes">
+          <div class="lab-control-pane" id="controls-pane" role="tabpanel" aria-labelledby="controls-tab">
+            <div class="lab-control trig-function">
+              <label for="trig-function" data-en="Function">Jenis fungsi</label>
+              <select id="trig-function">
+                <option value="sin" data-en="Sine · sin(x)">Sinus · sin(x)</option>
+                <option value="cos" data-en="Cosine · cos(x)">Kosinus · cos(x)</option>
+                <option value="tan" data-en="Tangent · tan(x)">Tangen · tan(x)</option>
+              </select>
+            </div>
+            <div class="lab-control lab-step-range">
+              <label for="slider-a"><var>a</var></label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" data-step="a" data-direction="-1" aria-label="Kurangkan a" data-en-label="Decrease a"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-a" min="-4" max="4" step="0.5" value="1">
+                <button type="button" class="lab-button lab-secondary" data-step="a" data-direction="1" aria-label="Tambah a" data-en-label="Increase a"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="value-a" for="slider-a">1</output>
+            </div>
+            <div class="lab-control lab-step-range">
+              <label for="slider-b"><var>b</var></label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" data-step="b" data-direction="-1" aria-label="Kurangkan b" data-en-label="Decrease b"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-b" min="0.5" max="4" step="0.5" value="1">
+                <button type="button" class="lab-button lab-secondary" data-step="b" data-direction="1" aria-label="Tambah b" data-en-label="Increase b"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="value-b" for="slider-b">1</output>
+            </div>
+            <div class="lab-control lab-step-range">
+              <label for="slider-c"><var>c</var></label>
+              <div class="lab-stepper">
+                <button type="button" class="lab-button lab-secondary" data-step="c" data-direction="-1" aria-label="Kurangkan c" data-en-label="Decrease c"><span aria-hidden="true">−</span></button>
+                <input type="range" id="slider-c" min="-3" max="3" step="0.5" value="0">
+                <button type="button" class="lab-button lab-secondary" data-step="c" data-direction="1" aria-label="Tambah c" data-en-label="Increase c"><span aria-hidden="true">+</span></button>
+              </div>
+              <output id="value-c" for="slider-c">0</output>
+            </div>
+            <fieldset class="lab-display-options">
+              <legend data-en="Show">Papar</legend>
+              <div class="lab-display-toggles">
+                <label class="lab-toggle"><input type="checkbox" id="show-reference" checked><span data-en="Reference graph">Graf rujukan</span></label>
+                <label class="lab-toggle"><input type="checkbox" id="show-midline" checked><span data-en="Midline">Paksi tengah</span></label>
+                <label class="lab-toggle"><input type="checkbox" id="show-asymptotes" checked disabled><span data-en="Asymptotes">Asimptot</span></label>
+                <label class="lab-toggle"><input type="checkbox" id="show-grid" checked><span data-en="Grid">Grid</span></label>
+              </div>
+            </fieldset>
+            <div class="lab-reset-row">
+              <button id="reset" type="button" class="lab-button" data-en="Reset">Set semula</button>
+            </div>
+          </div>
+          <div class="lab-table lab-live-table" id="table-pane" role="tabpanel" aria-labelledby="table-tab" tabindex="0" inert>
+            <table>
+              <caption data-en="Coordinates from 0° to 360°">Koordinat dari 0° hingga 360°</caption>
+              <thead><tr><th scope="col"><var>x</var></th><th scope="col"><var>y</var></th></tr></thead>
+              <tbody id="coordinates"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="lab-readings" aria-labelledby="readings-title">
+      <h2 id="readings-title" data-en="Live readings">Bacaan langsung</h2>
+      <dl>
+        <div><dt data-en="Equation">Persamaan</dt><dd id="equation"></dd></div>
+        <div><dt data-en="Amplitude">Amplitud</dt><dd id="amplitude"></dd></div>
+        <div><dt data-en="Period">Kala</dt><dd id="period"></dd></div>
+        <div><dt data-en="Maximum">Maksimum</dt><dd id="maximum"></dd></div>
+        <div><dt data-en="Minimum">Minimum</dt><dd id="minimum"></dd></div>
+      </dl>
+    </section>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section id="penilaian" class="feedback-section" data-simulation-feedback="trigonometri" aria-label="Penilaian dan komen"></section>
+  </main>
+</body>
+</html>

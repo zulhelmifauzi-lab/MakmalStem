@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Ikatan Kimia KSSM Kimia Tingkatan 4 Bab 5: seret unsur Z = 1–20 untuk membentuk ikatan ion, ikatan kovalen, struktur Lewis dan persamaan kimia.">
+  <title>Ikatan Kimia (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="ikatan-kimia.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template bond-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="17.5" cy="24" r="11.5" fill="currentColor" fill-opacity=".11"/>
+          <circle cx="30.5" cy="24" r="11.5" fill="currentColor" fill-opacity=".11"/>
+          <circle cx="17.5" cy="24" r="3.4" fill="currentColor" stroke="none"/>
+          <circle cx="30.5" cy="24" r="3.4" fill="currentColor" stroke="none"/>
+          <circle cx="24" cy="21.4" r="1.6" fill="currentColor" stroke="none"/>
+          <circle cx="24" cy="26.6" r="1.6" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1>Ikatan Kimia <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge">Kimia T4 · Bab 5</span>
+      </div>
+    </header>
+
+    <div class="bond-app">
+      <section class="lab-paper bond-center" aria-label="Ruang simulasi ikatan kimia">
+        <div class="lab-simulation-frame bond-stage-wrap">
+          <div class="stage" id="stage"><canvas id="world"></canvas></div>
+
+          <!-- HUD Bucu Kiri Atas: Kelajuan, Play/Pause, Reset -->
+          <div class="bond-hud bond-hud-tl" role="group" aria-label="Kawalan kelajuan dan main balik">
+            <button type="button" class="hud-btn hud-speed" id="btnSpeed" title="Tukar kelajuan gerakan">×1.0</button>
+            <button type="button" class="hud-btn hud-icon" id="btnPause" aria-label="Jeda" title="Jeda" aria-pressed="false">
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="4.5" y="3.5" width="3.8" height="13" rx="1"/><rect x="11.7" y="3.5" width="3.8" height="13" rx="1"/></svg>
+            </button>
+            <button type="button" class="hud-btn hud-icon hud-danger" id="btnClear" aria-label="Kosongkan" title="Kosongkan">
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 9.5a5.5 5.5 0 1 1 1.4 3.7"/><path d="M4.5 5.5v4h4"/></svg>
+            </button>
+          </div>
+
+          <!-- HUD Tengah Atas: Model Susunan Elektron / Struktur Lewis -->
+          <div class="bond-hud bond-hud-tc">
+            <div class="seg hud-seg" id="segMode">
+              <button type="button" data-v="bohr" class="on">Model Susunan Elektron</button>
+              <button type="button" data-v="lewis">Struktur Lewis</button>
+            </div>
+          </div>
+
+          <!-- HUD Bucu Kanan Atas: Laci Unsur -->
+          <div class="bond-hud bond-hud-tr">
+            <button type="button" class="hud-btn hud-drawer-btn is-open" id="btnDrawer" aria-expanded="true" aria-controls="elDrawer" aria-label="Laci Unsur" title="Laci Unsur">
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="3.5" width="5" height="5" rx="1"/><rect x="10.5" y="3.5" width="7" height="5" rx="1"/><rect x="2.5" y="11.5" width="5" height="5" rx="1"/><rect x="10.5" y="11.5" width="7" height="5" rx="1"/></svg>
+              <span>Laci Unsur</span>
+            </button>
+          </div>
+
+          <!-- HUD Bucu Kiri Bawah: Label & Molekul Unsur -->
+          <div class="bond-hud bond-hud-bl" role="group" aria-label="Pilihan paparan simulasi">
+            <label class="hud-chk"><input type="checkbox" id="chkLabel" checked> <span>Label</span></label>
+            <label class="hud-chk" title="Dua atom bukan logam yang sama (H, N, O, F, Cl, I) bergabung menjadi molekul unsur"><input type="checkbox" id="chkUnsur" checked> <span>Molekul Unsur</span></label>
+          </div>
+
+          <!-- HUD Bucu Kanan Bawah (khusus sentuh/mobile): Zum -->
+          <div class="bond-hud bond-hud-br" role="group" aria-label="Zum simulasi">
+            <button type="button" class="hud-btn hud-icon" id="btnZoomOut" aria-label="Zum keluar" title="Zum keluar">−</button>
+            <button type="button" class="hud-btn hud-icon" id="btnZoomIn" aria-label="Zum masuk" title="Zum masuk">+</button>
+          </div>
+
+          <!-- Laci Senarai Unsur Kaca Lutsinar -->
+          <aside class="bond-drawer" id="elDrawer" aria-label="Laci unsur mengikut kumpulan dan kala">
+            <div class="bond-drawer-head">
+              <h2 class="bond-head">Jadual Unsur (Kumpulan &amp; Kala)</h2>
+              <button type="button" class="bond-drawer-close" id="btnDrawerClose" aria-label="Tutup laci unsur" title="Tutup laci unsur">✕</button>
+            </div>
+            <div class="bond-legend">
+              <span><i style="background:#ef4444"></i>Logam</span>
+              <span><i style="background:#0ea5e9"></i>Bukan logam</span>
+              <span><i style="background:#eab308"></i>Metaloid</span>
+              <span><i style="background:#a855f7"></i>Gas adi</span>
+            </div>
+            <div class="ptable-scroll"><div class="ptable" id="ptable"></div></div>
+          </aside>
+
+          <div class="atom-tip" id="atomTip" role="tooltip" hidden></div>
+        </div>
+      </section>
+
+      <section class="bond-panels" aria-label="Status, struktur Lewis, persamaan dan zarah">
+        <div class="bond-panels-top">
+          <section class="lab-paper bond-card">
+            <div class="card-h">Status Tindak Balas</div>
+            <div id="status"></div>
+          </section>
+          <section class="lab-paper bond-card">
+            <div class="card-h">Sebatian Terbentuk</div>
+            <div id="compound"><div class="empty">Belum ada sebatian terbentuk.</div></div>
+          </section>
+          <section class="lab-paper bond-card">
+            <div class="card-h">Struktur Lewis <span class="lleg" id="lewisLeg"></span></div>
+            <div class="lewis-stage">
+              <canvas id="lewisCanvas"></canvas>
+              <div class="seg lewis-seg" id="segDot" title="Cara memaparkan elektron ikatan dalam struktur Lewis">
+                <button type="button" data-v="line" class="on">Garis ikatan</button>
+                <button type="button" data-v="dot">Titik &amp; pangkah</button>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="bond-panels-bot">
+          <section class="lab-paper bond-card">
+            <div class="card-h">Persamaan</div>
+            <div id="equations"><div class="empty">Persamaan kimia, setengah persamaan dan persamaan ion akan dipaparkan di sini.</div></div>
+          </section>
+        </div>
+      </section>
+    </div>
+
+    <div class="lab-tail has-companion" data-lab-tail></div>
+
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="ikatan-kimia" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+<script defer src="ikatan-kimia-model.js"></script>
+<script defer src="ikatan-kimia.js"></script>
+</body>
+</html>

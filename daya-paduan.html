@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="description" content="Simulasi Interaktif Daya Paduan KSSM Fizik Tingkatan 5. Terokai gabungan daya, kaedah segi empat selari & segi tiga daya, leraian daya dan Hukum Newton.">
+  <title>Daya Paduan (Resultant Force) (BETA) — Makmal STEM Fizik</title>
+  <link rel="icon" href="icon.svg">
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3525cd',
+            'primary-container': '#4f46e5',
+            'on-primary': '#ffffff',
+            'primary-fixed': '#e2dfff',
+            'primary-fixed-dim': '#c3c0ff',
+            'on-primary-fixed-variant': '#3323cc',
+            secondary: '#00687a',
+            'secondary-container': '#06b6d4',
+            'secondary-fixed': '#acedff',
+            'on-secondary-fixed': '#001f26',
+            tertiary: '#006e4b',
+            'tertiary-fixed': '#6ffbbe',
+            'on-tertiary-fixed-variant': '#005236',
+            accent: '#ea580c',
+            'accent-glow': '#f97316',
+            surface: '#faf8ff',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-low': '#f2f3ff',
+            'surface-container': '#eaedff',
+            'surface-container-high': '#e2e7ff',
+            'surface-container-highest': '#dae2fd',
+            'on-surface': '#131b2e',
+            'on-surface-variant': '#464555',
+            outline: '#777587',
+            'outline-variant': '#c7c4d8'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['Inter', 'monospace']
+          },
+          boxShadow: {
+            card: '0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04)',
+            glass: '0 12px 32px -4px rgba(79, 70, 229, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.05)',
+            glow: '0 0 20px rgba(234, 88, 12, 0.45)',
+            'glow-cyan': '0 0 16px rgba(6, 182, 212, 0.4)'
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="daya-paduan.css">
+  <link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="feedback.css">
+<script defer src="lab-chrome.js"></script>
+<script defer src="feedback.js"></script>
+</head>
+<body id="force-lab" class="min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-primary">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="lab-bar" data-lab-header data-has-reset="true" data-crumb="Fizik Tingkatan 5 · Bab 1.1"></header>
+
+  <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-5">
+
+    <!-- Top Banner & Curriculum Meta -->
+    <div id="lab-intro" class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-2xl border border-surface-container-high shadow-card">
+      <div class="flex flex-col gap-1.5 w-full">
+        <div class="sim-title-row">
+          <span class="sim-module-logo is-physics" aria-hidden="true">
+            <svg viewBox="0 0 280 160" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M44 122h192" opacity=".4"/><rect x="94" y="68" width="92" height="36" rx="6" fill="currentColor" fill-opacity=".14"/><circle cx="112" cy="112" r="8"/><circle cx="168" cy="112" r="8"/><path d="M142 46h76m-14-11 14 11-14 11M114 46H62m12-11-12 11 12 11"/></svg>
+          </span>
+          <h1><span data-i18n="mainTitle">Daya Paduan &amp; Gerakan (Resultant Force)</span> <span class="beta-label">(BETA)</span></h1>
+          <span class="sim-subject-badge" data-i18n="badge">Fizik T5 · Bab 1</span>
+        </div>
+        <p class="text-xs sm:text-sm text-on-surface-variant max-w-3xl leading-relaxed" data-i18n="mainSubtitle">
+          Gabungkan daya melalui kaedah segi empat selari &amp; segi tiga daya. Terokai kesan daya seimbang (ΣF = 0) vs daya tidak seimbang (F = ma) dalam pelbagai senario dunia sebenar.
+        </p>
+      </div>
+
+      <!-- Quick Preset Navigation Pills -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+        <button data-quick="rest" class="quick-preset-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-medium border border-surface-container bg-surface-container-low hover:border-primary/40 hover:text-primary transition-all">
+          ⚖️ <span data-i18n="pRest">Seimbang · Pegun</span>
+        </button>
+        <button data-quick="cruise" class="quick-preset-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-medium border border-surface-container bg-surface-container-low hover:border-primary/40 hover:text-primary transition-all">
+          🚗 <span data-i18n="pCruise">Seimbang · Bergerak (v konstan)</span>
+        </button>
+        <button data-quick="accelerate" class="quick-preset-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold border border-primary/30 bg-primary/10 text-primary transition-all">
+          🚀 <span data-i18n="pAcc">Tidak Seimbang · Memecut</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== SCENARIO SELECTOR TABS ==================== -->
+    <div id="scenario-tabs" role="group" aria-label="Senario simulasi" class="flex items-center gap-2 p-1.5 bg-white rounded-2xl border border-surface-container-high shadow-xs overflow-x-auto no-scrollbar">
+      <!-- Scenario A: Kapal Tunda -->
+      <button id="tab-scenario-tugboat" class="scenario-tab flex-1 min-w-[200px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all bg-primary text-white shadow-sm" data-scenario="tugboat">
+        <span class="material-symbols-outlined text-lg sm:text-xl">directions_boat</span>
+        <div class="text-left">
+          <div class="leading-tight" data-i18n="scenTugTitle">Kapal Tunda Pelabuhan</div>
+          <div class="text-[10px] font-normal opacity-85" data-i18n="scenTugSub">2 Bot Tunda · Tarik Bersudut</div>
+        </div>
+      </button>
+
+      <!-- Scenario B: Tarik Tali -->
+      <button id="tab-scenario-tugofwar" class="scenario-tab flex-1 min-w-[190px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-scenario="tugofwar">
+        <span class="material-symbols-outlined text-lg sm:text-xl">sports_kabaddi</span>
+        <div class="text-left">
+          <div class="leading-tight" data-i18n="scenTowTitle">Acara Tarik Tali</div>
+          <div class="text-[10px] font-normal opacity-75" data-i18n="scenTowSub">Daya Sebaris · 1D Seimbang/Tidak</div>
+        </div>
+      </button>
+
+      <!-- Scenario C: Makmal Troli -->
+      <button id="tab-scenario-cart" class="scenario-tab flex-1 min-w-[190px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-scenario="cart">
+        <span class="material-symbols-outlined text-lg sm:text-xl">shopping_cart</span>
+        <div class="text-left">
+          <div class="leading-tight" data-i18n="scenCartTitle">Makmal Troli & Satah</div>
+          <div class="text-[10px] font-normal opacity-75" data-i18n="scenCartSub">Pita Detik 50Hz · Geseran Permukaan</div>
+        </div>
+      </button>
+
+      <!-- Scenario D: Vektor Bebas 360° -->
+      <button id="tab-scenario-free" class="scenario-tab flex-1 min-w-[190px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-scenario="free">
+        <span class="material-symbols-outlined text-lg sm:text-xl">explore</span>
+        <div class="text-left">
+          <div class="leading-tight" data-i18n="scenFreeTitle">Mod Vektor Bebas 360°</div>
+          <div class="text-[10px] font-normal opacity-75" data-i18n="scenFreeSub">Kompas Satah Cartes · Objek Dron</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- ==================== MAIN WORKSPACE (STAGE + PARAMETERS) ==================== -->
+    <div id="lab-workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+      <!-- LEFT & CENTER: SIMULATION CANVAS STAGE + GRAPHS (Cols 1-8) -->
+      <div class="lg:col-span-8 flex flex-col gap-5">
+
+        <!-- Simulation Stage Card -->
+        <div class="bg-white rounded-2xl border border-surface-container-high shadow-card overflow-hidden flex flex-col relative">
+
+          <!-- Stage Top Control Bar -->
+          <div id="stage-toolbar" class="p-3 sm:p-4 bg-white border-b border-surface-container-high flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <span id="motion-indicator-dot" class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+              <div class="flex flex-col">
+                <span id="scenario-banner-title" class="text-xs sm:text-sm font-bold text-on-surface leading-tight">
+                  Kapal Tunda Pelabuhan
+                </span>
+                <span id="scenario-banner-state" class="text-[11px] font-medium text-secondary">
+                  Dua bot menarik kapal kontena menuju ke dermaga
+                </span>
+              </div>
+            </div>
+
+            <!-- Playback Controls Cluster -->
+            <div class="flex items-center gap-1.5 bg-surface-container-low p-1 rounded-xl">
+              <button id="btn-play" class="flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-primary text-white text-xs font-bold shadow hover:bg-primary-container transition-all active:scale-95">
+                <span class="material-symbols-outlined text-base" id="icon-play">play_arrow</span>
+                <span id="text-play" data-i18n="play">Mula</span>
+              </button>
+              <button id="btn-slow" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-surface-container text-on-surface-variant text-xs font-medium transition-all" title="Gerakan Perlahan 0.4x">
+                <span class="material-symbols-outlined text-base">slow_motion_video</span>
+              </button>
+              <button id="btn-step" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-surface-container text-on-surface-variant text-xs font-medium transition-all" title="Langkah Masa (+0.1s)">
+                <span class="material-symbols-outlined text-base">step_over</span>
+              </button>
+              <button id="btn-restart" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-surface-container text-on-surface-variant text-xs font-medium transition-all" title="Set Semula Gerakan">
+                <span class="material-symbols-outlined text-base">replay</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="lab-instruments"><div id="geometry-controls" class="absolute top-3 left-3 glass-hud p-2 rounded-xl shadow-glass border border-white/80 flex flex-col gap-1.5 text-[11px] max-w-[210px] z-10">
+              <div class="font-bold text-[10px] text-outline uppercase tracking-wider flex items-center justify-between">
+                <span data-i18n="geoOverlays">Binaan Geometri</span>
+                <span class="material-symbols-outlined text-xs text-primary">draw</span>
+              </div>
+              <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                <input type="checkbox" id="chk-parallelogram" class="rounded text-primary focus:ring-0 custom-range" checked>
+                <span class="font-medium" data-i18n="chkParallelogram">Segi Empat Selari</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                <input type="checkbox" id="chk-triangle" class="rounded text-primary focus:ring-0 custom-range">
+                <span class="font-medium" data-i18n="chkTriangle">Segi Tiga Daya (H-to-T)</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                <input type="checkbox" id="chk-components" class="rounded text-primary focus:ring-0 custom-range" checked>
+                <span class="font-medium" data-i18n="chkComponents">Leraian Fx & Fy</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                <input type="checkbox" id="chk-values" class="rounded text-primary focus:ring-0 custom-range" checked>
+                <span class="font-medium" data-i18n="chkValues">Nilai & Label Magnitud</span>
+              </label>
+            </div><div id="live-telemetry" class="absolute top-3 right-3 glass-hud p-3 rounded-xl shadow-glass border border-white/80 flex flex-col gap-2 min-w-[170px] z-10">
+              <div class="flex items-center justify-between text-[10px] font-bold text-outline uppercase tracking-wider">
+                <span data-i18n="telemetry">Telemetri Langsung</span>
+                <span class="font-code text-primary font-bold" id="hud-time">t = 0.00 s</span>
+              </div>
+
+              <!-- Resultant Force Net -->
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="text-on-surface-variant font-medium flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-accent"></span>
+                  <span data-i18n="netForce">Daya Paduan |ΣF|:</span>
+                </span>
+                <span class="font-code font-bold text-accent text-sm badge-pill" id="hud-net-force">0.0 N</span>
+              </div>
+
+              <!-- Acceleration -->
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="text-on-surface-variant font-medium flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-primary"></span>
+                  <span data-i18n="accel">Pecutan |a|:</span>
+                </span>
+                <span class="font-code font-bold text-primary text-xs badge-pill" id="hud-accel">0.00 m/s²</span>
+              </div>
+
+              <!-- Velocity -->
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="text-on-surface-variant font-medium flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                  <span data-i18n="velocity">Halaju |v|:</span>
+                </span>
+                <span class="font-code font-bold text-secondary text-xs badge-pill" id="hud-velocity">0.00 m/s</span>
+              </div>
+
+              <!-- Resultant Direction Angle -->
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="text-on-surface-variant font-medium" data-i18n="direction">Arah Paduan θ:</span>
+                <span class="font-code font-bold text-on-surface text-xs badge-pill" id="hud-direction">0.0°</span>
+              </div>
+            </div></div>
+          <!-- Interactive Canvas Viewport Container -->
+          <div id="simulation-viewport" class="relative w-full h-[430px] sm:h-[480px] bg-slate-950 overflow-hidden select-none">
+            <canvas aria-label="Visualisasi simulasi daya dan gerakan" role="img" id="sim-canvas" class="w-full h-full block cursor-crosshair"></canvas>
+
+            <!-- Floating Top-Left Vector Overlay Toggles (Glassmorphic) -->
+            
+
+            <!-- Floating Top-Right Real-Time Telemetry HUD -->
+            
+
+            <!-- Dynamic State Ribbon (Bottom-center overlay) -->
+            
+          </div>
+
+<div id="canvas-state-ribbon" class="absolute bottom-3 inset-x-3 sm:inset-x-8 glass-hud py-2 px-4 rounded-xl shadow-md border border-white/80 flex items-center justify-between text-xs transition-all z-10">
+              <div class="flex items-center gap-2">
+                <span id="ribbon-icon" class="material-symbols-outlined text-base text-primary">info</span>
+                <span id="ribbon-text" class="font-semibold text-on-surface">ΣF = 0 N: Daya Seimbang. Objek kekal pegun.</span>
+              </div>
+              <span id="ribbon-sub" class="hidden sm:inline text-[11px] text-outline font-code">a = 0.00 m/s²</span>
+            </div>
+          <!-- Bottom Telemetry Legend Bar -->
+          <div class="p-3 bg-surface-container-low/50 border-t border-surface-container flex flex-wrap items-center justify-between text-xs gap-3">
+            <div class="flex items-center gap-4 flex-wrap">
+              <div class="flex items-center gap-1.5 font-medium">
+                <span class="w-3 h-1 bg-[#0891b2] rounded-full"></span>
+                <span>F₁ (<span id="legend-f1-val">50 N</span>)</span>
+              </div>
+              <div class="flex items-center gap-1.5 font-medium">
+                <span class="w-3 h-1 bg-[#d97706] rounded-full"></span>
+                <span>F₂ (<span id="legend-f2-val">50 N</span>)</span>
+              </div>
+              <div class="flex items-center gap-1.5 font-bold text-accent">
+                <span class="w-3 h-1 bg-accent rounded-full shadow-glow"></span>
+                <span data-i18n="resultantForce">Daya Paduan ΣF</span>
+              </div>
+              <div class="flex items-center gap-1.5 text-on-surface-variant">
+                <span class="w-3 h-1 bg-emerald-600 rounded-full"></span>
+                <span data-i18n="velocityVec">Halaju (v)</span>
+              </div>
+            </div>
+            <div class="text-[11px] text-outline font-code" id="camera-readout">
+              x = 0.00 m · s = 0.00 m
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Graphs Section (v-t and s-t) -->
+        <div class="bg-white rounded-2xl border border-surface-container-high shadow-card p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-surface-container">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">query_stats</span>
+              <h2 class="text-sm font-bold text-on-surface" data-i18n="graphSectionTitle">Graf Gerakan Kinematik Masa Nyata</h2>
+            </div>
+
+            <!-- Graph Mode Toggle (v-t vs s-t) -->
+            <div class="flex items-center bg-surface-container-low p-1 rounded-xl text-xs font-semibold">
+              <button id="btn-graph-vt" class="px-3 py-1 rounded-lg bg-white text-primary shadow-xs transition-all font-bold">
+                <span data-i18n="graphVt">Graf Halaju - Masa (v - t)</span>
+              </button>
+              <button id="btn-graph-st" class="px-3 py-1 rounded-lg text-on-surface-variant hover:text-on-surface transition-all">
+                <span data-i18n="graphSt">Graf Sesaran - Masa (s - t)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Graph Canvas Container -->
+          <div class="lab-graph-container relative w-full bg-surface-container-lowest rounded-xl border border-surface-container overflow-hidden">
+            <canvas aria-label="Graf gerakan terhadap masa" role="img" id="graph-canvas" class="w-full h-full block"></canvas>
+            <div class="absolute bottom-1 right-2 text-[10px] text-outline font-code pointer-events-none" id="graph-note">
+              Kecerunan graf v-t = Pecutan (a)
+            </div>
+          </div>
+        </div>
+
+        <!-- Misconceptions & DSKP Pedagogical Insights Card -->
+        <div class="bg-white rounded-2xl border border-surface-container-high shadow-card p-4 sm:p-5 flex flex-col gap-3">
+          <div class="flex items-center gap-2 pb-2 border-b border-surface-container">
+            <span class="p-1.5 rounded-lg bg-amber-500/10 text-amber-600">
+              <span class="material-symbols-outlined text-lg">lightbulb</span>
+            </span>
+            <div>
+              <h2 class="text-xs sm:text-sm font-bold text-on-surface" data-i18n="pedagogyInsightTitle">
+                Sorotan Konsep Fizik & Salah Konsep Lazim SPM
+              </h2>
+              <p class="text-[11px] text-outline" data-i18n="pedagogyInsightSub">
+                Kefahaman mendalam mengikut DSKP Tingkatan 5 Fizik (Subtopik 1.1)
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1 border border-surface-container">
+              <span class="font-bold text-primary flex items-center gap-1">
+                <span>①</span> <span data-i18n="misc1Title">Daya Seimbang (ΣF = 0)</span>
+              </span>
+              <p class="text-[11px] text-on-surface-variant leading-relaxed" data-i18n="misc1Text">
+                Objek tidak semestinya pegun! Objek boleh meluncur dengan <strong>halaju seragam (konstan)</strong> tanpa memerlukan sebarang daya paduan (Hukum Newton Pertama).
+              </p>
+            </div>
+            <div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1 border border-surface-container">
+              <span class="font-bold text-secondary flex items-center gap-1">
+                <span>②</span> <span data-i18n="misc2Title">Arah Daya vs Arah Gerakan</span>
+              </span>
+              <p class="text-[11px] text-on-surface-variant leading-relaxed" data-i18n="misc2Text">
+                Daya paduan menentukan arah <strong>pecutan</strong>, bukan semestinya arah gerakan semasa! Semasa membrek, daya paduan bertentangan dengan halaju.
+              </p>
+            </div>
+            <div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1 border border-surface-container">
+              <span class="font-bold text-accent flex items-center gap-1">
+                <span>③</span> <span data-i18n="misc3Title">Penjumlahan Vektor Bukan Skalar</span>
+              </span>
+              <p class="text-[11px] text-on-surface-variant leading-relaxed" data-i18n="misc3Text">
+                30 N + 40 N tidak sentiasa 70 N! Bergantung kepada sudut θ, paduan boleh bernilai antara 10 N (180°) hingga 70 N (0°), dan tepat 50 N pada 90°.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: PARAMETERS DRAWER + LIVE MATH CALCULATION + CHALLENGES (Cols 9-12) -->
+      <div class="lg:col-span-4 flex flex-col gap-5">
+
+        <!-- Experiment Parameters Drawer -->
+        <div class="bg-white rounded-2xl border border-surface-container-high shadow-card p-4 sm:p-5 flex flex-col gap-4">
+          <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">tune</span>
+              <h2 class="text-sm font-bold text-on-surface" data-i18n="paramsTitle">Kawalan Parameter</h2>
+            </div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-primary/10 text-primary uppercase" id="mode-badge-pill">
+              BERSUDUT 2D
+            </span>
+          </div>
+
+          <!-- Parameter 1: Daya F1 -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-on-surface flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#0891b2]"></span>
+                <span data-i18n="paramF1">Daya F₁</span>
+              </span>
+              <span class="font-code font-bold text-[#0891b2] bg-cyan-50 px-2 py-0.5 rounded text-xs" id="val-f1">
+                50 N
+              </span>
+            </div>
+            <input type="range" id="slider-f1" min="0" max="100" step="1" value="50" class="w-full h-2 bg-surface-container rounded-lg cursor-pointer custom-range">
+            <div class="flex justify-between text-[10px] text-outline font-code">
+              <span>0 N</span>
+              <span>50 N</span>
+              <span id="slider-f1-max-label">100 N</span>
+            </div>
+          </div>
+
+          <!-- Parameter 1 Angle / Direction -->
+          <div id="group-angle1" class="flex flex-col gap-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-medium text-on-surface-variant flex items-center gap-1">
+                <span data-i18n="paramAngle1">Sudut F₁ (θ₁)</span>
+              </span>
+              <span class="font-code font-bold text-[#0891b2] bg-cyan-50 px-2 py-0.5 rounded text-xs" id="val-angle1">
+                30°
+              </span>
+            </div>
+            <input type="range" id="slider-angle1" min="0" max="90" step="1" value="30" class="w-full h-2 bg-surface-container rounded-lg cursor-pointer custom-range">
+            <div class="flex justify-between text-[10px] text-outline font-code">
+              <span id="angle1-min-lbl">0°</span>
+              <span id="angle1-mid-lbl">45°</span>
+              <span id="angle1-max-lbl">90°</span>
+            </div>
+          </div>
+
+          <!-- Parameter 2: Daya F2 -->
+          <div class="flex flex-col gap-1.5 pt-2 border-t border-surface-container">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-on-surface flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#d97706]"></span>
+                <span data-i18n="paramF2">Daya F₂</span>
+              </span>
+              <span class="font-code font-bold text-[#d97706] bg-amber-50 px-2 py-0.5 rounded text-xs" id="val-f2">
+                50 N
+              </span>
+            </div>
+            <input type="range" id="slider-f2" min="0" max="100" step="1" value="50" class="w-full h-2 bg-surface-container rounded-lg cursor-pointer custom-range">
+            <div class="flex justify-between text-[10px] text-outline font-code">
+              <span>0 N</span>
+              <span>50 N</span>
+              <span id="slider-f2-max-label">100 N</span>
+            </div>
+          </div>
+
+          <!-- Parameter 2 Angle / Direction -->
+          <div id="group-angle2" class="flex flex-col gap-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-medium text-on-surface-variant flex items-center gap-1">
+                <span data-i18n="paramAngle2">Sudut F₂ (θ₂)</span>
+              </span>
+              <span class="font-code font-bold text-[#d97706] bg-amber-50 px-2 py-0.5 rounded text-xs" id="val-angle2">
+                30°
+              </span>
+            </div>
+            <input type="range" id="slider-angle2" min="0" max="90" step="1" value="30" class="w-full h-2 bg-surface-container rounded-lg cursor-pointer custom-range">
+            <div class="flex justify-between text-[10px] text-outline font-code">
+              <span id="angle2-min-lbl">0°</span>
+              <span id="angle2-mid-lbl">45°</span>
+              <span id="angle2-max-lbl">90°</span>
+            </div>
+          </div>
+
+          <!-- Collinear Direction Toggles (For 1D Scenarios) -->
+          <div id="group-collinear-dirs" class="hidden flex flex-col gap-2 pt-2 border-t border-surface-container">
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div>
+                <label class="block text-[11px] font-semibold text-on-surface-variant mb-1" data-i18n="f1Dir">Arah F₁</label>
+                <div class="flex rounded-lg overflow-hidden border border-surface-container">
+                  <button id="btn-f1-left" class="flex-1 py-1 text-center font-bold bg-surface-container-low text-on-surface-variant">← Kiri</button>
+                  <button id="btn-f1-right" class="flex-1 py-1 text-center font-bold bg-primary text-white">Kanan →</button>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-on-surface-variant mb-1" data-i18n="f2Dir">Arah F₂</label>
+                <div class="flex rounded-lg overflow-hidden border border-surface-container">
+                  <button id="btn-f2-left" class="flex-1 py-1 text-center font-bold bg-amber-600 text-white">← Kiri</button>
+                  <button id="btn-f2-right" class="flex-1 py-1 text-center font-bold bg-surface-container-low text-on-surface-variant">Kanan →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parameter 3: Jisim Objek (m) -->
+          <div class="flex flex-col gap-1.5 pt-2 border-t border-surface-container">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-on-surface flex items-center gap-1">
+                <span data-i18n="paramMass">Jisim Objek (m)</span>
+              </span>
+              <span class="font-code font-bold text-primary bg-primary-fixed/40 px-2 py-0.5 rounded text-xs" id="val-mass">
+                20 kg
+              </span>
+            </div>
+            <input type="range" id="slider-mass" min="5" max="100" step="1" value="20" class="w-full h-2 bg-surface-container rounded-lg cursor-pointer custom-range">
+            <div class="flex justify-between text-[10px] text-outline font-code">
+              <span id="mass-min-lbl">5 kg</span>
+              <span id="mass-mid-lbl">50 kg</span>
+              <span id="mass-max-lbl">100 kg</span>
+            </div>
+          </div>
+
+          <!-- Parameter 4: Halaju Awal (u) -->
+          <div class="flex flex-col gap-1.5 pt-2 border-t border-surface-container">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-medium text-on-surface-variant" data-i18n="paramInitialU">Halaju Awal (u)</span>
+              <span class="font-code font-bold text-secondary bg-cyan-50 px-2 py-0.5 rounded text-xs" id="val-u">
+                0.0 m/s
+              </span>
+            </div>
+            <input type="range" id="slider-u" min="-10" max="10" step="0.5" value="0" class="w-full h-2 bg-surface-container rounded-lg cursor-pointer custom-range">
+            <div class="flex justify-between text-[10px] text-outline font-code">
+              <span>-10 m/s (←)</span>
+              <span>0 m/s</span>
+              <span>+10 m/s (→)</span>
+            </div>
+          </div>
+
+          <p id="live-parameter-note" class="text-[11px] leading-relaxed text-secondary bg-cyan-50 border border-cyan-100 rounded-xl p-3" data-i18n="liveParameters">
+            Daya, sudut, jisim dan geseran berubah secara langsung tanpa mengulang gerakan. Halaju awal digunakan pada t = 0 atau selepas tekan Ulang.
+          </p>
+          <!-- Parameter 5: Geseran / Seretan (Friction toggle/slider) -->
+          <div id="group-friction" class="flex flex-col gap-1.5 pt-2 border-t border-surface-container">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-medium text-on-surface-variant" data-i18n="paramFriction">Pekali Geseran Permukaan (μ)</span>
+              <span class="font-code font-bold text-on-surface bg-surface-container-low px-2 py-0.5 rounded text-xs" id="val-friction">
+                0.00 (Licin)
+              </span>
+            </div>
+            <input type="range" id="slider-friction" min="0" max="0.4" step="0.05" value="0" class="w-full h-2 bg-surface-container rounded-lg cursor-pointer custom-range">
+            <div class="flex justify-between text-[10px] text-outline font-code">
+              <span data-i18n="fricSmooth">0.0 (Licin)</span>
+              <span>0.2</span>
+              <span data-i18n="fricRough">0.4 (Kasar)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Step-by-Step Calculation Panel -->
+        <div class="bg-white rounded-2xl border border-surface-container-high shadow-card p-4 sm:p-5 flex flex-col gap-3">
+          <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary text-xl">calculate</span>
+              <h2 class="text-sm font-bold text-on-surface" data-i18n="calcTitle">Pengiraan Langkah Demi Langkah</h2>
+            </div>
+            <span class="text-[10px] font-mono text-outline">ΣF = ma</span>
+          </div>
+
+          <!-- Formula Step Cards -->
+          <div class="flex flex-col gap-2.5 font-code text-xs text-on-surface">
+            <!-- Step 1: Leraian Daya Fx & Fy -->
+            <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase text-outline" data-i18n="step1">1. Leraian Komponen Daya</span>
+              <div class="text-[11px] leading-relaxed" id="calc-step1">
+                F₁x = 50.0 cos(30°) = 43.3 N<br>
+                F₁y = 50.0 sin(30°) = 25.0 N<br>
+                F₂x = 50.0 cos(-30°) = 43.3 N<br>
+                F₂y = -50.0 sin(-30°) = -25.0 N
+              </div>
+            </div>
+
+            <!-- Step 2: Hasil Tambah Komponen -->
+            <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase text-outline" data-i18n="step2">2. Hasil Tambah Vektor Komponen</span>
+              <div class="text-[11px] leading-relaxed" id="calc-step2">
+                ΣFx = 43.3 + 43.3 = 86.6 N<br>
+                ΣFy = 25.0 + (-25.0) = 0.0 N
+              </div>
+            </div>
+
+            <!-- Step 3: Magnitud Daya Paduan -->
+            <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase text-outline" data-i18n="step3">3. Magnitud Daya Paduan |ΣF|</span>
+              <div class="text-[11px] leading-relaxed text-accent font-bold" id="calc-step3">
+                |ΣF| = √(ΣFx² + ΣFy²) = 86.6 N
+              </div>
+            </div>
+
+            <!-- Step 4: Pecutan & Arah -->
+            <div class="p-2.5 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase text-outline" data-i18n="step4">4. Pecutan Mengikut Hukum Newton II</span>
+              <div class="text-[11px] leading-relaxed" id="calc-step4">
+                a = |ΣF| / m = 86.6 / 20 = 4.33 m/s²<br>
+                Arah pecutan θ = 0.0° (Menuju dermaga)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPM Physics Interactive Challenges -->
+        <div class="bg-white rounded-2xl border border-surface-container-high shadow-card p-4 sm:p-5 flex flex-col gap-3">
+          <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+            <div class="flex items-center gap-2">
+              <span class="p-1 rounded bg-amber-500/10 text-amber-600">
+                <span class="material-symbols-outlined text-lg">emoji_events</span>
+              </span>
+              <h2 class="text-sm font-bold text-on-surface" data-i18n="chalSectionTitle">Cabaran SPM Daya Paduan</h2>
+            </div>
+            <button id="btn-next-chal" class="text-[11px] font-bold text-primary hover:underline" data-i18n="btnNextChal">
+              Tukar Cabaran ↻
+            </button>
+          </div>
+
+          <!-- Challenge Prompt -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold text-secondary" id="chal-badge">CABARAN 1</span>
+              <span class="text-xs text-outline font-medium" id="chal-title">Kemudi Kapal Tunda Pelabuhan</span>
+            </div>
+            <p class="text-xs text-on-surface leading-relaxed" id="chal-desc">
+              Laras sudut atau daya kedua-dua bot tunda supaya kapal kontena bergerak lurus tepat ke dermaga (ΣFy = 0 N) dan mencapai pecutan tepat ax = 1.20 m/s².
+            </p>
+
+            <div class="p-2.5 rounded-xl bg-amber-500/5 border border-amber-500/20 text-[11px] text-amber-900 flex items-start gap-1.5" id="chal-hint-box">
+              <span class="material-symbols-outlined text-sm text-amber-600 mt-0.5">tips_and_updates</span>
+              <span id="chal-hint">Petunjuk: Pastikan F₁ sin(θ₁) = F₂ sin(θ₂) supaya daya sisi saling membatalkan!</span>
+            </div>
+
+            <!-- Action button & Feedback -->
+            <div class="flex items-center gap-2 pt-1">
+              <button id="btn-check-chal" class="flex-1 py-2 px-3 rounded-xl bg-primary text-white text-xs font-bold shadow hover:bg-primary-container transition-all" data-i18n="btnCheckAnswer">
+                Semak Jawapan
+              </button>
+            </div>
+            <div role="status" aria-live="polite" id="chal-feedback" class="hidden p-3 rounded-xl text-xs font-medium leading-relaxed transition-all"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <p class="lab-model-note"><span data-i18n="modelNote">Model pembelajaran berskala: semua daya dalam N dan jisim dalam kg. Dimensi objek dan panjang anak panah ialah ilustrasi.</span></p>
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="mt-8 pt-6 pb-8 border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-outline">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-on-surface">Makmal STEM</span>
+        <span>•</span>
+        <span data-i18n="footerText">Inisiatif Pembelajaran STEM Interaktif Tanpa Login</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://bpk.moe.gov.my/" target="_blank" rel="noopener" class="hover:text-primary transition-colors" data-i18n="dskpRef">Rujukan DSKP KSSM Fizik T5</a>
+        <span>•</span>
+      </div>
+    </footer>
+
+  <section class="feedback-section" id="penilaian" data-simulation-feedback="daya-paduan" aria-label="Penilaian dan komen"></section>
+</main>
+
+  <!-- ==================== SCRIPT ENGINE ==================== -->
+  <script defer src="daya-paduan-model.js"></script>
+  <script defer src="daya-paduan.js"></script>
+</body>
+</html>

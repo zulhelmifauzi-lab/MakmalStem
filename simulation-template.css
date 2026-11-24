@@ -1,0 +1,89 @@
+/* Komponen untuk halaman simulasi yang menggunakan kelas lab-template. */
+.lab-template .lab-template-controls {
+  --sim-ink:#362951;
+  --sim-accent:#634395;
+  --sim-tint:#f4effb;
+  --sim-rule:#e2d9ef;
+  --sim-tab-spacing:3px;
+  gap:12px;
+}
+.lab-display-options { min-width:0; margin:8px 0 0; padding:0; border:0; }
+.lab-template-controls h2 { margin:0; }
+.lab-display-options legend { margin-inline:auto; padding:0; font-size:.9375rem; font-weight:750; }
+.lab-display-toggles {
+  display:grid; grid-template-columns:repeat(2,minmax(0,max-content)); justify-content:center;
+  gap:4px clamp(14px,3vw,30px);
+}
+.lab-reset-row {
+  display:grid; justify-self:center; width:calc((100% - 3 * var(--sim-tab-spacing)) / 2);
+  margin-block:clamp(18px,3.2vw,42px) 2px;
+}
+.lab-reset-row .lab-button { border-radius:7px; font-family:inherit; }
+.lab-display-toggles .lab-toggle { cursor:pointer; font-size:.9375rem; }
+.lab-display-toggles input { flex:none; width:21px; height:21px; }
+.lab-template-controls .lab-tabs {
+  background:var(--sim-tint); padding:var(--sim-tab-spacing); gap:var(--sim-tab-spacing); border-radius:9px;
+}
+.lab-template-controls .lab-tabs button { min-height:44px; font-size:.8125rem; }
+.lab-template-controls .lab-tabs button[aria-selected=true] { background:var(--sim-ink); }
+.lab-template-controls .lab-control-pane { gap:0; }
+.lab-step-range {
+  display:grid; grid-template-columns:1.15rem minmax(0,1fr) 3rem;
+  align-items:center; gap:4px; padding:5px 0; border-color:var(--sim-rule);
+}
+.lab-step-range label {
+  padding-inline-start:2px; color:var(--sim-ink); font-weight:750; cursor:pointer;
+}
+.lab-step-range output {
+  text-align:right; color:var(--sim-accent);
+  font-size:.875rem; font-weight:750; font-variant-numeric:tabular-nums;
+}
+.lab-step-range.lab-range-stacked { grid-template-columns:minmax(0,1fr) auto; }
+.lab-range-stacked .lab-stepper { grid-column:1 / -1; grid-row:2; }
+.lab-stepper {
+  display:grid; grid-template-columns:44px minmax(0,1fr) 44px;
+  align-items:center; gap:3px; min-width:0;
+}
+.lab-stepper .lab-button {
+  min-width:44px; padding:0; border:0; background:transparent; font-size:1rem;
+}
+.lab-stepper .lab-button span {
+  display:grid; place-items:center; width:32px; height:32px;
+  border:1px solid var(--sim-rule); border-radius:7px; background:var(--sim-tint);
+}
+.lab-stepper .lab-button:enabled:is(:hover,:active) span {
+  border-color:var(--sim-accent); color:var(--sim-ink);
+}
+.lab-stepper input[type=range] { min-width:0; margin:0; accent-color:var(--sim-accent); }
+.lab-template-controls .lab-live-table {
+  align-self:start; max-height:none; overflow:visible; font-variant-numeric:tabular-nums;
+}
+.lab-live-table table { border-spacing:0; border-collapse:separate; table-layout:fixed; line-height:1.35; }
+.lab-live-table caption {
+  padding:0 0 8px; text-align:left; color:var(--sim-ink); font-size:.8125rem; font-weight:750;
+}
+.lab-live-table :is(td,th) {
+  padding:5px 6px; text-align:center; overflow-wrap:anywhere; border-color:var(--sim-rule);
+}
+.lab-template-controls .lab-live-table thead th {
+  position:static; background:var(--sim-tint); color:var(--sim-ink);
+}
+.lab-live-table thead th:first-child { border-start-start-radius:7px; }
+.lab-live-table thead th:last-child { border-start-end-radius:7px; }
+.lab-live-table tbody tr:nth-child(even) { background:#faf8fd; }
+.lab-live-table tbody th { font-weight:600; }
+.lab-template .lab-readings dl > div {
+  display:grid; grid-template-rows:auto 1fr; gap:6px; min-block-size:92px;
+}
+.lab-template .lab-readings dd {
+  align-self:center; text-align:center; font-variant-numeric:tabular-nums;
+}
+
+.lab-template .lab-simulation-frame {
+  display:grid; place-items:center; flex:1; min-width:0;
+  padding:clamp(4px,1vw,9px); border-radius:9px; background:#f4effb;
+}
+@media (max-width:410px) {
+  .lab-template .lab-work .lab-visual { padding:10px; }
+  .lab-template .lab-module-heading { row-gap:5px; }
+}
