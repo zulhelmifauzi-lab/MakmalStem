@@ -352,7 +352,7 @@ button.lab-language[hidden] { display: none !important; }
   body .site-header .header-actions { gap: 6px; }
   button.lab-language { padding-inline: 8px; }
 }
-@media (max-width:440px) {
+@media (max-width:600px) {
   body .dashboard-header .brand > span,
   body .header .brand > span,
   body .lab-bar .brand > span,
@@ -1031,10 +1031,10 @@ button.lab-settings-switch[aria-checked="true"] .lab-settings-switch-thumb {
 
 /* Global Off-Canvas Sidepanel (Drawer) */
 .lab-brand-group {
+  flex: none;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-width: 0;
 }
 
 button.lab-drawer-btn {
