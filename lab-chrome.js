@@ -412,13 +412,34 @@
   function bindHeaderSearch(form) {
     if (!form || form.dataset.searchBound === 'true') return;
     form.dataset.searchBound = 'true';
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const input = form.querySelector('.lab-header-search-input');
-      const q = input ? input.value.trim() : '';
-      const target = q ? `${url('index.html')}?q=${encodeURIComponent(q)}#simulasi` : `${url('index.html')}#simulasi`;
-      location.href = target;
+    const header = form.closest('header');
+    const input = form.querySelector('.lab-header-search-input, input');
+    const expandIfCompact = () => {
+      if (!header || header.clientWidth > 450 || header.classList.contains('is-search-expanded')) return false;
+      header.classList.add('is-search-expanded');
+      if (input) input.focus();
+      return true;
+    };
+    form.addEventListener('click', e => {
+      if (expandIfCompact()) e.preventDefault();
     });
+    if (input) {
+      input.addEventListener('focus', () => {
+        if (header && header.clientWidth <= 450) header.classList.add('is-search-expanded');
+      });
+      input.addEventListener('blur', () => {
+        if (header && !input.value.trim()) header.classList.remove('is-search-expanded');
+      });
+    }
+    if (form.tagName === 'FORM') {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        if (expandIfCompact()) return;
+        const q = input ? input.value.trim() : '';
+        const target = q ? `${url('index.html')}?q=${encodeURIComponent(q)}#simulasi` : `${url('index.html')}#simulasi`;
+        location.href = target;
+      });
+    }
   }
 
   function mountHeaders() {
@@ -505,6 +526,8 @@
     });
 
     document.querySelectorAll('.dashboard-header-inner').forEach(inner => {
+      const portalSearch = inner.querySelector('.portal-search');
+      if (portalSearch) bindHeaderSearch(portalSearch);
       if (inner.querySelector('.lab-settings-wrap')) return;
       let actions = inner.querySelector('.lab-header-actions');
       if (!actions) {
@@ -627,6 +650,12 @@
       if (!e.target || !e.target.closest || !e.target.closest('.lab-settings-wrap')) {
         closeAllPopovers();
       }
+      if (!e.target || !e.target.closest || !e.target.closest('.lab-header-search, .portal-search')) {
+        document.querySelectorAll('header.is-search-expanded').forEach(h => {
+          const inp = h.querySelector('.lab-header-search-input, .portal-search input');
+          if (!inp || !inp.value.trim()) h.classList.remove('is-search-expanded');
+        });
+      }
     });
 
     document.addEventListener('keydown', e => {
@@ -635,6 +664,11 @@
         if (drawer && drawer.classList.contains('is-open')) {
           setDrawerOpen(false, true);
         }
+        document.querySelectorAll('header.is-search-expanded').forEach(h => {
+          h.classList.remove('is-search-expanded');
+          const inp = h.querySelector('.lab-header-search-input, .portal-search input');
+          if (inp) inp.blur();
+        });
         closeAllPopovers(document.activeElement);
       }
     });

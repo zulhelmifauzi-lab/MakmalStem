@@ -21,8 +21,10 @@ body .site-header {
   position: sticky;
   top: 0;
   z-index: 40;
-  height: 68px;
-  min-height: 68px;
+  container-type: inline-size;
+  container-name: lab-header;
+  height: clamp(62px, 6.5vw, 68px);
+  min-height: clamp(62px, 6.5vw, 68px);
   background: rgba(251, 248, 255, .96);
   border-bottom: 1px solid #e4e7f1;
   backdrop-filter: blur(14px);
@@ -36,45 +38,29 @@ body .site-header .header-inner {
   box-sizing: border-box;
   width: 100%;
   max-width: 1560px;
-  height: 68px;
-  min-height: 68px;
+  height: 100%;
+  min-height: 100%;
   margin-inline: auto;
-  padding: 0 28px;
+  padding: 0 clamp(12px, 2.4cqi, 28px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: clamp(8px, 1.5cqi, 16px);
 }
 
-body .dashboard-header-inner:has(.lab-header-search, .portal-search),
-body .header .wrap:has(.lab-header-search, .portal-search),
-body .lab-bar .lab-wrap:has(.lab-header-search, .portal-search),
-body .site-header .header-inner:has(.lab-header-search, .portal-search) {
-  display: grid;
-  grid-template-columns: 1fr minmax(220px, 460px) 1fr;
-  align-items: center;
-  gap: 16px;
-}
-
-body .dashboard-header-inner:has(.lab-header-search, .portal-search) > :first-child,
-body .header .wrap:has(.lab-header-search, .portal-search) > :first-child,
-body .lab-bar .lab-wrap:has(.lab-header-search, .portal-search) > :first-child,
-body .site-header .header-inner:has(.lab-header-search, .portal-search) > :first-child {
-  justify-self: start;
-  min-width: 0;
-}
-
-.lab-header-search {
+.lab-header-search,
+body .portal-search {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 8px;
-  justify-self: center;
-  width: 100%;
+  gap: clamp(6px, 1cqi, 9px);
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
   max-width: 460px;
-  min-height: 44px;
+  min-height: clamp(38px, 5cqi, 44px);
   margin: 0;
-  padding: 0 14px;
+  padding: 0 clamp(10px, 1.8cqi, 15px);
   border: 1px solid #ded4ef;
   border-radius: 999px;
   background: #efebf7;
@@ -82,12 +68,14 @@ body .site-header .header-inner:has(.lab-header-search, .portal-search) > :first
   transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
 
-.lab-header-search:hover {
+.lab-header-search:hover,
+body .portal-search:hover {
   background: #e8e1f4;
   border-color: #c7b8e2;
 }
 
-.lab-header-search:focus-within {
+.lab-header-search:focus-within,
+body .portal-search:focus-within {
   background: #ffffff;
   border-color: #634395;
   box-shadow: 0 0 0 3px rgba(99, 67, 149, .14);
@@ -98,8 +86,8 @@ button.lab-header-search-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -113,11 +101,12 @@ button.lab-header-search-btn:focus-visible {
   border-radius: 999px;
 }
 
-input.lab-header-search-input {
-  flex: 1 1 auto;
+input.lab-header-search-input,
+body .portal-search input {
+  flex: 1 1 0;
   min-width: 0;
   width: 100%;
-  height: 42px;
+  height: clamp(36px, 4.8cqi, 42px);
   border: 0;
   padding: 0;
   background: transparent;
@@ -158,8 +147,8 @@ body .header .brand img.logo,
 body .site-header .brand img.brandmark {
   display: block;
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: clamp(32px, 4.2cqi, 36px);
+  height: clamp(32px, 4.2cqi, 36px);
   object-fit: contain;
   background: transparent;
   border-radius: 0;
@@ -182,7 +171,7 @@ body .header .brand b,
 body .site-header .brand strong {
   display: block;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  font-size: 21px;
+  font-size: clamp(16px, 2.2cqi, 21px);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -.035em;
@@ -208,12 +197,13 @@ body .site-header .brand small {
 
 body .lab-header-actions,
 body .site-header .header-actions {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   justify-self: end;
   flex-wrap: nowrap;
-  gap: 8px;
+  gap: clamp(6px, 1cqi, 8px);
 }
 
 .lab-status-pill {
@@ -288,75 +278,109 @@ button.lab-language {
 button.lab-language:hover { background:#e8dff5; }
 button.lab-language:focus-visible { outline:2px solid #634395; outline-offset:2px; }
 button.lab-language[hidden] { display: none !important; }
-@media (max-width:1000px) {
-  body .dashboard-header-inner,
-  body .header .wrap,
-  body .lab-bar .lab-wrap,
-  body .site-header .header-inner { padding: 0 20px; }
-}
-@media (max-width:900px) {
+
+/* Container-driven header responsiveness (replaces rigid viewport width assumptions) */
+@container lab-header (min-width: 880px) {
   body .dashboard-header-inner:has(.lab-header-search, .portal-search),
   body .header .wrap:has(.lab-header-search, .portal-search),
   body .lab-bar .lab-wrap:has(.lab-header-search, .portal-search),
   body .site-header .header-inner:has(.lab-header-search, .portal-search) {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: minmax(max-content, 1fr) minmax(200px, 460px) minmax(max-content, 1fr);
+    align-items: center;
   }
-  .lab-header-search {
-    flex: 1 1 0;
-    min-width: 0;
-    width: auto;
-    max-width: none;
-    padding: 0 12px;
+  .lab-header-search,
+  body .portal-search {
+    width: 100%;
+    justify-self: center;
   }
 }
-@media (max-width:760px) {
-  body .dashboard-header,
-  body .header,
-  body .lab-bar,
-  body .site-header { height: 64px; min-height: 64px; }
-  body .dashboard-header-inner,
-  body .header .wrap,
-  body .lab-bar .lab-wrap,
-  body .site-header .header-inner { padding: 0 16px; height: 64px; min-height: 64px; gap: 8px; }
-  .lab-header-search { padding: 0 10px; }
-  input.lab-header-search-input { font-size: 16px; }
-  .lab-status-pill { display: none; }
+
+@container lab-header (max-width: 720px) {
+  .lab-status-pill,
+  .dashboard-header .pill {
+    display: none;
+  }
+  input.lab-header-search-input,
+  body .portal-search input {
+    font-size: 16px;
+  }
 }
-@media (max-width:560px) {
-  body .dashboard-header-inner,
-  body .header .wrap,
-  body .lab-bar .lab-wrap,
-  body .site-header .header-inner { padding: 0 12px; gap: 8px; }
-  body .brand img.logo,
-  body .brand img.brandmark,
-  body .dashboard-header .brand img.logo,
-  body .lab-bar .brand img.logo,
-  body .header .brand img.logo,
-  body .site-header .brand img.brandmark { width: 32px; height: 32px; }
-  body .brand b,
-  body .brand strong,
-  body .dashboard-header .brand b,
-  body .lab-bar .brand b,
-  body .header .brand b,
-  body .site-header .brand strong { font-size: 16px; }
+
+@container lab-header (max-width: 560px) {
   body .brand small,
   body .dashboard-header .brand small,
   body .lab-bar .brand small,
   body .header .brand small,
-  body .site-header .brand small { display: none; }
+  body .site-header .brand small {
+    display: none;
+  }
+  body .lab-brand-group {
+    gap: 6px;
+  }
+  body button.lab-drawer-btn {
+    width: 38px;
+    height: 38px;
+  }
+  body button.lab-settings-btn {
+    width: 40px;
+    height: 40px;
+  }
 }
-@media (max-width:480px) {
-  body .lab-header-actions,
-  body .site-header .header-actions { gap: 6px; }
-  button.lab-language { padding-inline: 8px; }
+
+@container lab-header (max-width: 450px) {
+  body .dashboard-header:not(.is-search-expanded) .portal-search,
+  body .header:not(.is-search-expanded) .lab-header-search,
+  body .lab-bar:not(.is-search-expanded) .lab-header-search,
+  body .site-header:not(.is-search-expanded) .lab-header-search {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0;
+    gap: 0;
+    justify-content: center;
+    margin-inline-start: auto;
+    cursor: pointer;
+  }
+  body .dashboard-header:not(.is-search-expanded) .portal-search input,
+  body .header:not(.is-search-expanded) input.lab-header-search-input,
+  body .lab-bar:not(.is-search-expanded) input.lab-header-search-input,
+  body .site-header:not(.is-search-expanded) input.lab-header-search-input {
+    width: 0;
+    flex: 0 0 0;
+    opacity: 0;
+    pointer-events: none;
+    padding: 0;
+  }
+  body .dashboard-header.is-search-expanded .lab-brand-group,
+  body .dashboard-header.is-search-expanded .lab-header-actions,
+  body .header.is-search-expanded .lab-brand-group,
+  body .header.is-search-expanded .lab-header-actions,
+  body .lab-bar.is-search-expanded .lab-brand-group,
+  body .lab-bar.is-search-expanded .lab-header-actions,
+  body .site-header.is-search-expanded .lab-brand-group,
+  body .site-header.is-search-expanded .header-actions {
+    display: none;
+  }
+  body .dashboard-header.is-search-expanded .portal-search,
+  body .header.is-search-expanded .lab-header-search,
+  body .lab-bar.is-search-expanded .lab-header-search,
+  body .site-header.is-search-expanded .lab-header-search {
+    flex: 1 1 auto;
+    max-width: none;
+    min-height: 40px;
+    padding: 0 12px;
+  }
 }
-@media (max-width:600px) {
+
+@container lab-header (max-width: 310px) {
   body .dashboard-header .brand > span,
   body .header .brand > span,
   body .lab-bar .brand > span,
-  body .site-header .brand .brandtext { display: none; }
+  body .site-header .brand .brandtext {
+    display: none;
+  }
 }
 
 /* Unified single-line simulation title bar (logo + simulation name + Tingkatan & Bab) */
@@ -1128,7 +1152,7 @@ button.lab-drawer-btn[aria-expanded="true"] .lab-burger span:nth-child(3) {
 
 body aside#lab-drawer.lab-drawer {
   position: fixed;
-  top: 68px;
+  top: clamp(62px, 6.5vw, 68px);
   left: 0;
   bottom: 0;
   z-index: 80;
@@ -1150,12 +1174,6 @@ body aside#lab-drawer.lab-drawer {
 body aside#lab-drawer.lab-drawer.is-open {
   transform: translateX(0);
   visibility: visible;
-}
-
-@media (max-width: 760px) {
-  body aside#lab-drawer.lab-drawer {
-    top: 64px;
-  }
 }
 
 body.lab-drawer-open .dashboard-header,
@@ -1274,12 +1292,4 @@ body aside#lab-drawer.lab-drawer .sidebar-count {
 
 body.lab-drawer-open {
   overflow: hidden;
-}
-
-@media (max-width:560px) {
-  .lab-brand-group { gap: 6px; }
-  button.lab-drawer-btn { width: 36px; height: 36px; }
-  button.lab-settings-btn { width: 40px; height: 40px; }
-  .lab-header-search { min-height: 38px; gap: 6px; padding: 0 10px; }
-  input.lab-header-search-input { height: 36px; }
 }

@@ -6,51 +6,12 @@
   --portal-grid: #d9d2e7;
 }
 .dashboard-header { background: #fbf8fff5; }
-body.dashboard .dashboard-header-inner {
-  display: grid;
-  grid-template-columns: 1fr minmax(260px, 460px) 1fr;
-  align-items: center;
-  gap: 16px;
-}
-body.dashboard .dashboard-header-inner .brand { justify-self: start; }
-body.dashboard .dashboard-header-inner .lab-header-actions { justify-self: end; }
-.dashboard-header .brand b { font-size: clamp(1rem, 2vw, 1.3125rem); }
 .dashboard-header .pill { flex-shrink: 0; }
 .portal-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-self: center;
-  width: 100%;
-  max-width: 460px;
-  min-height: 44px;
-  margin-inline-start: 0;
-  padding: 0 16px;
-  border: 1px solid #ded4ef;
-  border-radius: 999px;
   background: var(--portal-lavender);
   color: var(--portal-ink);
-  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
 .portal-search svg { flex: none; width: 18px; height: 18px; stroke: #534563; stroke-width: 1.9; fill: none; }
-.portal-search:hover { background: #e8e1f4; border-color: #c7b8e2; }
-.portal-search:focus-within {
-  background: #ffffff;
-  border-color: #634395;
-  box-shadow: 0 0 0 3px rgba(99, 67, 149, .14);
-}
-.portal-search input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  height: 42px;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--portal-ink);
-  font: 600 .875rem/1.2 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
-  outline: none;
-}
 .portal-search input::placeholder {
   color: #6b5d80;
   font-weight: 500;
@@ -494,31 +455,9 @@ button.catalog-page-num:focus-visible {
   .dashboard .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
-  body.dashboard .dashboard-header-inner {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .portal-search {
-    flex: 1 1 0;
-    min-width: 0;
-    width: auto;
-    max-width: none;
-    padding: 0 12px;
-  }
   .portal-hero { grid-template-columns: minmax(0, 1fr); }
   .portal-intro h1 { max-width: 19ch; }
   .portal-feature { width: 100%; max-width: 560px; }
-}
-@media (max-width: 760px) {
-  body.dashboard .dashboard-header-inner { gap: 8px; }
-  .portal-search { padding: 0 10px; }
-  .portal-search input { font-size: 16px; }
-  .dashboard-header .pill { display: none; }
-}
-@media (max-width: 560px) {
-  .portal-search { min-height: 38px; gap: 6px; padding: 0 10px; }
-  .portal-search input { height: 36px; }
 }
 @media (max-width: 600px) {
   .dashboard .cards { grid-template-columns: minmax(0, 1fr); }
