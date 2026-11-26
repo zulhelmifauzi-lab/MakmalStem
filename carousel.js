@@ -12,7 +12,7 @@
   const orderSlides = () => [...catalogModules].sort((x, y) => (y.id === 'trigonometri') - (x.id === 'trigonometri'));
   let slides = orderSlides();
   const colors = { Matematik: '#855300', Fizik: '#9f4122', Kimia: '#006c49' };
-  const formulas = { 'satelit': 'v = √(GM/r) · vₑ = √(2GM/r)', 'hukum-kepler': 'T² ∝ r³', 'kegravitian': 'F = Gm₁m₂/r²', 'ketaksamaan-linear': 'y ≥ mx + c', 'pantulan-cahaya': 'i = r', 'ikatan-kimia': 'Cl₂', 'jatuh-bebas': 'a = g dalam vakum', transformasi: 'Objek → P → QP', 'daya-paduan': 'ΣF = ma', hooke: 'F = kx', trigonometri: 'y = a sin(bx) + c', atom: 'Proton · Neutron · Elektron', linear: 'v = u + at', set: 'A ∪ B · A ∩ B', titrasi: 'Asid + Bes → Garam + Air', kanta: '1/f = 1/u + 1/v', kuadratik: 'y = ax² + bx + c' };
+  const formulas = { 'satelit': 'v = √(GM/r) · vₑ = √(2GM/r)', 'hukum-kepler': 'T² ∝ r³', 'kegravitian': 'F = Gm₁m₂/r²', 'ketaksamaan-linear': 'y ≥ mx + c', 'pantulan-cahaya': 'i = r', 'ikatan-kimia': 'Cl₂', 'jatuh-bebas': 'a = g dalam vakum', transformasi: 'Objek → P → QP', 'daya-paduan': 'ΣF = ma', hooke: 'F = kx', trigonometri: 'y = a sin(bx) + c', atom: 'Proton · Neutron · Elektron', linear: 'v = u + at', set: 'A ∪ B · A ∩ B', titrasi: 'Asid + Bes → Garam + Air', kanta: '1/f = 1/u + 1/v', pembiasan: 'n₁ sin i = n₂ sin r', kuadratik: 'y = ax² + bx + c' };
   let index = 0;
   let timer = null;
   let visible = typeof IntersectionObserver !== 'function';
