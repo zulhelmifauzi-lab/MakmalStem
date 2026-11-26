@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#252137">
+  <meta name="description" content="Simulasi interaktif Pantulan Dalam Penuh KSSM Fizik Tingkatan 4 Bab 6.2: sudut genting, blok semi bulatan, pelangi, logamaya, periskop berprisma, gentian optik dan pemantul mata jalan, dengan misi cabaran.">
+  <title>Pantulan Dalam Penuh (BETA) — Makmal STEM</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="feedback.css">
+  <link rel="stylesheet" href="workbench.css">
+  <link rel="stylesheet" href="simulation-template.css">
+  <link rel="stylesheet" href="pantulan-dalam-penuh.css">
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="lesson-videos.js"></script>
+</head>
+<body class="lab-shell lab-template pdp-module">
+  <header class="lab-bar" data-lab-header></header>
+
+  <main class="lab-wrap" id="lab">
+    <header class="lab-intro has-module-logo">
+      <span class="lab-module-logo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 22h32a16 16 0 0 1-32 0Z" fill="currentColor" fill-opacity=".12"/>
+          <path d="M24 8v32" stroke-dasharray="3 3" stroke-opacity=".45" stroke-width="1.8"/>
+          <path d="M8 34 24 22l16 12"/>
+        </svg>
+      </span>
+      <div class="lab-module-heading">
+        <h1><span>Pantulan Dalam Penuh</span> <span class="beta-label">(BETA)</span></h1>
+        <span class="lab-subject-badge">Fizik T4 · Bab 6.2</span>
+      </div>
+    </header>
+
+    <section class="pdp-studio" aria-label="Ruang kerja simulasi">
+      <section class="pdp-mission" id="missionBar" hidden aria-live="polite">
+        <div class="mtop">
+          <span class="mnum" id="mNum">?</span>
+          <b id="mTitle">Pilih misi</b>
+          <span class="stars" id="mStars" aria-label="Bintang diperoleh"></span>
+          <button type="button" class="pdp-mini-btn" id="mList">☰ Senarai misi</button>
+        </div>
+        <div class="mtxt" id="mText"></div>
+        <div class="mans" id="mAns" hidden>
+          <input type="text" id="mInput" inputmode="decimal" autocomplete="off" placeholder="Jawapan" aria-label="Masukkan jawapan">
+          <span class="u" id="mUnit"></span>
+          <button type="button" class="pdp-btn go" id="mCheck">✔ Semak</button>
+          <button type="button" class="pdp-btn sec" id="mHint" title="Petunjuk" aria-label="Petunjuk">💡</button>
+        </div>
+        <div class="mprog" id="mProg" hidden><span id="mProgBar"></span></div>
+        <div class="mfb" id="mFb" role="status"></div>
+      </section>
+
+      <div class="pdp-studio-grid">
+        <!-- SAYAP KIRI: GRAF / JADUAL + BACAAN LANGSUNG -->
+        <aside class="pdp-wing-left" aria-label="Analisis, jadual dan bacaan langsung">
+          <section class="pdp-analysis-pane has-tabs lab-template-controls" id="graphCard" aria-labelledby="analysis-title">
+            <h2 id="analysis-title">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 7c3 0 6 4 13 9"/></svg>
+              <span>Analisis &amp; data</span>
+            </h2>
+            <div class="lab-tabs" id="analysis-tabs" role="tablist" aria-labelledby="analysis-title">
+              <button type="button" role="tab" id="tab-graph" aria-controls="pane-graph" aria-selected="true">Graf c–n</button>
+              <button type="button" role="tab" id="tab-table" aria-controls="pane-table" tabindex="-1" aria-selected="false">
+                <span>Jadual</span><span id="tab-record-count" hidden>0</span>
+              </button>
+            </div>
+            <div class="lab-tab-panes">
+              <div class="pdp-graph-pane" id="pane-graph" role="tabpanel" aria-labelledby="tab-graph">
+                <div id="graphWrap"><canvas id="graph" role="img" aria-label="Graf sudut genting melawan indeks biasan relatif"></canvas></div>
+                <p class="pdp-note" id="graphNote"></p>
+              </div>
+              <div class="lab-table lab-live-table pdp-table-pane" id="pane-table" role="tabpanel" aria-labelledby="tab-table" tabindex="0" inert>
+                <div class="pdp-table-actions">
+                  <button type="button" class="pdp-btn go grow" id="recBtn2">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+                    <span>Rekod data</span>
+                  </button>
+                  <button type="button" class="pdp-btn sec" id="clearRec">Padam</button>
+                </div>
+                <table>
+                  <thead><tr><th>#</th><th>Senario</th><th>n₁ ÷ n₂</th><th>i (°)</th><th>c (°)</th><th>Keadaan</th></tr></thead>
+                  <tbody id="tRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="pdp-telemetry" aria-labelledby="readings-title">
+            <h2 id="readings-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span>Bacaan langsung</span>
+            </h2>
+            <div class="kbox">
+              <div class="kv"><i>Sudut genting, c</i><b id="kVal">42.2°</b><u id="kUnit"></u></div>
+              <div class="kbar" id="kBarWrap" aria-hidden="true"><span id="kBar"></span><i id="kMark"></i></div>
+              <div class="kmini" id="kMini"></div>
+            </div>
+            <dl class="pdp-telemetry-grid" id="tele"></dl>
+          </section>
+        </aside>
+
+        <!-- TENGAH: PENTAS + SENARIO + KAWALAN SUDUT -->
+        <section class="pdp-center" aria-labelledby="visual-title">
+          <div class="pdp-stage-head">
+            <h2 id="visual-title">Blok semi bulatan (teori)</h2>
+            <span class="pdp-chip" id="statusChip">Pembiasan (i &lt; c)</span>
+          </div>
+          <div class="pdp-sc-row"><div class="pdp-sc-strip" id="scStrip" role="group" aria-label="Pilih senario"></div></div>
+
+          <div id="stageWrap">
+            <canvas id="stage" tabindex="0" role="img" aria-label="Simulasi interaktif pantulan dalam penuh. Seret laser atau guna anak panah kiri dan kanan untuk menukar sudut."></canvas>
+            <div id="toast" role="status" aria-live="polite"></div>
+            <div id="hint">⬆ Seret laser di sekeliling blok untuk menukar sudut tuju</div>
+          </div>
+
+          <div class="pdp-tray-card" id="trayCard">
+            <div class="pdp-slider-row" id="rowA">
+              <div class="slt">
+                <label for="slider-a" class="pdp-lbl-inline"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20 20 3"/><path d="M3 20h8a8 8 0 0 0-8-8Z"/></svg><span id="lblA">Sudut tuju, i</span></label>
+                <span class="slt-r">
+                  <button type="button" class="pdp-nudge" id="nudgeM" aria-label="Kurangkan sedikit">−</button>
+                  <output id="out-a" for="slider-a">30°</output>
+                  <button type="button" class="pdp-nudge" id="nudgeP" aria-label="Tambah sedikit">+</button>
+                </span>
+              </div>
+              <input id="slider-a" class="pdp-range" type="range" min="0" max="89" step="1" value="30">
+            </div>
+            <div class="pdp-slider-row" id="rowB" hidden>
+              <div class="slt">
+                <label for="slider-b" class="pdp-lbl-inline"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0Z"/></svg><span id="lblB">Suhu permukaan jalan</span></label>
+                <output id="out-b" for="slider-b">60 °C</output>
+              </div>
+              <input id="slider-b" class="pdp-range" type="range" min="25" max="80" step="1" value="60">
+            </div>
+            <div class="pdp-preset-bar">
+              <div class="pdp-presets" id="angPre" role="group" aria-label="Nilai pratetap"></div>
+              <button type="button" class="pdp-pre pdp-reset-icon" id="resetBtn" aria-label="Set semula" title="Set semula">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+              </button>
+            </div>
+            <div class="pdp-actions pdp-mobile-actions">
+              <button type="button" class="pdp-btn sec pdp-jump-graph" id="jumpGraphBtn" aria-label="Tatal ke graf">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 7c3 0 6 4 13 9"/></svg>
+                <span>Lihat graf</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SAYAP KANAN: PANEL KAWALAN -->
+        <section class="pdp-wing-right lab-controls has-tabs lab-template-controls" aria-labelledby="control-title">
+          <h2 id="control-title" class="lab-control-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+            <span>Panel kawalan</span>
+          </h2>
+          <div class="lab-tabs" id="pdp-tabs" role="tablist" aria-labelledby="control-title">
+            <button type="button" role="tab" id="tab-medium" aria-controls="pane-medium" aria-selected="true">Medium</button>
+            <button type="button" role="tab" id="tab-light" aria-controls="pane-light" tabindex="-1" aria-selected="false">Cahaya</button>
+          </div>
+          <div class="lab-tab-panes">
+            <div class="lab-control-pane" id="pane-medium" role="tabpanel" aria-labelledby="tab-medium">
+              <div id="lyGroup" hidden>
+                <div class="pdp-subhead"><span>Bahagian</span><strong id="lyPart">Teras</strong></div>
+                <div class="ly-tabs" id="lyTabs" role="group" aria-label="Pilih bahagian"></div>
+              </div>
+              <div class="pdp-subhead"><span id="lySub">Pilih bahan</span><strong id="lyName">Perspek</strong></div>
+              <div class="mats" id="mats"></div>
+              <div id="mirInfo" hidden></div>
+              <div class="pdp-lbl pdp-lbl-sep">Paparan</div>
+              <div class="pdp-toggles">
+                <label class="lab-toggle"><input type="checkbox" id="tg-normal" checked> Garis normal</label>
+                <label class="lab-toggle"><input type="checkbox" id="tg-crit" checked> Garis sudut genting</label>
+                <label class="lab-toggle"><input type="checkbox" id="tg-prot" checked> Protraktor</label>
+                <label class="lab-toggle"><input type="checkbox" id="tg-refl" checked> Pantulan separa</label>
+                <label class="lab-toggle"><input type="checkbox" id="tg-pulse" checked> Denyut kelajuan</label>
+              </div>
+            </div>
+            <div class="lab-control-pane" id="pane-light" role="tabpanel" aria-labelledby="tab-light" tabindex="0" inert>
+              <div class="pdp-lbl">Warna cahaya (laser)</div>
+              <label class="lab-toggle pdp-white-toggle" id="whiteRow" hidden><input type="checkbox" id="tg-white" checked> Cahaya putih (semua warna)</label>
+              <div class="pdp-spectrum" aria-hidden="true">
+                <div class="pdp-spec-bar"><span class="pdp-spec-dot" id="specDot"></span></div>
+                <div class="pdp-spec-scale"><span>405 nm · Ungu</span><span>Merah · 650 nm</span></div>
+              </div>
+              <div class="waves" id="waves" role="group" aria-label="Warna cahaya"></div>
+              <div class="pdp-light-card">
+                <p class="pdp-note" id="waveNote"></p>
+                <p class="pdp-note">Garis putus-putus jingga menandakan arah sudut genting. Jika sinar tuju lebih condong daripada garis ini (i &gt; c), pantulan dalam penuh berlaku.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="pdp-theory-section" id="theoryCard" aria-labelledby="theory-title">
+      <h2 id="theory-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span>Konsep Fizik</span>
+      </h2>
+      <div class="theory">
+        <details open>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 20h18"/><path d="M12 20V4"/><path d="M12 20 5 8"/></svg><span>Sudut genting &amp; syarat pantulan dalam penuh</span></summary>
+          <p><b>Sudut genting, c</b> ialah sudut tuju dalam medium lebih tumpat yang menghasilkan sudut bias 90°.</p>
+          <div class="eq">n = 1 ÷ sin c &nbsp;·&nbsp; sin c = n₂ ÷ n₁</div>
+          <p>Pantulan dalam penuh berlaku apabila <b>(1)</b> cahaya merambat dari medium lebih tumpat ke medium kurang tumpat, dan <b>(2)</b> sudut tuju lebih besar daripada sudut genting (i &gt; c).</p>
+          <p>Apabila i menghampiri c, sinar bias semakin malap dan sinar pantulan semakin terang.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 7c3 0 6 4 13 9"/></svg><span>Hubungan indeks biasan dan sudut genting</span></summary>
+          <p>Semakin besar indeks biasan, semakin kecil sudut genting. Sudut genting berikut ialah ke udara, untuk cahaya kuning (589 nm).</p>
+          <table id="nTable"></table>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 9h18a9 9 0 0 1-18 0Z"/></svg><span>Blok semi bulatan</span></summary>
+          <p>Sinar ditujukan ke pusat blok melalui permukaan melengkung. Sinar itu sentiasa mengikut jejari, jadi ia tidak dibiaskan di permukaan melengkung. Pembiasan atau pantulan hanya berlaku di permukaan rata, maka sudut genting mudah diukur.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 18a9 9 0 0 1 18 0"/><path d="M7 18a5 5 0 0 1 10 0"/></svg><span>Pembentukan pelangi</span></summary>
+          <p>Cahaya putih dibiaskan dan diserakkan apabila memasuki titisan air, dipantulkan di bahagian belakang titisan, kemudian dibiaskan sekali lagi ketika keluar. Cahaya merah keluar pada sudut kira-kira 42° dan ungu kira-kira 40° daripada arah cahaya matahari.</p>
+          <div class="eq">sudut pelangi = 4r − 2i</div>
+          <p>Buku teks KSSM menerangkan pantulan di belakang titisan sebagai pantulan dalam penuh. Simulasi ini menunjukkan nilai sebenar: sudut tuju di belakang titisan (≈ 40°) kurang daripada sudut genting air (≈ 48.8°), jadi sebahagian cahaya juga keluar dari belakang titisan.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="7" r="3"/><path d="M3 16c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/></svg><span>Logamaya</span></summary>
+          <p>Pada hari panas, udara dekat permukaan jalan lebih panas dan kurang tumpat, jadi indeks biasannya lebih kecil. Cahaya dari langit dibiaskan menjauhi normal melalui lapisan udara dan akhirnya mengalami pantulan dalam penuh. Mata melihat imej maya langit di atas jalan yang kelihatan seperti lopak air.</p>
+          <p>Beza indeks biasan sangat kecil (sekitar 10⁻⁵), jadi sudut genting hampir 90°. Pantulan hanya berlaku untuk sinar yang hampir menyusur permukaan.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 3h7v12h5"/><path d="M6 3l7 7M13 15l5 5"/></svg><span>Periskop berprisma</span></summary>
+          <p>Dua prisma 45°–90°–45° menggantikan cermin. Sudut tuju pada hipotenus ialah 45°, lebih besar daripada sudut genting kaca (≈ 42°), jadi cahaya dipantul sepenuhnya. Imej lebih terang dan tajam berbanding cermin, tiada imej berganda, dan imej akhir adalah tegak.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 12c4-6 6 6 10 0s6 6 10 0"/></svg><span>Gentian optik</span></summary>
+          <p>Teras kaca mempunyai indeks biasan lebih besar daripada pelapisan. Cahaya dipantul dalam penuh berulang kali di sempadan teras–pelapisan dan dihantar jauh dengan kehilangan yang kecil. Digunakan dalam telekomunikasi dan endoskop.</p>
+          <div class="eq">sin c = n pelapisan ÷ n teras</div>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 5l7 7-7 7z"/><path d="M3 12h8"/></svg><span>Pemantul mata jalan</span></summary>
+          <p>Prisma bersudut tegak di dalam pemantul jalan (mata kucing) dan pemantul basikal memantulkan cahaya lampu dua kali secara pantulan dalam penuh, lalu menghantarnya kembali ke arah pemandu. Ini berlaku walaupun sinar lampu sedikit condong, selagi sudut tuju di permukaan prisma masih melebihi sudut genting.</p>
+        </details>
+      </div>
+    </section>
+
+    <p class="pdp-model-foot">Model: Hukum Snell, sudut genting sin c = n₂ ÷ n₁, kepantulan separa mengikut persamaan Fresnel (cahaya tak terkutub) dan serakan warna anggaran. Logamaya menggunakan 12 lapisan udara dengan n bergantung pada suhu. Lukisan tidak mengikut skala sebenar.</p>
+    <div class="pdp-mode-dock" id="modeDock">
+      <span class="pdp-tool-lbl">Mod</span>
+      <div class="pdp-seg" id="modeTabs" role="group" aria-label="Mod simulasi">
+        <button type="button" data-m="lab" class="on" aria-pressed="true">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8.5A2 2 0 0 0 7.2 19h9.6a2 2 0 0 0 1.7-2.5L14 8V3"/></svg>
+          <span>Makmal</span>
+        </button>
+        <button type="button" data-m="chal" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+          <span>Cabaran</span>
+        </button>
+      </div>
+    </div>
+    <div class="lab-tail has-companion" data-lab-tail></div>
+    <section class="feedback-section" id="penilaian" data-simulation-feedback="pantulan-dalam-penuh" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
+  </main>
+
+  <canvas id="ghost" aria-hidden="true"></canvas>
+
+  <div class="sheet" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listTitle">
+    <div class="sheetBody">
+      <div class="sheetHead">
+        <div>
+          <b id="listTitle">🎮 Misi Cabaran</b>
+          <small>Selesaikan secara hands-on. Kumpul bintang &amp; XP!</small>
+        </div>
+        <button type="button" id="listClose" aria-label="Tutup">✕</button>
+      </div>
+      <div class="rank">
+        <span style="font-size:24px" aria-hidden="true">🏅</span>
+        <div><b id="rankName">Pelatih</b><br><small id="rankXp"></small></div>
+        <div class="xpbar"><span id="xpFill"></span></div>
+      </div>
+      <div class="mgrid" id="mGrid"></div>
+    </div>
+  </div>
+
+  <div class="sheet" id="winSheet" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+    <div class="sheetBody win">
+      <div style="font-size:46px" aria-hidden="true">🎉</div>
+      <h2 id="winTitle">Tahniah!</h2>
+      <div class="big" id="winStars"></div>
+      <div class="xp" id="winXp"></div>
+      <div class="expl" id="winExpl"></div>
+      <div class="pdp-actions" style="justify-content:center">
+        <button type="button" class="pdp-btn sec" id="winList">☰ Senarai</button>
+        <button type="button" class="pdp-btn sec" id="winRetry">↻ Ulang</button>
+        <button type="button" class="pdp-btn go" id="winNext">Misi seterusnya ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="pantulan-dalam-penuh-model.js"></script>
+  <script defer src="pantulan-dalam-penuh.js"></script>
+</body>
+</html>

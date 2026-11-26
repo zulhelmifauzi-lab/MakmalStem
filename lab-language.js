@@ -365,10 +365,12 @@ Operasi Set|Set Operations
 Visualisasikan kesatuan, persilangan dan pelengkap set dalam gambar rajah Venn.|Visualise union, intersection and complement of sets in Venn diagrams.
 Titrasi Asid & Bes|Acid & Base Titration
 Kenali peneutralan dan perubahan penunjuk dalam eksperimen titrasi maya.|Explore neutralisation and indicator colour changes in a virtual titration experiment.
-Kanta Cembung & Cekung|Convex & Concave Lenses
-Perhatikan rajah sinar, titik fokus dan pembentukan imej oleh kanta.|Observe ray diagrams, focal points and image formation by lenses.
+Kanta|Lenses
+Terokai rajah sinar kanta cembung dan cekung, formula kanta nipis, bangku optik, graf 1/v–1/u, alat optik serta misi cabaran.|Explore convex and concave lens ray diagrams, thin lens formula, optical bench, 1/v–1/u graphs, optical instruments and challenge missions.
 Pembiasan Cahaya|Refraction of Light
 Terokai Hukum Snell, indeks bias, kelajuan cahaya, pantulan dalam penuh, dalam nyata dan dalam ketara, graf sin i–sin r serta misi cabaran.|Explore Snell's Law, refractive index, speed of light, total internal reflection, real and apparent depth, sin i–sin r graphs and challenge missions.
+Pantulan Dalam Penuh|Total Internal Reflection
+Terokai sudut genting, blok semi bulatan, pelangi, logamaya, periskop berprisma, gentian optik dan pemantul mata jalan serta misi cabaran.|Explore critical angle, semi-circular block, rainbow, mirage, prism periscope, optical fibre, road reflectors and challenge missions.
 Fungsi Kuadratik|Quadratic Functions
 Terokai bentuk parabola, paksi simetri dan titik maksimum atau minimum.|Explore parabolic shapes, axes of symmetry and maximum or minimum points.
 Pantulan Cahaya dan Cermin Satah|Reflection of Light and Plane Mirrors

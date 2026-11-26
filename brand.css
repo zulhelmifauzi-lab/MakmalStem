@@ -322,11 +322,42 @@ button.lab-language[hidden] { display: none !important; }
   input.lab-header-search-input { font-size: 16px; }
   .lab-status-pill { display: none; }
 }
+@media (max-width:560px) {
+  body .dashboard-header-inner,
+  body .header .wrap,
+  body .lab-bar .lab-wrap,
+  body .site-header .header-inner { padding: 0 12px; gap: 8px; }
+  .lab-brand-group { gap: 6px; }
+  button.lab-drawer-btn { width: 36px; height: 36px; }
+  button.lab-settings-btn { width: 40px; height: 40px; }
+  body .brand img.logo,
+  body .brand img.brandmark,
+  body .dashboard-header .brand img.logo,
+  body .lab-bar .brand img.logo,
+  body .header .brand img.logo,
+  body .site-header .brand img.brandmark { width: 32px; height: 32px; }
+  body .brand b,
+  body .brand strong,
+  body .dashboard-header .brand b,
+  body .lab-bar .brand b,
+  body .header .brand b,
+  body .site-header .brand strong { font-size: 16px; }
+  body .brand small,
+  body .dashboard-header .brand small,
+  body .lab-bar .brand small,
+  body .header .brand small,
+  body .site-header .brand small { display: none; }
+}
 @media (max-width:480px) {
   body .lab-header-actions,
   body .site-header .header-actions { gap: 6px; }
   button.lab-language { padding-inline: 8px; }
-  body .brand small { display: none; }
+}
+@media (max-width:440px) {
+  body .dashboard-header .brand > span,
+  body .header .brand > span,
+  body .lab-bar .brand > span,
+  body .site-header .brand .brandtext { display: none; }
 }
 
 /* Unified single-line simulation title bar (logo + simulation name + Tingkatan & Bab) */
@@ -715,6 +746,8 @@ button.lab-settings-btn:focus-visible {
   right: 0;
   z-index: 60;
   width: min(304px, calc(100vw - 24px));
+  max-height: calc(100dvh - 80px);
+  overflow-y: auto;
   padding: 14px;
   border-radius: 14px;
   border: 1px solid #ded4ef;

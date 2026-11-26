@@ -200,6 +200,8 @@ button.catalog-sort-btn:focus-visible {
   right: 0;
   z-index: 45;
   width: min(300px, calc(100vw - 24px));
+  max-height: calc(100dvh - 80px);
+  overflow-y: auto;
   padding: 14px;
   border-radius: 14px;
   border: 1px solid #ded4ef;
@@ -285,6 +287,7 @@ button.catalog-sort-apply:focus-visible {
 .dashboard .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 22px); }
 .catalog-pagination {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -513,6 +516,12 @@ button.catalog-page-num:focus-visible {
 }
 @media (max-width: 600px) {
   .dashboard .cards { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 420px) {
+  .catalog-pagination { gap: 6px; }
+  button.catalog-page-arrow { width: 34px; height: 34px; font-size: .9rem; }
+  button.catalog-page-num { min-width: 32px; height: 32px; padding: 0 6px; font-size: .8125rem; }
+  .catalog-page-ellipsis { min-width: 22px; }
 }
 @media (max-width: 380px) {
   .portal-hero { padding: 15px; }
