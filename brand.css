@@ -57,9 +57,10 @@ body .portal-search {
   flex: 1 1 0;
   min-width: 0;
   width: auto;
-  max-width: 460px;
+  max-width: min(460px, 38cqi);
   min-height: clamp(38px, 5cqi, 44px);
   margin: 0;
+  margin-inline: auto;
   padding: 0 clamp(10px, 1.8cqi, 15px);
   border: 1px solid #ded4ef;
   border-radius: 999px;
@@ -286,7 +287,7 @@ button.lab-language[hidden] { display: none !important; }
   body .lab-bar .lab-wrap:has(.lab-header-search, .portal-search),
   body .site-header .header-inner:has(.lab-header-search, .portal-search) {
     display: grid;
-    grid-template-columns: minmax(max-content, 1fr) minmax(200px, 460px) minmax(max-content, 1fr);
+    grid-template-columns: minmax(max-content, 1fr) minmax(0, min(460px, 38cqi)) minmax(max-content, 1fr);
     align-items: center;
   }
   .lab-header-search,
@@ -340,7 +341,7 @@ button.lab-language[hidden] { display: none !important; }
     padding: 0;
     gap: 0;
     justify-content: center;
-    margin-inline-start: auto;
+    margin-inline: auto 0;
     cursor: pointer;
   }
   body .dashboard-header:not(.is-search-expanded) .portal-search input,
@@ -368,8 +369,10 @@ button.lab-language[hidden] { display: none !important; }
   body .lab-bar.is-search-expanded .lab-header-search,
   body .site-header.is-search-expanded .lab-header-search {
     flex: 1 1 auto;
+    width: 100%;
     max-width: none;
     min-height: 40px;
+    margin-inline: 0;
     padding: 0 12px;
   }
 }
@@ -1292,4 +1295,90 @@ body aside#lab-drawer.lab-drawer .sidebar-count {
 
 body.lab-drawer-open {
   overflow: hidden;
+}
+
+/* Present Mode navigation-resume pill */
+.lab-present-resume {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 85;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 24px);
+  padding: 7px 8px 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(196, 181, 253, .3);
+  background: #252137;
+  color: #fbf8ff;
+  box-shadow: 0 12px 30px rgba(20, 17, 34, .28);
+  font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+  font-size: .8125rem;
+  font-weight: 600;
+}
+
+.lab-present-resume[hidden] {
+  display: none;
+}
+
+.lab-present-resume-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 0 2.5px rgba(52, 211, 153, .22);
+}
+
+.lab-present-resume-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button.lab-present-resume-btn {
+  flex: none;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 999px;
+  background: #634395;
+  color: #ffffff;
+  font: 700 .78rem/1.1 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+button.lab-present-resume-btn:hover {
+  background: #7552ad;
+}
+
+button.lab-present-resume-dismiss {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .1);
+  color: #e4ddf5;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+button.lab-present-resume-dismiss:hover {
+  background: rgba(255, 255, 255, .2);
+}
+
+button.lab-present-resume-btn:focus-visible,
+button.lab-present-resume-dismiss:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 2px;
 }

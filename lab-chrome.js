@@ -18,6 +18,7 @@
   const VOL_KEY = 'stemlab-volume';
   const MUTE_KEY = 'stemlab-muted';
   const LANG_KEY = 'stemlab-lang';
+  const PRESENT_KEY = 'stemlab-present';
 
   const COPY = {
     ms: {
@@ -47,7 +48,10 @@
       infoLabel: 'Maklumat',
       preview: 'Pratonton',
       about: 'Tentang portal',
-      devPhase: 'Fasa Pembangunan'
+      devPhase: 'Fasa Pembangunan',
+      presentResumeText: 'Mod pembentangan aktif',
+      presentResumeBtn: 'Sambung skrin penuh',
+      presentExitLabel: 'Tamatkan mod pembentangan'
     },
     en: {
       title: 'Settings',
@@ -76,7 +80,10 @@
       infoLabel: 'Information',
       preview: 'Preview',
       about: 'About portal',
-      devPhase: 'Development Phase'
+      devPhase: 'Development Phase',
+      presentResumeText: 'Present mode active',
+      presentResumeBtn: 'Resume fullscreen',
+      presentExitLabel: 'Exit present mode'
     }
   };
 
@@ -91,6 +98,23 @@
 
   function writeStorage(key, val) {
     try { localStorage.setItem(key, String(val)); } catch {}
+  }
+
+  function readSession(key, fallback) {
+    try {
+      const val = sessionStorage.getItem(key);
+      return val === null ? fallback : val;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeSession(key, val) {
+    try { sessionStorage.setItem(key, String(val)); } catch {}
+  }
+
+  function removeSession(key) {
+    try { sessionStorage.removeItem(key); } catch {}
   }
 
   function clampVol(v) {
@@ -167,18 +191,113 @@
     return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
   }
 
-  async function toggleFullscreen() {
+  let isNavigating = false;
+  let navResetTimer = null;
+
+  function markNavigating() {
+    isNavigating = true;
+    clearTimeout(navResetTimer);
+    navResetTimer = setTimeout(() => { isNavigating = false; }, 1500);
+  }
+
+  function removePresentBanner() {
+    const banner = document.getElementById('lab-present-resume');
+    if (banner) banner.remove();
+  }
+
+  async function enterFullscreen() {
     const root = document.documentElement;
+    if (isFullscreen()) return true;
     try {
-      if (isFullscreen()) {
-        if (document.exitFullscreen) await document.exitFullscreen();
-        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      if (root.requestFullscreen) await root.requestFullscreen();
+      else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
+      return isFullscreen();
+    } catch {
+      return false;
+    }
+  }
+
+  async function toggleFullscreen() {
+    try {
+      if (isFullscreen() || readSession(PRESENT_KEY, 'false') === 'true') {
+        removeSession(PRESENT_KEY);
+        removePresentBanner();
+        document.documentElement.classList.remove('is-present-mode');
+        if (isFullscreen()) {
+          if (document.exitFullscreen) await document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
       } else {
-        if (root.requestFullscreen) await root.requestFullscreen();
-        else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
+        writeSession(PRESENT_KEY, 'true');
+        await enterFullscreen();
       }
     } catch {}
     syncAllPopovers();
+  }
+
+  function initPresentResume() {
+    if (!document.body || readSession(PRESENT_KEY, 'false') !== 'true' || isFullscreen() || !isFullscreenSupported()) return;
+    document.documentElement.classList.add('is-present-mode');
+    if (document.getElementById('lab-present-resume')) return;
+
+    const t = COPY[getLanguage()];
+    const banner = document.createElement('div');
+    banner.id = 'lab-present-resume';
+    banner.className = 'lab-present-resume';
+    banner.setAttribute('role', 'status');
+    banner.innerHTML = `<span class="lab-present-resume-dot" aria-hidden="true"></span><span class="lab-present-resume-text" data-present-resume-text>${esc(t.presentResumeText)}</span><button type="button" class="lab-present-resume-btn" data-present-resume-btn>${esc(t.presentResumeBtn)}</button><button type="button" class="lab-present-resume-dismiss" data-present-resume-dismiss aria-label="${esc(t.presentExitLabel)}" title="${esc(t.presentExitLabel)}">✕</button>`;
+    document.body.appendChild(banner);
+
+    const cleanup = () => {
+      document.removeEventListener('click', onGestureClick, true);
+      document.removeEventListener('keydown', onGestureKey, true);
+    };
+
+    const exitPresent = () => {
+      removeSession(PRESENT_KEY);
+      document.documentElement.classList.remove('is-present-mode');
+      removePresentBanner();
+      cleanup();
+      syncAllPopovers();
+    };
+
+    const onGestureClick = e => {
+      const target = e && e.target;
+      if (target && target.closest && target.closest('[data-present-resume-dismiss]')) {
+        e.preventDefault();
+        e.stopPropagation();
+        exitPresent();
+        return;
+      }
+      if (target && target.closest && target.closest('[data-present-resume-btn]')) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      enterFullscreen().then(ok => {
+        if (ok) {
+          removePresentBanner();
+          cleanup();
+          syncAllPopovers();
+        }
+      });
+    };
+
+    const onGestureKey = e => {
+      if (e.key === 'Escape') {
+        exitPresent();
+        return;
+      }
+      enterFullscreen().then(ok => {
+        if (ok) {
+          removePresentBanner();
+          cleanup();
+          syncAllPopovers();
+        }
+      });
+    };
+
+    document.addEventListener('click', onGestureClick, true);
+    document.addEventListener('keydown', onGestureKey, true);
   }
 
   function emitSettingsChange() {
@@ -253,7 +372,7 @@
   function syncPopover(wrap) {
     const lang = getLanguage();
     const t = COPY[lang];
-    const fs = isFullscreen();
+    const fs = isFullscreen() || readSession(PRESENT_KEY, 'false') === 'true';
     const fsSupported = isFullscreenSupported();
     const effectiveMuted = muted || volume === 0;
 
@@ -340,6 +459,15 @@
     document.querySelectorAll('[data-status-pill-text]').forEach(el => {
       el.textContent = t.devPhase;
     });
+    const resumeText = document.querySelector('[data-present-resume-text]');
+    if (resumeText) resumeText.textContent = t.presentResumeText;
+    const resumeBtn = document.querySelector('[data-present-resume-btn]');
+    if (resumeBtn) resumeBtn.textContent = t.presentResumeBtn;
+    const resumeDismiss = document.querySelector('[data-present-resume-dismiss]');
+    if (resumeDismiss) {
+      resumeDismiss.setAttribute('aria-label', t.presentExitLabel);
+      resumeDismiss.setAttribute('title', t.presentExitLabel);
+    }
   }
 
   function closeAllPopovers(returnFocusFrom) {
@@ -437,6 +565,7 @@
         if (expandIfCompact()) return;
         const q = input ? input.value.trim() : '';
         const target = q ? `${url('index.html')}?q=${encodeURIComponent(q)}#simulasi` : `${url('index.html')}#simulasi`;
+        markNavigating();
         location.href = target;
       });
     }
@@ -674,12 +803,34 @@
     });
 
     const onFullscreenChange = () => {
-      document.documentElement.classList.toggle('is-present-mode', isFullscreen());
+      const active = isFullscreen();
+      if (active) {
+        removePresentBanner();
+        document.documentElement.classList.add('is-present-mode');
+      } else if (!isNavigating) {
+        removeSession(PRESENT_KEY);
+        removePresentBanner();
+        document.documentElement.classList.remove('is-present-mode');
+      }
       syncAllPopovers();
       emitSettingsChange();
     };
     document.addEventListener('fullscreenchange', onFullscreenChange);
     document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+    document.addEventListener('click', e => {
+      const link = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      const href = link.getAttribute('href') || '';
+      if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+      markNavigating();
+    }, true);
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', markNavigating);
+      window.addEventListener('pagehide', markNavigating);
+    }
 
     document.addEventListener('play', e => {
       const target = e && e.target;
@@ -718,6 +869,7 @@
   mountHeaders();
   mountStaticHeaders();
   mountDrawer();
+  initPresentResume();
   installGlobalListeners();
   mountTails();
 
