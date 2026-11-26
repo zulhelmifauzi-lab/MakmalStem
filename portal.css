@@ -500,7 +500,9 @@ button.catalog-page-num:focus-visible {
     gap: 12px;
   }
   .portal-search {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
     max-width: none;
     padding: 0 12px;
   }
@@ -513,6 +515,10 @@ button.catalog-page-num:focus-visible {
   .portal-search { padding: 0 10px; }
   .portal-search input { font-size: 16px; }
   .dashboard-header .pill { display: none; }
+}
+@media (max-width: 560px) {
+  .portal-search { min-height: 38px; gap: 6px; padding: 0 10px; }
+  .portal-search input { height: 36px; }
 }
 @media (max-width: 600px) {
   .dashboard .cards { grid-template-columns: minmax(0, 1fr); }

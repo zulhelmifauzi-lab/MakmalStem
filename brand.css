@@ -304,7 +304,9 @@ button.lab-language[hidden] { display: none !important; }
     gap: 12px;
   }
   .lab-header-search {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
     max-width: none;
     padding: 0 12px;
   }
@@ -327,9 +329,6 @@ button.lab-language[hidden] { display: none !important; }
   body .header .wrap,
   body .lab-bar .lab-wrap,
   body .site-header .header-inner { padding: 0 12px; gap: 8px; }
-  .lab-brand-group { gap: 6px; }
-  button.lab-drawer-btn { width: 36px; height: 36px; }
-  button.lab-settings-btn { width: 40px; height: 40px; }
   body .brand img.logo,
   body .brand img.brandmark,
   body .dashboard-header .brand img.logo,
@@ -1275,4 +1274,12 @@ body aside#lab-drawer.lab-drawer .sidebar-count {
 
 body.lab-drawer-open {
   overflow: hidden;
+}
+
+@media (max-width:560px) {
+  .lab-brand-group { gap: 6px; }
+  button.lab-drawer-btn { width: 36px; height: 36px; }
+  button.lab-settings-btn { width: 40px; height: 40px; }
+  .lab-header-search { min-height: 38px; gap: 6px; padding: 0 10px; }
+  input.lab-header-search-input { height: 36px; }
 }
