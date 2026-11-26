@@ -272,7 +272,6 @@
   const footer = document.createElement('footer');
   footer.className = 'site-footer';
   footer.setAttribute('aria-label', 'Pengaki laman');
-  const hasFeedback = !!document.querySelector('#penilaian');
   footer.innerHTML = `<div class="site-footer-inner">
     <div class="site-footer-grid">
       <div class="site-footer-col">
@@ -281,20 +280,19 @@
           <span><strong>Makmal STEM</strong><small>KSSM MALAYSIA</small></span>
         </a>
         <p class="site-footer-desc">Portal simulasi interaktif Matematik, Fizik dan Kimia KSSM Tingkatan 4 &amp; 5. Dihasilkan daripada guru STEM untuk sesi PdP yang lebih visual.</p>
-        <div class="site-footer-pills" aria-label="Kelebihan portal">
-          <span class="site-footer-pill"><span class="site-footer-pill-dot" aria-hidden="true"></span> Percuma · Tanpa Login</span>
-          <span class="site-footer-pill">BBM Interaktif PdP</span>
+        <div class="site-footer-socials" aria-label="Media sosial Makmal STEM">
+          <a class="site-footer-social" href="#instagram" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a class="site-footer-social" href="#tiktok" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11a4 4 0 1 1-3-3.87"/><path d="M14 6c1.2 1.8 3 2.8 5 3"/></svg></a>
+          <a class="site-footer-social" href="#whatsapp" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.55 7.47L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5Z"/><path d="M9.5 9.2c.3-.6.6-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.5.9 1.3 1.7 2.2 2.2.2.1.4.1.5 0l.6-.5c.2-.1.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3 0 .6-.6.9-.7.3-2.2.3-4.1-.8-1.9-1.1-3.3-3-3.9-4.1-.6-1.1-.7-2.2-.3-2.8Z"/></svg></a>
         </div>
       </div>
       <div class="site-footer-col">
-        <h3>Subjek &amp; Katalog</h3>
+        <h3>Subjek</h3>
         <ul class="site-footer-links">
-          <li><a href="${url('index.html#simulasi')}">Semua Simulasi</a></li>
-          <li><a href="${url('index.html?subjek=Fizik#simulasi')}">Fizik Tingkatan 4 &amp; 5</a></li>
-          <li><a href="${url('index.html?subjek=Matematik#simulasi')}">Matematik Tingkatan 4 &amp; 5</a></li>
-          <li><a href="${url('index.html?subjek=Kimia#simulasi')}">Kimia Tingkatan 4 &amp; 5</a></li>
-          <li><a href="${url('index.html?tingkatan=4#simulasi')}">Katalog Tingkatan 4</a></li>
-          <li><a href="${url('index.html?tingkatan=5#simulasi')}">Katalog Tingkatan 5</a></li>
+          <li><a href="${url('index.html?subjek=Matematik#simulasi')}">Matematik</a></li>
+          <li><a href="${url('index.html?subjek=Fizik#simulasi')}">Fizik</a></li>
+          <li><a href="${url('index.html?subjek=Kimia#simulasi')}">Kimia</a></li>
+          <li><span class="site-footer-muted">Biologi <span class="site-footer-soon">(Akan datang)</span></span></li>
         </ul>
       </div>
       <div class="site-footer-col">
@@ -304,28 +302,21 @@
           <li><a href="${url('gerakan-linear.html')}">Gerakan Linear</a></li>
           <li><a href="${url('daya-paduan.html')}">Daya Paduan</a></li>
           <li><a href="${url('graf-trigonometri.html')}">Graf Fungsi Trigonometri</a></li>
-          <li><a href="${url('transformasi/index.html')}">Transformasi Geometri</a></li>
           <li><a href="${url('struktur-atom.html')}">Struktur Atom</a></li>
-          <li><a href="${url('ikatan-kimia.html')}">Ikatan Kimia</a></li>
         </ul>
       </div>
       <div class="site-footer-col">
         <h3>Portal &amp; Sumber</h3>
         <ul class="site-footer-links">
-          <li><a href="${url('index.html')}">Laman Utama</a></li>
-          <li><a href="${url('index.html#pratonton')}">Pratonton Simulasi</a></li>
-          <li><a href="${url('index.html#tentang')}">Tentang Makmal STEM</a></li>
-          ${hasFeedback ? '<li><a href="#penilaian">Beri Maklum Balas</a></li>' : ''}
-          <li><a href="#top" data-scroll-top>Kembali ke atas ↑</a></li>
+          <li><a href="${url('tentang.html#tentang-kami')}">Tentang Kami</a></li>
+          <li><a href="${url('tentang.html#maklum-balas')}">Maklum Balas</a></li>
+          <li><a href="${url('tentang.html#hubungi-kami')}">Hubungi Kami</a></li>
         </ul>
       </div>
     </div>
     <div class="site-footer-bottom">
       <p>© 2026 Makmal STEM Malaysia · Portal BBM Interaktif KSSM (BETA)</p>
-      <p>Dari guru STEM untuk murid &amp; guru Malaysia 🇲🇾</p>
     </div>
   </div>`;
-  const topLink = footer.querySelector('[data-scroll-top]');
-  if (topLink) topLink.addEventListener('click', e => { e.preventDefault(); if (typeof window !== 'undefined' && window.scrollTo) window.scrollTo({ top: 0, behavior: 'smooth' }); });
   document.body.appendChild(footer);
 })();

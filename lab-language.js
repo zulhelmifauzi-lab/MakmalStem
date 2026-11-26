@@ -248,6 +248,133 @@ Tindakan diulang.|Action redone.
 Pemilihan pusat ditamatkan.|Centre selection ended.
 Mod pilih pusat aktif. Klik grid berkali-kali; tekan butang ini semula atau Escape untuk tamat.|Centre selection is active. Click the grid to move the centre. Press the button again or Escape to finish.
 Tekan dan seret pada grid untuk menentukan dua titik garis pantulan. Escape untuk batal.|Click and drag on the grid to set two points on the reflection line. Press Escape to cancel.
+`,
+    portal: `
+Makmal STEM — Simulasi KSSM|Makmal STEM — KSSM Simulations
+Langkau ke katalog|Skip to catalogue
+Makmal STEM, laman utama|Makmal STEM, home page
+Cari dalam katalog|Search catalogue
+Cari simulasi…|Search simulations…
+Tapis simulasi|Filter simulations
+Semua subjek|All subjects
+Guna|Apply
+Halaman katalog|Catalogue pages
+Halaman sebelumnya|Previous page
+Halaman seterusnya|Next page
+Percuma · Tanpa login|Free · No login
+Navigasi dashboard|Dashboard navigation
+Buka menu navigasi|Open navigation menu
+Tutup menu navigasi|Close navigation menu
+Katalog|Catalogue
+Subjek|Subjects
+Matematik|Mathematics
+Fizik|Physics
+Kimia|Chemistry
+Maklumat|Information
+Pratonton|Preview
+Tentang Makmal STEM|About Makmal STEM
+Tentang portal|About portal
+KSSM Tingkatan 4 dan 5|KSSM Forms 4 and 5
+Terokai sains dan matematik|Explore science and mathematics
+Ubah pemboleh ubah dan lihat kesannya dalam simulasi Matematik, Fizik dan Kimia.|Change variables and observe their effects in Mathematics, Physics and Chemistry simulations.
+Terokai katalog|Explore catalogue
+Pratonton simulasi|Simulation preview
+Buka simulasi|Open simulation
+Slaid sebelumnya|Previous slide
+Slaid seterusnya|Next slide
+Penapis simulasi|Simulation filters
+Cari simulasi|Search simulations
+Contoh: kuadratik atau graviti|Example: quadratic or gravity
+Tingkatan|Form
+Semua tingkatan|All forms
+Tingkatan 4|Form 4
+Tingkatan 5|Form 5
+Semua status|All statuses
+Sedia dicuba|Ready to try
+Tiada simulasi ditemui|No simulations found
+Cuba kata kunci lain atau lihat semua simulasi.|Try another keyword or view all simulations.
+Lihat semua simulasi|View all simulations
+Hidupkan JavaScript untuk memaparkan katalog simulasi.|Enable JavaScript to display the simulation catalogue.
+Dari Guru STEM · Untuk Guru STEM|From STEM Teachers · For STEM Teachers
+Fasa Pembangunan|Development Phase
+Dihasilkan|Built
+daripada guru STEM kepada guru STEM|by STEM teachers for STEM teachers
+sebagai|as
+BBM interaktif|interactive teaching aids
+untuk membantu murid memahami konsep dan teori STEM yang abstrak semasa sesi PdP.|to help students grasp abstract STEM concepts and theories during lessons.
+Portal ini sedang dalam|This portal is currently in
+fasa pembangunan aktif|active development
+dan simulasi baharu KSSM Tingkatan 4 & 5 akan dikemas kini secara berkala.|and new KSSM Form 4 & 5 simulations will be updated regularly.
+Ciri utama|Key features
+BBM Interaktif PdP|Interactive Teaching Aids
+Percuma & Tanpa Akaun|Free & No Account
+Kemas Kini Berkala|Regular Updates
+Pembangun Makmal STEM — guru STEM Malaysia|Makmal STEM developers — Malaysian STEM teachers
+Pengaki laman|Site footer
+Makmal STEM, kembali ke atas|Makmal STEM, back to top
+Portal simulasi interaktif Matematik, Fizik dan Kimia KSSM Tingkatan 4 & 5. Dihasilkan daripada guru STEM untuk sesi PdP yang lebih visual.|Interactive KSSM Form 4 & 5 Mathematics, Physics and Chemistry simulation portal. Built by STEM teachers for more visual lessons.
+Kelebihan portal|Portal highlights
+Percuma · Tanpa Login|Free · No Login
+Fasa Pembangunan (BETA)|Development Phase (BETA)
+Subjek & Katalog|Subjects & Catalogue
+Semua Simulasi|All Simulations
+Fizik Tingkatan 4 & 5|Physics Forms 4 & 5
+Matematik Tingkatan 4 & 5|Mathematics Forms 4 & 5
+Kimia Tingkatan 4 & 5|Chemistry Forms 4 & 5
+Katalog Tingkatan 4|Form 4 Catalogue
+Katalog Tingkatan 5|Form 5 Catalogue
+Simulasi Popular|Popular Simulations
+Portal & Sumber|Portal & Resources
+Media sosial Makmal STEM|Makmal STEM social media
+Biologi|Biology
+(Akan datang)|(Coming soon)
+Tentang Kami|About Us
+Maklum Balas|Feedback
+Hubungi Kami|Contact Us
+Laman Utama|Home
+Pratonton Simulasi|Simulation Preview
+Cari dalam Katalog|Search Catalogue
+Kembali ke atas ↑|Back to top ↑
+© 2026 Makmal STEM Malaysia · Portal BBM Interaktif KSSM (BETA)|© 2026 Makmal STEM Malaysia · Interactive KSSM Portal (BETA)
+Dari guru STEM untuk murid & guru Malaysia 🇲🇾|By STEM teachers for Malaysian students & teachers 🇲🇾
+Satelit Buatan Manusia|Artificial Satellites
+Lancar satelit pada pelbagai altitud dan laju. Terokai halaju orbit, halaju lepas dan orbit geopegun 24 jam.|Launch satellites at various altitudes and speeds. Explore orbital velocity, escape velocity and 24-hour geostationary orbits.
+Hukum Kepler|Kepler's Laws
+Terokai orbit elips (Hukum I), sapuan luas sama dalam masa sama (Hukum II) dan hubungan T² ∝ r³ (Hukum III).|Explore elliptical orbits (Law I), equal areas swept in equal times (Law II) and the T² ∝ r³ relation (Law III).
+Kegravitian Semesta|Universal Gravitation
+Terokai Hukum Kegravitian Semesta Newton F = Gm₁m₂/r² serta graf variasi pecutan graviti g melawan jarak r.|Explore Newton's Law of Universal Gravitation F = Gm₁m₂/r² and the variation of gravitational acceleration g against distance r.
+Ketaksamaan Linear|Linear Inequalities
+Terokai garis sempadan padu dan putus-putus, rantau berlorek, titik ujian serta sistem dua ketaksamaan linear.|Explore solid and dashed boundary lines, shaded regions, test points and systems of two linear inequalities.
+Ikatan Kimia|Chemical Bonding
+Pindahkan elektron, bina struktur Lewis dan uji kekonduksian NaCl dalam tiga keadaan.|Transfer electrons, build Lewis structures and test NaCl conductivity in three states.
+Transformasi Geometri|Geometric Transformations
+Seret objek dan imej pada grid. Terokai translasi, pantulan, putaran, pembesaran serta gabungan dua transformasi.|Drag objects and images on the grid. Explore translation, reflection, rotation, enlargement and combined transformations.
+Daya Paduan|Resultant Force
+Tolak dan tarik troli. Gabungkan daya sebaris atau bersudut dan terokai hubungan daya, jisim dan pecutan.|Push and pull the trolley. Combine collinear or angled forces and explore the relationship between force, mass and acceleration.
+Kekenyalan (Hukum Hooke)|Elasticity (Hooke's Law)
+Gantung jisim berslot, reka spring, uji susunan siri & selari, had kenyal, graf F–x dan misi cabaran Hukum Hooke.|Hang slotted masses, design springs, test series & parallel setups, elastic limits, F–x graphs and Hooke's Law challenges.
+Graf Fungsi Trigonometri|Trigonometric Functions
+Terokai sinus, kosinus dan tangen. Ubah amplitud, kala serta anjakan graf.|Explore sine, cosine and tangent. Adjust amplitude, period and graph shifts.
+Struktur Atom|Atomic Structure
+Terokai model atom dan susunan elektron melalui visualisasi interaktif.|Explore atomic models and electron arrangements through interactive visualisations.
+Gerakan Linear|Linear Motion
+Kenali hubungan sesaran, halaju dan masa melalui gerakan objek.|Understand the relationship between displacement, velocity and time through object motion.
+Jatuh Bebas|Free Fall
+Lepaskan bola besi dan bulu serentak. Bandingkan jatuhan dalam vakum dan udara, serta di Bumi, Bulan dan Musytari.|Drop an iron ball and a feather together. Compare falls in vacuum and air, as well as on Earth, the Moon and Jupiter.
+Operasi Set|Set Operations
+Visualisasikan kesatuan, persilangan dan pelengkap set dalam gambar rajah Venn.|Visualise union, intersection and complement of sets in Venn diagrams.
+Titrasi Asid & Bes|Acid & Base Titration
+Kenali peneutralan dan perubahan penunjuk dalam eksperimen titrasi maya.|Explore neutralisation and indicator colour changes in a virtual titration experiment.
+Kanta Cembung & Cekung|Convex & Concave Lenses
+Perhatikan rajah sinar, titik fokus dan pembentukan imej oleh kanta.|Observe ray diagrams, focal points and image formation by lenses.
+Fungsi Kuadratik|Quadratic Functions
+Terokai bentuk parabola, paksi simetri dan titik maksimum atau minimum.|Explore parabolic shapes, axes of symmetry and maximum or minimum points.
+Pantulan Cahaya dan Cermin Satah|Reflection of Light and Plane Mirrors
+Uji hubungan antara sudut tuju dengan sudut pantulan pada cermin satah.|Investigate the relationship between the angles of incidence and reflection in a plane mirror.
+a = g dalam vakum|a = g in vacuum
+Objek → P → QP|Object → P → QP
+Proton · Neutron · Elektron|Protons · Neutrons · Electrons
+Asid + Bes → Garam + Air|Acid + Base → Salt + Water
 `
   };
 
@@ -304,10 +431,20 @@ Tekan dan seret pada grid untuk menentukan dua titik garis pantulan. Escape untu
       [/^Garis utama: (\d+) unit · Magnet: 0\.5 unit( · Garis halus: 0\.5 unit)?$/,
         (_, unit, fine) => 'Major grid: ' + unit + ' units · Snap: 0.5 units' + (fine ? ' · Minor grid: 0.5 units' : '')],
       [/Ctrl \+ seret: gerak grid · Ctrl \+ scroll: zum\./, 'Ctrl + drag to pan · Ctrl + scroll to zoom.']
+    ],
+    portal: [
+      [/^(Matematik|Fizik|Kimia) · Tingkatan (\d+)$/, (_, subj, lvl) => ({ Matematik: 'Mathematics', Fizik: 'Physics', Kimia: 'Chemistry' }[subj] + ' · Form ' + lvl)],
+      [/^Simulasi (Matematik|Fizik|Kimia)$/, (_, subj) => ({ Matematik: 'Mathematics', Fizik: 'Physics', Kimia: 'Chemistry' }[subj] + ' simulations')],
+      [/^(\d+) daripada (\d+) simulasi( (Matematik|Fizik|Kimia))?$/,
+        (_, shown, total, __, subj) => shown + ' of ' + total + (subj ? ' ' + { Matematik: 'Mathematics', Fizik: 'Physics', Kimia: 'Chemistry' }[subj] : '') + ' simulations'],
+      [/^(\d+) simulasi( (Matematik|Fizik|Kimia))?$/,
+        (_, total, __, subj) => total + (subj ? ' ' + { Matematik: 'Mathematics', Fizik: 'Physics', Kimia: 'Chemistry' }[subj] : '') + ' simulations'],
+      [/^(\d+) penilaian$/, '$1 ratings'],
+      [/^Buka simulasi (.+)$/, 'Open $1 simulation']
     ]
   };
   const attributes = ['aria-label', 'title', 'placeholder'];
-  const ignored = 'script, style, textarea, [contenteditable], [data-simulation-feedback], #lesson-video-name';
+  const ignored = 'script, style, textarea, [contenteditable], [data-simulation-feedback], #lesson-video-name, .lab-settings-popover';
 
   function english(text) {
     const phrase = text.trim().replace(/\s+/g, ' ');

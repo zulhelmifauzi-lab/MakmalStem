@@ -17,25 +17,33 @@
   <a class="btn skip-dashboard" href="#simulasi">Langkau ke katalog</a>
   <header class="dashboard-header">
     <div class="dashboard-header-inner">
-      <a class="brand" href="index.html" aria-label="Makmal STEM, laman utama"><img class="logo" src="icon.svg" width="40" height="40" alt=""><span><b>Makmal STEM</b><small>KSSM MALAYSIA</small></span></a>
-      <a class="portal-search" href="#search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/></svg><span>Cari dalam katalog</span></a>
-      <span class="pill"><span class="dot" aria-hidden="true"></span> Percuma · Tanpa login</span>
+      <div class="lab-brand-group">
+        <button type="button" class="lab-drawer-btn" data-drawer-toggle aria-label="Buka menu navigasi" title="Buka menu navigasi" aria-expanded="false" aria-controls="lab-drawer">
+          <span class="lab-burger" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <a class="brand" href="index.html" aria-label="Makmal STEM, laman utama"><img class="logo" src="icon.svg" width="40" height="40" alt=""><span><b>Makmal STEM</b><small>KSSM MALAYSIA</small></span></a>
+      </div>
+      <label class="portal-search" for="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/></svg>
+        <input id="search" type="search" placeholder="Cari simulasi…" autocomplete="off" aria-label="Cari simulasi">
+      </label>
+      <span class="lab-status-pill"><span class="lab-status-dot" aria-hidden="true"></span><span data-status-pill-text>Fasa Pembangunan</span></span>
     </div>
   </header>
+  <aside class="lab-drawer" id="lab-drawer" aria-hidden="true">
+    <nav class="sidebar-inner" aria-label="Navigasi dashboard">
+      <span class="sidebar-label">Katalog</span>
+      <button type="button" class="sidebar-item" data-filter="" aria-label="Semua simulasi" title="Semua simulasi" aria-pressed="true" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="sidebar-text">Semua simulasi</span><span class="sidebar-count" data-module-count=""></span></button>
+      <span class="sidebar-label">Subjek</span>
+      <button type="button" class="sidebar-item math" data-filter="Matematik" aria-label="Matematik" title="Matematik" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h15l-7 6 7 6H4"/></svg></span><span class="sidebar-text">Matematik</span><span class="sidebar-count" data-module-count="Matematik"></span></button>
+      <button type="button" class="sidebar-item physics" data-filter="Fizik" aria-label="Fizik" title="Fizik" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 10-12h-8l1-8Z"/></svg></span><span class="sidebar-text">Fizik</span><span class="sidebar-count" data-module-count="Fizik"></span></button>
+      <button type="button" class="sidebar-item chem" data-filter="Kimia" aria-label="Kimia" title="Kimia" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6m-5 0v6l-5.5 8.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-3.5L14 9V3M8 15h8"/></svg></span><span class="sidebar-text">Kimia</span><span class="sidebar-count" data-module-count="Kimia"></span></button>
+      <span class="sidebar-label">Maklumat</span>
+      <a class="sidebar-item sidebar-extra" href="#pratonton" aria-label="Pratonton" title="Pratonton"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 4 3-4 3Z"/></svg></span><span class="sidebar-text">Pratonton</span></a>
+      <a class="sidebar-item sidebar-extra" href="#tentang" aria-label="Tentang Makmal STEM" title="Tentang Makmal STEM"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></span><span class="sidebar-text">Tentang portal</span></a>
+    </nav>
+  </aside>
   <div class="dashboard-layout">
-    <aside class="dashboard-sidebar">
-      <nav class="sidebar-inner" aria-label="Navigasi dashboard">
-        <span class="sidebar-label">Katalog</span>
-        <button type="button" class="sidebar-item" data-filter="" aria-label="Semua simulasi" title="Semua simulasi" aria-pressed="true" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span class="sidebar-text">Semua simulasi</span><span class="sidebar-count" data-module-count=""></span></button>
-        <span class="sidebar-label">Subjek</span>
-        <button type="button" class="sidebar-item math" data-filter="Matematik" aria-label="Matematik" title="Matematik" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h15l-7 6 7 6H4"/></svg></span><span class="sidebar-text">Matematik</span><span class="sidebar-count" data-module-count="Matematik"></span></button>
-        <button type="button" class="sidebar-item physics" data-filter="Fizik" aria-label="Fizik" title="Fizik" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 10-12h-8l1-8Z"/></svg></span><span class="sidebar-text">Fizik</span><span class="sidebar-count" data-module-count="Fizik"></span></button>
-        <button type="button" class="sidebar-item chem" data-filter="Kimia" aria-label="Kimia" title="Kimia" aria-pressed="false" aria-controls="cards"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6m-5 0v6l-5.5 8.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-3.5L14 9V3M8 15h8"/></svg></span><span class="sidebar-text">Kimia</span><span class="sidebar-count" data-module-count="Kimia"></span></button>
-        <span class="sidebar-label">Maklumat</span>
-        <a class="sidebar-item sidebar-extra" href="#pratonton" aria-label="Pratonton" title="Pratonton"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 4 3-4 3Z"/></svg></span><span class="sidebar-text">Pratonton</span></a>
-        <a class="sidebar-item sidebar-extra" href="#tentang" aria-label="Tentang Makmal STEM" title="Tentang Makmal STEM"><span class="sidebar-icon" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></span><span class="sidebar-text">Tentang portal</span></a>
-      </nav>
-    </aside>
     <main class="dashboard-main" id="dashboard">
       <section class="portal-hero" aria-labelledby="dashboard-title">
         <div class="portal-intro">
@@ -75,25 +83,45 @@
       </section>
       <section id="simulasi" class="dashboard-catalog" aria-labelledby="catalog-title" tabindex="-1">
         <div class="dashboard-heading" id="subjek">
-          <h2 id="catalog-title">Semua simulasi</h2>
-          <p id="count" class="count" role="status"></p>
-        </div>
-        <div class="filters catalog-filters" role="group" aria-label="Penapis simulasi">
-          <div class="filter-field filter-search">
-            <label for="search">Cari simulasi</label>
-            <div class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Contoh: kuadratik atau graviti"></div>
+          <div class="dashboard-heading-main">
+            <h2 id="catalog-title">Semua simulasi</h2>
+            <p id="count" class="count" role="status"></p>
           </div>
-          <div class="filter-field">
-            <label for="level">Tingkatan</label>
-            <select id="level"><option value="">Semua tingkatan</option><option value="4">Tingkatan 4</option><option value="5">Tingkatan 5</option></select>
+          <div class="catalog-sort-wrap">
+            <button type="button" id="sort-toggle" class="catalog-sort-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="sort-popover" aria-label="Tapis simulasi" title="Tapis simulasi">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="4" y1="8" x2="12" y2="8"/><circle cx="15" cy="8" r="2.2"/><line x1="17.2" y1="8" x2="20" y2="8"/>
+                <line x1="4" y1="16" x2="7.8" y2="16"/><circle cx="10" cy="16" r="2.2"/><line x1="12.2" y1="16" x2="20" y2="16"/>
+              </svg>
+              <span class="catalog-sort-dot" id="sort-active-dot" hidden aria-hidden="true"></span>
+            </button>
+            <div class="catalog-sort-popover" id="sort-popover" role="dialog" aria-label="Tapis simulasi" hidden>
+              <div class="catalog-sort-head">
+                <span class="catalog-sort-title">Tapis simulasi</span>
+              </div>
+              <div class="catalog-sort-fields">
+                <div class="catalog-sort-field">
+                  <label for="level">Tingkatan</label>
+                  <select id="level"><option value="">Semua tingkatan</option><option value="4">Tingkatan 4</option><option value="5">Tingkatan 5</option></select>
+                </div>
+                <div class="catalog-sort-field">
+                  <label for="sort-subject">Subjek</label>
+                  <select id="sort-subject"><option value="">Semua subjek</option><option value="Matematik">Matematik</option><option value="Fizik">Fizik</option><option value="Kimia">Kimia</option></select>
+                </div>
+                <div class="catalog-sort-field">
+                  <label for="status">Status</label>
+                  <select id="status"><option value="">Semua status</option><option value="ready">Sedia dicuba</option><option value="soon">Coming soon</option></select>
+                </div>
+              </div>
+              <div class="catalog-sort-actions">
+                <button type="button" id="clear" class="catalog-sort-reset">Set semula</button>
+                <button type="button" id="apply-sort" class="catalog-sort-apply">Guna</button>
+              </div>
+            </div>
           </div>
-          <div class="filter-field">
-            <label for="status">Status</label>
-            <select id="status"><option value="">Semua status</option><option value="ready">Sedia dicuba</option><option value="soon">Coming soon</option></select>
-          </div>
-          <button type="button" id="clear" class="dashboard-clear">Set semula</button>
         </div>
         <div class="cards" id="cards"></div>
+        <nav id="catalog-pagination" class="catalog-pagination" aria-label="Halaman katalog" hidden></nav>
         <div id="empty" class="empty" hidden><h3>Tiada simulasi ditemui</h3><p>Cuba kata kunci lain atau lihat semua simulasi.</p><button type="button" id="empty-clear" class="btn">Lihat semua simulasi</button></div>
         <noscript><p>Hidupkan JavaScript untuk memaparkan katalog simulasi.</p></noscript>
       </section>
@@ -129,21 +157,19 @@
             <span><strong>Makmal STEM</strong><small>KSSM MALAYSIA</small></span>
           </a>
           <p class="site-footer-desc">Portal simulasi interaktif Matematik, Fizik dan Kimia KSSM Tingkatan 4 &amp; 5. Dihasilkan daripada guru STEM untuk sesi PdP yang lebih visual.</p>
-          <div class="site-footer-pills" aria-label="Kelebihan portal">
-            <span class="site-footer-pill"><span class="site-footer-pill-dot" aria-hidden="true"></span> Percuma · Tanpa Login</span>
-            <span class="site-footer-pill">BBM Interaktif PdP</span>
-            <span class="site-footer-pill">Fasa Pembangunan (BETA)</span>
+          <div class="site-footer-socials" aria-label="Media sosial Makmal STEM">
+            <a class="site-footer-social" href="#instagram" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a class="site-footer-social" href="#tiktok" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11a4 4 0 1 1-3-3.87"/><path d="M14 6c1.2 1.8 3 2.8 5 3"/></svg></a>
+            <a class="site-footer-social" href="#whatsapp" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.55 7.47L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5Z"/><path d="M9.5 9.2c.3-.6.6-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.5.9 1.3 1.7 2.2 2.2.2.1.4.1.5 0l.6-.5c.2-.1.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3 0 .6-.6.9-.7.3-2.2.3-4.1-.8-1.9-1.1-3.3-3-3.9-4.1-.6-1.1-.7-2.2-.3-2.8Z"/></svg></a>
           </div>
         </div>
         <div class="site-footer-col">
-          <h3>Subjek &amp; Katalog</h3>
+          <h3>Subjek</h3>
           <ul class="site-footer-links">
-            <li><a href="#simulasi" data-footer-filter="">Semua Simulasi</a></li>
-            <li><a href="index.html?subjek=Fizik#simulasi" data-footer-filter="Fizik">Fizik Tingkatan 4 &amp; 5</a></li>
-            <li><a href="index.html?subjek=Matematik#simulasi" data-footer-filter="Matematik">Matematik Tingkatan 4 &amp; 5</a></li>
-            <li><a href="index.html?subjek=Kimia#simulasi" data-footer-filter="Kimia">Kimia Tingkatan 4 &amp; 5</a></li>
-            <li><a href="index.html?tingkatan=4#simulasi" data-footer-level="4">Katalog Tingkatan 4</a></li>
-            <li><a href="index.html?tingkatan=5#simulasi" data-footer-level="5">Katalog Tingkatan 5</a></li>
+            <li><a href="index.html?subjek=Matematik#simulasi" data-footer-filter="Matematik">Matematik</a></li>
+            <li><a href="index.html?subjek=Fizik#simulasi" data-footer-filter="Fizik">Fizik</a></li>
+            <li><a href="index.html?subjek=Kimia#simulasi" data-footer-filter="Kimia">Kimia</a></li>
+            <li><span class="site-footer-muted">Biologi <span class="site-footer-soon">(Akan datang)</span></span></li>
           </ul>
         </div>
         <div class="site-footer-col">
@@ -153,30 +179,27 @@
             <li><a href="gerakan-linear.html">Gerakan Linear</a></li>
             <li><a href="daya-paduan.html">Daya Paduan</a></li>
             <li><a href="graf-trigonometri.html">Graf Fungsi Trigonometri</a></li>
-            <li><a href="transformasi/index.html">Transformasi Geometri</a></li>
             <li><a href="struktur-atom.html">Struktur Atom</a></li>
-            <li><a href="ikatan-kimia.html">Ikatan Kimia</a></li>
           </ul>
         </div>
         <div class="site-footer-col">
           <h3>Portal &amp; Sumber</h3>
           <ul class="site-footer-links">
-            <li><a href="#dashboard">Laman Utama</a></li>
-            <li><a href="#pratonton">Pratonton Simulasi</a></li>
-            <li><a href="#tentang">Tentang Makmal STEM</a></li>
-            <li><a href="#simulasi">Cari dalam Katalog</a></li>
-            <li><a href="#dashboard">Kembali ke atas ↑</a></li>
+            <li><a href="tentang.html#tentang-kami">Tentang Kami</a></li>
+            <li><a href="tentang.html#maklum-balas">Maklum Balas</a></li>
+            <li><a href="tentang.html#hubungi-kami">Hubungi Kami</a></li>
           </ul>
         </div>
       </div>
       <div class="site-footer-bottom">
         <p>© 2026 Makmal STEM Malaysia · Portal BBM Interaktif KSSM (BETA)</p>
-        <p>Dari guru STEM untuk murid &amp; guru Malaysia 🇲🇾</p>
       </div>
     </div>
   </footer>
   <script src="workbench-data.js"></script>
   <script src="catalog.js"></script>
   <script src="carousel.js"></script>
+  <script src="lab-chrome.js"></script>
+  <script src="lab-language.js"></script>
 </body>
 </html>

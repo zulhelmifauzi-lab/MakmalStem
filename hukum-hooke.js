@@ -141,12 +141,14 @@
 
   function geom() {
     const sc = clamp(Math.min(cw / 520, ch / 640), 0.72, 1.15);
+    const floorH = Math.max(74, Math.round(80 * sc));
     const g = {
       sc,
-      topY: Math.round(70 * sc),
-      floorY: ch - Math.round(36 * sc),
+      topY: Math.round(54 * sc),
+      floorH,
+      floorY: ch - floorH,
       rulerX: Math.round(46 * sc),
-      poleX: cw - Math.round(34 * sc)
+      poleX: cw - Math.round(48 * sc)
     };
     g.cx = (g.rulerX + 30 * sc + g.poleX - 22 * sc) / 2;
     return g;
@@ -161,6 +163,8 @@
     cv.width = Math.round(cw * dpr);
     cv.height = Math.round(ch * dpr);
     G = geom();
+    wrap.style.setProperty('--floor-h', G.floorH + 'px');
+    wrap.style.setProperty('--spring-x', Math.round(G.cx) + 'px');
   }
 
   function resizeGraph() {
@@ -379,12 +383,14 @@
   }
 
   function drawRuler(c, yNat, yEnd) {
-    const x = G.rulerX, w = 26 * G.sc, top = G.topY, bot = G.floorY - 4, s = cam.s;
+    const x = G.rulerX, w = 26 * G.sc, top = G.topY, bot = G.floorY - 2, s = cam.s;
+    const padTop = Math.round(14 * G.sc), padBot = Math.round(16 * G.sc);
+    const rTop = top - padTop, scaleBot = Math.max(top + 20, bot - padBot);
     const gr = c.createLinearGradient(x - w / 2, 0, x + w / 2, 0);
     gr.addColorStop(0, '#ffe3a8');
     gr.addColorStop(1, '#f1c46a');
     c.fillStyle = gr;
-    rr(c, x - w / 2, top, w, bot - top, 4);
+    rr(c, x - w / 2, rTop, w, bot - rTop, 4);
     c.fill();
     c.strokeStyle = 'rgba(0,0,0,.35)';
     c.lineWidth = 1;
@@ -392,7 +398,7 @@
 
     const steps = [0.5, 1, 2, 5, 10, 20, 50];
     const step = steps.find(v => v * s >= 30) || 50;
-    const minor = step / 5, cmMax = (bot - top) / s;
+    const minor = step / 5, cmMax = (scaleBot - top) / s;
     const drawMinor = minor * s >= 5;
     c.strokeStyle = '#3a2f12';
     c.fillStyle = '#3a2f12';
@@ -412,9 +418,10 @@
       if (major) c.fillText(+(v.toFixed(2)) + '', x - w / 2 + 3, y);
     }
     c.save();
-    c.translate(x - w / 2 + 3, bot - 8);
+    c.translate(x - w / 2 + 3, bot - Math.round(7 * G.sc));
     c.fillStyle = 'rgba(58,47,18,.65)';
     c.font = `800 ${Math.round(8 * G.sc + 1)}px "Plus Jakarta Sans", sans-serif`;
+    c.textBaseline = 'middle';
     c.fillText('cm', 0, 0);
     c.restore();
 
@@ -835,6 +842,11 @@
 
     const xm = niceMax(xmaxCm), Fm = niceMax(Fmax);
     const X = x => Lm + (x / xm) * W, Y = f => Tm + H - (f / Fm) * H;
+    const axisSteps = maxVal => {
+      const norm = maxVal / Math.pow(10, Math.floor(Math.log10(maxVal || 1)));
+      return Math.abs(norm - 2) < 0.05 ? 4 : 5;
+    };
+    const fmtTick = v => (Math.abs(v) < 1e-9 ? '0' : String(+v.toPrecision(4)));
 
     c.font = '700 11px "Plus Jakarta Sans", sans-serif';
     c.fillStyle = '#5c5670';
@@ -842,17 +854,19 @@
     c.lineWidth = 1;
     c.textAlign = 'right';
     c.textBaseline = 'middle';
-    for (let i = 0; i <= 4; i++) {
-      const v = (Fm * i) / 4, y = Y(v);
+    const ySteps = axisSteps(Fm);
+    for (let i = 0; i <= ySteps; i++) {
+      const v = (Fm * i) / ySteps, y = Y(v);
       c.beginPath(); c.moveTo(Lm, y); c.lineTo(Lm + W, y); c.stroke();
-      c.fillText(v >= 10 ? Math.round(v) : sg(v, 2), Lm - 6, y);
+      c.fillText(fmtTick(v), Lm - 6, y);
     }
     c.textAlign = 'center';
     c.textBaseline = 'top';
-    for (let i = 0; i <= 5; i++) {
-      const v = (xm * i) / 5, x = X(v);
+    const xSteps = axisSteps(xm);
+    for (let i = 0; i <= xSteps; i++) {
+      const v = (xm * i) / xSteps, x = X(v);
       c.beginPath(); c.moveTo(x, Tm); c.lineTo(x, Tm + H); c.stroke();
-      c.fillText(v >= 10 ? Math.round(v) : sg(v, 2), x, Tm + H + 5);
+      c.fillText(fmtTick(v), x, Tm + H + 5);
     }
 
     c.fillStyle = '#252137';
@@ -989,22 +1003,22 @@
   /* ================= UI & TABS ================= */
   const H = k => !!S.hide[k];
 
-  function selectTab(index) {
-    const tabs = [byId('tab-spring'), byId('tab-topo'), byId('tab-table')];
-    const panes = [byId('pane-spring'), byId('pane-topo'), byId('pane-table')];
-    tabs.forEach((tab, i) => {
-      const active = i === index;
-      tab.setAttribute('aria-selected', String(active));
-      tab.tabIndex = active ? 0 : -1;
-      panes[i].inert = !active;
-    });
-  }
-
-  function setupTabs() {
-    const tabs = [byId('tab-spring'), byId('tab-topo'), byId('tab-table')];
+  function bindTabGroup(tabIds, paneIds) {
+    const tabs = tabIds.map(byId);
+    const panes = paneIds.map(byId);
+    function select(index) {
+      tabs.forEach((tab, i) => {
+        if (!tab || !panes[i]) return;
+        const active = i === index;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+        panes[i].inert = !active;
+      });
+    }
     tabs.forEach((tab, index) => {
+      if (!tab) return;
       tab.addEventListener('click', () => {
-        selectTab(index);
+        select(index);
         sfx.pop();
       });
       tab.addEventListener('keydown', e => {
@@ -1018,15 +1032,25 @@
         const next = map[e.key];
         if (next === undefined) return;
         e.preventDefault();
-        selectTab(next);
+        select(next);
         tabs[next].focus();
       });
     });
+    return select;
+  }
+
+  let selectControlTab = () => {};
+  let selectAnalysisTab = () => {};
+
+  function setupTabs() {
+    selectControlTab = bindTabGroup(['tab-spring', 'tab-topo'], ['pane-spring', 'pane-topo']);
+    selectAnalysisTab = bindTabGroup(['tab-graph', 'tab-table'], ['pane-graph', 'pane-table']);
   }
 
   function syncSpringUI() {
     const p = S.sp[S.sel], act = ids(), L = S.locks;
-    byId('spSubName').textContent = S.sel;
+    const spSub = byId('spSubName');
+    if (spSub) spSub.textContent = S.sel;
     $$('#spTabs button').forEach(b => {
       b.classList.toggle('on', b.dataset.id === S.sel);
       b.classList.toggle('off', !act.includes(b.dataset.id));
@@ -1038,19 +1062,19 @@
     ['L', 'd', 'D'].forEach(k => {
       const inp = byId('slider-' + k);
       const out = byId('out-' + k);
-      const dec = byId('dec-' + k);
-      const inc = byId('inc-' + k);
       const hs = H('spring');
       const locked = !!(L[k] || L.all);
       const min = +inp.min, max = +inp.max;
+      const pct = hs ? 0 : ((p[k] - min) / (max - min)) * 100;
       inp.value = hs ? inp.min : p[k];
+      inp.style.setProperty('--pct', pct + '%');
       out.textContent = hs ? '?' : p[k] + (k === 'L' ? ' cm' : ' mm');
       inp.disabled = locked;
-      if (dec) dec.disabled = locked || hs || p[k] <= min + 1e-9;
-      if (inc) inc.disabled = locked || hs || p[k] >= max - 1e-9;
     });
 
     const k = kOf(p), hid = H('spring');
+    const kLbl = byId('kBoxLabel');
+    if (kLbl) kLbl.textContent = fmtMsg('kBoxLabel', { id: S.sel });
     byId('kVal').textContent = hid ? '???' : sg(k, 3);
     byId('kBar').style.width = hid ? '0%' : clamp(Math.log10(Math.max(k, 1)) / Math.log10(600) * 100, 3, 100) + '%';
     byId('kMini').innerHTML = hid
@@ -1075,10 +1099,10 @@
 
   function updateUI() {
     const Mkg = totalMass(), W = weight(), X = S.X, x = X * 100;
-    const info = TOPO[S.topo][S.lang];
-    byId('hudL').innerHTML = `⚖️ <b>${Mkg} g</b> · F = <b>${fx(W, 2)} N</b><small>${info.n}</small>`;
+    byId('hudL').innerHTML = `⚖️ <b>${Mkg} g</b> · F = <b>${fx(W, 2)} N</b>`;
     byId('hudR').innerHTML = H('x') ? 'x = <b>?</b>' : `↕ x = <b>${fx(x, 1)} cm</b>`;
-    byId('totM').textContent = Mkg + ' g';
+    const totM = byId('totM');
+    if (totM) totM.textContent = Mkg + ' g';
     byId('rM').textContent = Mkg;
     byId('rF').textContent = fx(W, 2);
     byId('rX').textContent = H('x') ? '?' : fx(x, 1);
@@ -1097,15 +1121,17 @@
 
     const over = ids().some(id => S.sp[id].xperm > 1e-4 || S.per[id] > xlOf(S.sp[id]) + 1e-6);
     const chip = byId('statusChip');
-    if (over) {
-      chip.className = 'hooke-chip bad';
-      chip.textContent = tr('statusBad');
-    } else if (W > 0) {
-      chip.className = 'hooke-chip ok';
-      chip.textContent = tr('statusOk');
-    } else {
-      chip.className = 'hooke-chip';
-      chip.textContent = tr('statusNone');
+    if (chip) {
+      if (over) {
+        chip.className = 'hooke-chip bad';
+        chip.textContent = tr('statusBad');
+      } else if (W > 0) {
+        chip.className = 'hooke-chip ok';
+        chip.textContent = tr('statusOk');
+      } else {
+        chip.className = 'hooke-chip';
+        chip.textContent = tr('statusNone');
+      }
     }
 
     byId('perSpring').innerHTML = ids().map(id => {
@@ -1402,11 +1428,10 @@
     byId('hint').classList.remove('hide');
     byId('mInput').value = '';
     missionFb('', '');
-    selectTab(i === 6 ? 1 : 0);
+    selectControlTab(i === 6 ? 1 : 0);
+    selectAnalysisTab(i === 1 ? 1 : 0);
     syncAll();
-    if (window.innerWidth <= 920) {
-      setTimeout(() => byId('missionBar').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
-    }
+    setTimeout(() => byId('missionBar')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
   }
 
   function missionFb(msg, cls) {
@@ -1573,9 +1598,13 @@
 
     const soundBtn = byId('togSound');
     const soundTxt = byId('soundText');
+    const iconOn = byId('soundIconOn');
+    const iconOff = byId('soundIconOff');
     if (soundBtn && soundTxt) {
       soundTxt.textContent = S.sound ? tr('soundOn') : tr('soundOff');
       soundBtn.setAttribute('aria-label', S.sound ? tr('soundAriaOn') : tr('soundAriaOff'));
+      if (iconOn) iconOn.hidden = !S.sound;
+      if (iconOff) iconOff.hidden = S.sound;
     }
 
     const langBtn = byId('btn-lang');
@@ -1622,31 +1651,12 @@
 
     ['L', 'd', 'D'].forEach(k => {
       const inp = byId('slider-' + k);
-      const dec = byId('dec-' + k);
-      const inc = byId('inc-' + k);
-      const step = k === 'd' ? 0.1 : 1;
       const roundVal = v => (k === 'd' ? +v.toFixed(1) : Math.round(v));
 
       inp.addEventListener('input', () => {
         if (S.locks[k] || S.locks.all) return;
         changeSp(k, roundVal(+inp.value));
       });
-      if (dec) {
-        dec.addEventListener('click', () => {
-          if (S.locks[k] || S.locks.all) return;
-          const next = clamp(roundVal(S.sp[S.sel][k] - step), +inp.min, +inp.max);
-          changeSp(k, next);
-          sfx.pop();
-        });
-      }
-      if (inc) {
-        inc.addEventListener('click', () => {
-          if (S.locks[k] || S.locks.all) return;
-          const next = clamp(roundVal(S.sp[S.sel][k] + step), +inp.min, +inp.max);
-          changeSp(k, next);
-          sfx.pop();
-        });
-      }
     });
 
     $$('#spTabs button').forEach(b => {
@@ -1758,17 +1768,32 @@
       syncAll();
     };
 
-    byId('togSound').onclick = e => {
-      S.sound = !S.sound;
-      const btn = e.currentTarget;
-      btn.classList.toggle('on', S.sound);
-      btn.classList.toggle('off', !S.sound);
-      btn.setAttribute('aria-pressed', String(S.sound));
-      btn.setAttribute('aria-label', S.sound ? tr('soundAriaOn') : tr('soundAriaOff'));
-      byId('soundIcon').textContent = S.sound ? '🔊' : '🔇';
-      byId('soundText').textContent = S.sound ? tr('soundOn') : tr('soundOff');
-      if (S.sound) sfx.pop();
-    };
+    const togSoundBtn = byId('togSound');
+    if (togSoundBtn) {
+      togSoundBtn.onclick = e => {
+        S.sound = !S.sound;
+        const btn = e.currentTarget;
+        btn.classList.toggle('on', S.sound);
+        btn.classList.toggle('off', !S.sound);
+        btn.setAttribute('aria-pressed', String(S.sound));
+        btn.setAttribute('aria-label', S.sound ? tr('soundAriaOn') : tr('soundAriaOff'));
+        const iconOn = byId('soundIconOn'), iconOff = byId('soundIconOff');
+        if (iconOn) iconOn.hidden = !S.sound;
+        if (iconOff) iconOff.hidden = S.sound;
+        const soundTxt = byId('soundText');
+        if (soundTxt) soundTxt.textContent = S.sound ? tr('soundOn') : tr('soundOff');
+        if (S.sound) sfx.pop();
+      };
+    }
+
+    const jumpGraphBtn = byId('jumpGraphBtn');
+    if (jumpGraphBtn) {
+      jumpGraphBtn.onclick = () => {
+        selectAnalysisTab(0);
+        const card = byId('graphCard');
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+    }
 
     cv.addEventListener('click', e => {
       const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
@@ -1857,12 +1882,19 @@
       if (gWrap) new ResizeObserver(resizeGraph).observe(gWrap);
     }
 
+    const notesPanel = byId('notes-panel');
+    const modeDock = byId('modeDock');
+    if (notesPanel && modeDock) {
+      notesPanel.appendChild(modeDock);
+      modeDock.hidden = false;
+      modeDock.style.display = '';
+    }
+
     buildStatic();
     setupTabs();
     bindEvents();
     resizeStage();
     resizeGraph();
-    G = geom();
     cam.s = 8;
     commit();
     setLanguage(S.lang);

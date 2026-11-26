@@ -4,6 +4,7 @@
   --hk-mut: #5c5670;
   --hk-line: #dcd5e8;
   --hk-line2: #cabfe0;
+  --hk-soft: #ede8f6;
   --hk-inset: #f4f1fa;
   --hk-inset2: #ebe6f5;
   --hk-amber: #f59e0b;
@@ -18,44 +19,27 @@
   font-variant-numeric: tabular-nums;
 }
 
+.hooke-module #lab.lab-wrap {
+  width: min(100% - 32px, 1460px);
+}
+
 .hooke-module .lab-module-logo {
   color: var(--hk-pri);
   background: var(--hk-peach2);
   border: 1px solid var(--hk-peach);
 }
 
-/* Intro strip & toolbar */
-.hooke-intro-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px 18px;
-  margin-bottom: 16px;
+/* Unified studio workbench shell (no separated card boxes) */
+.hooke-studio {
+  background: #fff;
+  border: 1px solid var(--hk-line);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px -20px rgba(37, 33, 55, 0.25), 0 1px 0 #fff inset;
+  overflow: hidden;
+  margin-bottom: 18px;
 }
 
-.hooke-intro-desc {
-  margin: 0;
-  max-width: 60ch;
-  color: var(--hk-mut);
-  font-size: 0.92rem;
-  line-height: 1.5;
-}
-
-.hooke-toolbar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-inline-start: auto;
-}
-
-.hooke-tool-grp {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
+/* Segmented controls (gravity on stage header & mode inside notes) */
 .hooke-tool-lbl {
   font-size: 0.78rem;
   font-weight: 700;
@@ -67,7 +51,7 @@
   align-items: center;
   gap: 3px;
   padding: 3px;
-  border-radius: 11px;
+  border-radius: 10px;
   background: var(--hk-inset2);
   border: 1px solid var(--hk-line);
 }
@@ -76,10 +60,10 @@
   min-height: 36px;
   padding: 5px 11px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 7px;
   background: transparent;
   color: var(--hk-mut);
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
@@ -98,42 +82,51 @@
   box-shadow: 0 2px 8px -2px rgba(37, 33, 55, 0.35);
 }
 
+.hooke-seg-g button {
+  min-height: 28px;
+  padding: 3px 9px;
+  font-size: 0.78rem;
+}
+
 .hooke-seg-g button.on {
   background: var(--hk-amber);
   color: #2b1a00;
 }
 
-.hooke-sound-btn {
-  min-height: 42px;
-  padding: 6px 12px;
-  border-radius: 11px;
-  border: 1px solid var(--hk-line);
-  background: #fff;
-  color: var(--hk-ink);
-  font-size: 0.82rem;
-  font-weight: 700;
+.hooke-g-ctrl {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
-  transition: border-color 0.15s, background 0.15s;
 }
 
-.hooke-sound-btn:hover {
-  border-color: var(--hk-line2);
-  background: var(--hk-inset);
-}
-
-.hooke-sound-btn.off {
+.hooke-g-lbl,
+.hooke-g-unit {
+  font-size: 0.78rem;
+  font-weight: 700;
   color: var(--hk-mut);
-  background: var(--hk-inset);
+  white-space: nowrap;
 }
 
-/* Mission banner */
+.hooke-g-lbl {
+  font-style: italic;
+  color: var(--hk-ink);
+}
+
+.hooke-mode-dock {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--hk-line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Flush mission banner inside studio */
 .hooke-mission {
-  margin-bottom: 16px;
+  padding: 14px 18px;
   background: var(--hk-peach2);
-  border-color: var(--hk-peach);
+  border-bottom: 1px solid var(--hk-peach);
 }
 
 .hooke-mission .mtop {
@@ -144,20 +137,20 @@
 }
 
 .hooke-mission .mnum {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: var(--hk-ink);
   color: #fff;
   display: grid;
   place-items: center;
   font-weight: 800;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   flex: none;
 }
 
 .hooke-mission .mtop b {
-  font-size: 1.08rem;
+  font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--hk-ink);
@@ -195,11 +188,12 @@
 }
 
 .hooke-mission .mtxt {
-  margin: 10px 0 2px;
-  font-size: 0.92rem;
+  margin: 9px 0 2px;
+  font-size: 0.9rem;
   line-height: 1.55;
   font-weight: 500;
   color: #3b3652;
+  max-width: 78ch;
 }
 
 .hooke-mission .mtxt b {
@@ -213,6 +207,7 @@
   align-items: center;
   margin-top: 10px;
   flex-wrap: wrap;
+  max-width: 540px;
 }
 
 .hooke-mission .mans input[type="text"] {
@@ -221,7 +216,7 @@
   min-height: 44px;
   background: #fff;
   border: 1.5px solid var(--hk-peach);
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 8px 14px;
   font-size: 1rem;
   font-weight: 800;
@@ -269,6 +264,7 @@
   background: #fff;
   overflow: hidden;
   margin-top: 10px;
+  max-width: 540px;
 }
 
 .mprog span {
@@ -279,25 +275,184 @@
   transition: width 0.12s;
 }
 
-/* Stage column */
+/* 3-Column Seamless Studio Grid: Left Graph | Center Stage | Right Controls */
+.hooke-studio-grid {
+  display: grid;
+  grid-template-columns: clamp(290px, 24vw, 340px) minmax(0, 1fr) clamp(290px, 24vw, 340px);
+  align-items: stretch;
+}
+
+/* Left Wing: Graph + Telemetry */
+.hooke-wing-left {
+  display: flex;
+  flex-direction: column;
+  background: #fbf9ff;
+  border-right: 1px solid var(--hk-line);
+  min-width: 0;
+}
+
+.hooke-analysis-pane {
+  padding: 14px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hooke-graph-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hooke-analysis-pane h2,
+.hooke-telemetry h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--hk-ink);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  letter-spacing: -0.015em;
+}
+
+.hooke-telemetry h2 {
+  font-size: 0.92rem;
+}
+
+.hooke-analysis-pane h2 svg,
+.hooke-telemetry h2 svg,
+.hooke-tray-head h3 svg,
+.hooke-theory-section h2 svg,
+.theory summary svg {
+  color: var(--hk-pri);
+  flex: none;
+}
+
+.hooke-module .hooke-analysis-pane .hooke-table-pane {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.hooke-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
+.hooke-table-actions .hooke-btn {
+  min-height: 36px;
+  padding: 5px 11px;
+  font-size: 0.8rem;
+}
+
+#graphWrap {
+  position: relative;
+  width: 100%;
+  height: 256px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--hk-soft);
+  overflow: hidden;
+}
+
+#graph {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hooke-telemetry {
+  padding: 13px 15px 15px;
+  border-top: 1px solid var(--hk-line);
+}
+
+.hooke-telemetry h2 {
+  margin-bottom: 9px;
+}
+
+.hooke-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--hk-line);
+  border-radius: 11px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.hooke-telemetry-grid > div {
+  padding: 8px 10px;
+  border-right: 1px solid var(--hk-soft);
+  border-bottom: 1px solid var(--hk-soft);
+  min-width: 0;
+}
+
+.hooke-telemetry-grid > div:nth-child(2n) {
+  border-right: 0;
+}
+
+.hooke-telemetry-grid > div:nth-last-child(-n+2) {
+  border-bottom: 0;
+}
+
+.hooke-telemetry-grid dt {
+  color: var(--hk-mut);
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.hooke-telemetry-grid dd {
+  margin: 0;
+  color: var(--hk-ink);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.hooke-telemetry-grid dd small {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--hk-mut);
+}
+
+/* Center Column: Apparatus Stage + Slotted Mass Dock */
+.hooke-center {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  min-width: 0;
+}
+
 .hooke-stage-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--hk-soft);
 }
 
 .hooke-stage-head h2 {
   margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--hk-ink);
+  letter-spacing: -0.015em;
 }
 
 .hooke-chip {
   white-space: nowrap;
   font-size: 0.78rem;
   font-weight: 700;
-  padding: 5px 11px;
+  padding: 4px 11px;
   border-radius: 999px;
   background: var(--hk-inset);
   color: var(--hk-mut);
@@ -316,20 +471,14 @@
   border-color: #fdba74;
 }
 
-.hooke-stage-frame {
-  padding: 0 !important;
-  overflow: hidden;
-  background: var(--hk-inset) !important;
-  border: 1px solid var(--hk-line);
-}
-
 #stageWrap {
   position: relative;
+  flex: 1;
   width: 100%;
-  height: clamp(430px, 56vh, 600px);
-  border-radius: 9px;
-  overflow: hidden;
+  min-height: 480px;
+  height: clamp(480px, 60vh, 620px);
   background: var(--hk-inset);
+  overflow: hidden;
 }
 
 #stage {
@@ -345,27 +494,37 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 10px;
+  bottom: 0;
+  height: var(--floor-h, 74px);
   pointer-events: none;
-  gap: 8px;
+  z-index: 2;
 }
 
 .hooke-badge {
-  background: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  top: calc(50% + 2px);
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--hk-line);
-  border-radius: 12px;
+  border: 1px solid rgba(37, 33, 55, 0.14);
+  border-radius: 10px;
   padding: 6px 11px;
   font-weight: 700;
-  font-size: 0.82rem;
-  line-height: 1.38;
+  font-size: 0.8rem;
+  line-height: 1.25;
   color: var(--hk-ink);
-  box-shadow: 0 6px 16px -10px rgba(37, 33, 55, 0.35);
+  box-shadow: 0 4px 12px -6px rgba(37, 33, 55, 0.28);
+  white-space: nowrap;
+}
+
+#hudR {
+  left: 12px;
+}
+
+#hudL {
+  left: var(--spring-x, 50%);
+  transform: translate(-50%, -50%);
 }
 
 .hooke-badge b {
@@ -373,17 +532,10 @@
   font-weight: 800;
 }
 
-.hooke-badge small {
-  color: var(--hk-mut);
-  font-weight: 600;
-  display: block;
-  font-size: 0.72rem;
-}
-
 #toast {
   position: absolute;
   left: 50%;
-  top: 64px;
+  top: 14px;
   transform: translate(-50%, -10px);
   background: var(--hk-ink);
   color: #fff;
@@ -392,7 +544,7 @@
   font-weight: 700;
   font-size: 0.82rem;
   opacity: 0;
-  transition: 0.25s;
+  transition: opacity 0.25s, transform 0.25s;
   pointer-events: none;
   max-width: 90%;
   text-align: center;
@@ -408,7 +560,7 @@
 #hint {
   position: absolute;
   left: 50%;
-  bottom: 14px;
+  bottom: calc(var(--floor-h, 74px) + 12px);
   transform: translateX(-50%);
   background: var(--hk-ink);
   color: #fff;
@@ -450,11 +602,11 @@
   100% { opacity: 0; }
 }
 
-/* Slotted mass tray directly under stage */
+/* Slotted mass dock flush under center stage */
 .hooke-tray-card {
-  margin-top: 12px;
-  padding-top: 12px;
+  padding: 10px 14px 12px;
   border-top: 1px solid var(--hk-line);
+  background: #fff;
 }
 
 .hooke-tray-head {
@@ -462,51 +614,41 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .hooke-tray-head h3 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 800;
   color: var(--hk-ink);
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-
-.hooke-tray-total {
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--hk-pri);
+  gap: 7px;
+  letter-spacing: -0.015em;
 }
 
 .tray {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 2px 1px 6px;
-  scrollbar-width: none;
-}
-
-.tray::-webkit-scrollbar {
-  display: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  padding: 1px 0 3px;
 }
 
 .item {
-  flex: 1 0 74px;
+  min-width: 0;
   position: relative;
   background: var(--hk-inset);
   border: 1.5px solid var(--hk-line);
-  border-radius: 13px;
-  padding: 7px 4px;
+  border-radius: 10px;
+  padding: 5px 3px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: pan-x;
+  touch-action: manipulation;
   cursor: grab;
   transition: transform 0.15s, border-color 0.15s, background 0.15s;
 }
@@ -519,22 +661,24 @@
 }
 
 .item canvas {
-  width: 56px;
-  height: 36px;
+  width: 44px;
+  height: 26px;
   flex: none;
   pointer-events: none;
 }
 
 .item b {
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   font-weight: 800;
   color: var(--hk-ink);
+  line-height: 1.2;
 }
 
 .item span {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--hk-mut);
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .item.dragging {
@@ -544,18 +688,18 @@
 .hooke-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 6px;
 }
 
 .hooke-btn {
   white-space: nowrap;
-  min-height: 44px;
+  min-height: 36px;
   border: 0;
-  border-radius: 10px;
-  padding: 8px 15px;
+  border-radius: 9px;
+  padding: 6px 11px;
   font-weight: 700;
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -592,15 +736,19 @@
   cursor: not-allowed;
 }
 
+.hooke-jump-graph {
+  display: none;
+}
+
 .grow {
   flex: 1;
 }
 
 .hooke-note {
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   color: var(--hk-mut);
-  margin: 8px 0 0;
-  line-height: 1.5;
+  margin: 7px 0 0;
+  line-height: 1.48;
   font-weight: 500;
 }
 
@@ -609,13 +757,43 @@
   font-weight: 700;
 }
 
-/* Control panel tabs (3 tabs) */
+/* Right Wing: Seamless Control Panel (overrides workbench border/radius) */
+.hooke-module .hooke-wing-right {
+  border: 0;
+  border-radius: 0;
+  border-left: 1px solid var(--hk-line);
+  padding: 16px 16px 18px;
+  background: #fff;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hooke-module .hooke-wing-right .lab-control-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--hk-ink);
+}
+
 .hooke-module .lab-tabs {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hooke-module .lab-tab-panes > [inert],
+.hooke-module .lab-tab-panes > [inert] * {
+  visibility: hidden !important;
+  transition: none !important;
+  pointer-events: none !important;
 }
 
 #tab-table {
-  gap: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 #tab-record-count {
@@ -659,14 +837,14 @@
 
 .sp-tabs button {
   flex: 1;
-  min-height: 38px;
+  min-height: 36px;
   border: 0;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 7px;
   font-weight: 800;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--hk-mut);
-  transition: 0.2s;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.2s;
 }
 
 .sp-tabs button.on {
@@ -683,7 +861,7 @@
   font-size: 0.78rem;
   color: var(--hk-mut);
   font-weight: 700;
-  margin: 6px 0 4px;
+  margin: 8px 0 3px;
 }
 
 .mats {
@@ -693,19 +871,19 @@
 }
 
 .mats button {
-  min-height: 44px;
+  min-height: 48px;
   border: 1.5px solid var(--hk-line);
   background: #fff;
-  border-radius: 11px;
-  padding: 6px 9px;
+  border-radius: 10px;
+  padding: 6px 8px;
   text-align: left;
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   color: var(--hk-ink);
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: 0.15s;
+  gap: 7px;
+  transition: background-color 0.15s, border-color 0.15s, opacity 0.15s;
 }
 
 .mats button:hover {
@@ -713,8 +891,8 @@
 }
 
 .mats button i {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   flex: none;
   box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.25);
@@ -722,7 +900,7 @@
 
 .mats button small {
   display: block;
-  font-size: 0.68rem;
+  font-size: 0.67rem;
   color: var(--hk-mut);
   font-weight: 500;
 }
@@ -737,48 +915,105 @@
   cursor: not-allowed;
 }
 
-/* Sliders inside control panel */
-.hooke-module .sl.lab-step-range {
-  grid-template-columns: minmax(0, 1fr) auto;
-  padding: 8px 0;
+/* Modern pill-gradient sliders inside control panel */
+.hooke-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 0 12px;
+  border-bottom: 1px solid var(--hk-soft);
 }
 
-.hooke-module .slt {
+.hooke-slider-row .slt {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 8px;
   min-width: 0;
 }
 
-.hooke-module .slt label {
+.hooke-slider-row .slt label {
   font-size: 0.84rem;
   font-weight: 750;
   color: var(--hk-ink);
-  white-space: nowrap;
+  cursor: pointer;
 }
 
-.hooke-module .slt small {
-  font-size: 0.7rem;
-  color: var(--hk-mut);
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.hooke-module .sl output {
+.hooke-slider-row output {
   font-size: 0.88rem;
   font-weight: 800;
   color: var(--hk-pri);
+  font-variant-numeric: tabular-nums;
+}
+
+.hooke-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, #fbbf24 0%, #f59e0b 55%, #d97706 100%) left / var(--pct, 40%) 100% no-repeat,
+    #dedae9;
+  box-shadow: inset 0 2px 4px rgba(37, 33, 55, 0.16), inset 0 -1px 0 rgba(255, 255, 255, 0.72);
+  outline: none;
+  cursor: pointer;
+  margin: 4px 0 3px;
+}
+
+.hooke-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid rgba(180, 83, 9, 0.45);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.16), 0 2px 7px rgba(37, 33, 55, 0.28);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.hooke-range:hover::-webkit-slider-thumb,
+.hooke-range:active::-webkit-slider-thumb {
+  transform: scale(1.06);
+  border-color: rgba(180, 83, 9, 0.72);
+  box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.24), 0 4px 10px rgba(37, 33, 55, 0.3);
+}
+
+.hooke-range::-moz-range-track {
+  height: 14px;
+  border-radius: 999px;
+  background: #dedae9;
+  box-shadow: inset 0 2px 4px rgba(37, 33, 55, 0.16), inset 0 -1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.hooke-range::-moz-range-progress {
+  height: 14px;
+  border-radius: 999px 0 0 999px;
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 55%, #d97706 100%);
+}
+
+.hooke-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid rgba(180, 83, 9, 0.45);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.16), 0 2px 7px rgba(37, 33, 55, 0.28);
+}
+
+.hooke-range:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* Dark spring-constant meter box */
 .kbox {
-  margin-top: 6px;
+  margin: 0 0 10px;
   background: var(--hk-ink);
   color: #fff;
-  border-radius: 14px;
-  padding: 11px 13px;
+  border-radius: 12px;
+  padding: 11px 12px;
 }
 
 .kbox .kv {
@@ -789,14 +1024,14 @@
 
 .kbox i {
   font-style: normal;
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   color: #c4bdd9;
   font-weight: 600;
   margin-inline-end: auto;
 }
 
 .kbox .kv b {
-  font-size: 1.65rem;
+  font-size: 1.55rem;
   line-height: 1;
   color: #fbbf24;
   font-weight: 800;
@@ -807,14 +1042,14 @@
   text-decoration: none;
   color: #c4bdd9;
   font-weight: 600;
-  font-size: 0.76rem;
+  font-size: 0.75rem;
 }
 
 .kbar {
   height: 6px;
   border-radius: 6px;
   background: #36304f;
-  margin: 8px 0 6px;
+  margin: 7px 0 5px;
   overflow: hidden;
 }
 
@@ -828,7 +1063,7 @@
 }
 
 .kmini {
-  font-size: 0.74rem;
+  font-size: 0.73rem;
   color: #d5cfe8;
   font-weight: 500;
   line-height: 1.45;
@@ -841,21 +1076,25 @@
 .prow {
   display: flex;
   gap: 6px;
-  margin-top: 6px;
+  margin-top: 7px;
   flex-wrap: wrap;
 }
 
 .pre,
 .hooke-btn-sm {
-  min-height: 38px;
+  min-height: 40px;
   border: 1px solid var(--hk-line);
   background: var(--hk-inset);
   color: var(--hk-ink);
   border-radius: 9px;
-  padding: 6px 10px;
+  padding: 5px 9px;
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   white-space: nowrap;
   transition: background 0.15s, border-color 0.15s;
 }
@@ -883,16 +1122,16 @@
 .topo {
   border: 1.5px solid var(--hk-line);
   background: #fff;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 6px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.71rem;
   color: var(--hk-mut);
-  transition: 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, opacity 0.15s;
   line-height: 1.15;
   text-align: center;
 }
@@ -923,9 +1162,9 @@
   margin-top: 8px;
   background: var(--hk-inset);
   border: 1px solid var(--hk-line);
-  border-radius: 11px;
+  border-radius: 10px;
   padding: 10px 12px;
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   font-weight: 600;
   color: var(--hk-ink);
   line-height: 1.5;
@@ -933,7 +1172,7 @@
 
 .hooke-formula b {
   color: var(--hk-pri);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 800;
 }
 
@@ -946,7 +1185,7 @@
   border-radius: 10px;
   padding: 7px 10px;
   margin-top: 6px;
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   font-weight: 700;
 }
 
@@ -963,7 +1202,7 @@
 .ps span small {
   display: block;
   color: var(--hk-mut);
-  font-size: 0.66rem;
+  font-size: 0.65rem;
   font-weight: 600;
 }
 
@@ -978,7 +1217,7 @@
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 8px;
-  font-size: 0.84rem;
+  font-size: 0.83rem;
   font-weight: 750;
   color: var(--hk-ink);
 }
@@ -996,7 +1235,7 @@
 
 .hooke-module .lab-live-table :is(td, th) {
   padding: 6px 5px;
-  font-size: 0.78rem;
+  font-size: 0.77rem;
 }
 
 .hooke-module tr.new td {
@@ -1008,57 +1247,39 @@
   100% { background: transparent; }
 }
 
-/* Live readings row */
-.hooke-module .lab-readings dd small {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--hk-mut);
-}
-
-/* Graph & Theory 2-column analysis row */
-.hooke-analysis {
-  display: grid;
-  grid-template-columns: var(--lab-columns);
-  gap: 14px;
-  align-items: start;
-}
-
-#graphCard h2,
-#theoryCard h2 {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 10px;
-}
-
-#graphWrap {
-  position: relative;
-  width: 100%;
-  height: 270px;
-  border-radius: 10px;
+/* Full-width Editorial Theory Section below studio */
+.hooke-theory-section {
   background: #fff;
   border: 1px solid var(--hk-line);
-  overflow: hidden;
+  border-radius: 16px;
+  padding: 18px 22px;
 }
 
-#graph {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+.hooke-theory-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-size: 1.075rem;
+  font-weight: 800;
+  color: var(--hk-ink);
+  letter-spacing: -0.015em;
 }
 
-.theory {
-  font-size: 0.86rem;
-  line-height: 1.6;
+.hooke-theory-section .theory {
+  columns: 2 380px;
+  column-gap: 32px;
+  column-rule: 1px solid var(--hk-soft);
+  font-size: 0.87rem;
+  line-height: 1.62;
   color: #3b3652;
   font-weight: 500;
 }
 
 .theory details {
-  border-top: 1px solid var(--hk-line);
-  padding: 8px 0;
+  break-inside: avoid;
+  border-top: 1px solid var(--hk-soft);
+  padding: 9px 0;
 }
 
 .theory details:first-of-type {
@@ -1131,7 +1352,7 @@
 }
 
 .hooke-model-foot {
-  margin: 14px 0 0;
+  margin: 10px 0 4px;
   color: var(--hk-mut);
   font-size: 0.78rem;
   text-align: center;
@@ -1263,7 +1484,7 @@
   display: flex;
   gap: 11px;
   align-items: center;
-  transition: 0.15s;
+  transition: border-color 0.15s, background-color 0.15s, transform 0.15s;
 }
 
 .mcard:hover {
@@ -1357,13 +1578,71 @@
   * { transition-duration: 0.01ms !important; }
 }
 
-@media (max-width: 920px) {
-  .hooke-module .lab-work,
-  .hooke-analysis {
+/* Tablet / Compact Laptop: Stage + Controls on top, Graph + Telemetry below */
+@media (max-width: 1140px) {
+  .hooke-studio-grid {
+    grid-template-columns: minmax(0, 1fr) clamp(290px, 34vw, 345px);
+  }
+  .hooke-center {
+    order: 1;
+  }
+  .hooke-module .hooke-wing-right {
+    order: 2;
+  }
+  .hooke-wing-left {
+    order: 3;
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-top: 1px solid var(--hk-line);
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+  .hooke-telemetry {
+    border-top: 0;
+    border-left: 1px solid var(--hk-line);
+    margin-top: 0;
+  }
+  .hooke-jump-graph {
+    display: inline-flex;
+  }
+}
+
+/* Mobile & narrow tablet: Single vertical studio stack */
+@media (max-width: 860px) {
+  .hooke-module #lab.lab-wrap {
+    width: calc(100% - 20px);
+  }
+  .hooke-studio-grid {
     grid-template-columns: minmax(0, 1fr);
   }
-  .hooke-toolbar {
-    margin-inline-start: 0;
+  .hooke-center {
+    order: 1;
+  }
+  .hooke-module .hooke-wing-right {
+    order: 2;
+    border-left: 0;
+    border-top: 1px solid var(--hk-line);
+  }
+  .hooke-wing-left {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+  }
+  .hooke-telemetry {
+    border-left: 0;
+    border-top: 1px solid var(--hk-line);
+  }
+  .hooke-theory-section {
+    padding: 16px;
+  }
+  .hooke-btn {
+    min-height: 42px;
+    padding: 8px 13px;
+    font-size: 0.84rem;
+  }
+  .hooke-theory-section .theory {
+    columns: 1;
   }
 }
 
@@ -1380,26 +1659,21 @@
     padding: 16px 14px calc(18px + env(safe-area-inset-bottom));
   }
   #stageWrap {
-    height: clamp(350px, 52svh, 450px);
+    min-height: 400px;
+    height: clamp(400px, 56svh, 490px);
   }
   #graphWrap {
-    height: 230px;
+    height: 245px;
   }
 }
 
 @media (max-width: 560px) {
   .tray {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 5px;
-    overflow: visible;
-    padding: 2px 0 4px;
   }
   .item {
-    min-width: 0;
     padding: 6px 2px;
     border-radius: 10px;
-    touch-action: manipulation;
   }
   .item canvas {
     width: 42px;
@@ -1414,31 +1688,19 @@
 }
 
 @media (max-width: 480px) {
+  .hooke-studio {
+    border-radius: 14px;
+  }
+  .hooke-badge {
+    font-size: 0.7rem;
+    padding: 4px 7px;
+  }
+  #hudR {
+    left: 8px;
+  }
   #hint {
     font-size: 0.76rem;
     padding: 7px 12px;
-  }
-  .hooke-intro-desc {
-    font-size: 0.84rem;
-  }
-  .hooke-toolbar {
-    width: 100%;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .hooke-tool-lbl {
-    display: none;
-  }
-  .hooke-badge {
-    font-size: 0.74rem;
-    padding: 5px 9px;
-  }
-  .hooke-module .lab-readings dl {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .hooke-module .lab-readings dl > div {
-    min-block-size: 76px;
-    padding: 9px 10px;
   }
   .hooke-mission .mans input[type="text"] {
     flex: 1 1 100%;
@@ -1446,7 +1708,11 @@
   .hooke-mission .mans .u {
     margin-inline-end: auto;
   }
-  .topos {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .hooke-stage-head,
+  .hooke-tray-card,
+  .hooke-graph-pane,
+  .hooke-telemetry,
+  .hooke-module .hooke-wing-right {
+    padding-inline: 13px;
   }
 }

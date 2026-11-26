@@ -46,10 +46,20 @@ function setupCatalog() {
   const $ = id => document.getElementById(id);
   const search = $('search');
   const level = $('level');
+  const sortSubject = $('sort-subject');
   const status = $('status');
+  const sortToggle = $('sort-toggle');
+  const sortPopover = $('sort-popover');
+  const sortActiveDot = $('sort-active-dot');
+  const applySortBtn = $('apply-sort');
+  const paginationEl = $('catalog-pagination');
   const subjectButtons = [...document.querySelectorAll('[data-filter]')];
   const subjectStyles = { Matematik: 'math', Fizik: 'physics', Kimia: 'chem' };
+  const PAGE_SIZE = 15;
   let subject = '';
+  let appliedLevel = '';
+  let appliedStatus = '';
+  let currentPage = 1;
   let ratings = new Map();
 
   function renderCard(module) {
@@ -62,7 +72,7 @@ function setupCatalog() {
       </div>
       <div class="card-content">
         <span class="portal-card-subject">${module.subject} · Tingkatan ${module.level}</span>
-        <h3>${escapeCatalogText(module.title.slice(0,lastWord))}<span class="portal-title-end">${escapeCatalogText(module.title.slice(lastWord))} <span class="beta-label">(BETA)</span></span></h3>
+        <h3><span class="portal-title-text">${escapeCatalogText(module.title)}</span> <span class="beta-label">(BETA)</span></h3>
         <p>${escapeCatalogText(module.desc)}</p>
         <span class="catalog-rating" data-catalog-rating="${module.id}" hidden><span aria-hidden="true">★</span> <span></span></span>
         <div class="card-foot">
@@ -82,17 +92,80 @@ function setupCatalog() {
     });
   }
 
+  function syncSortInputs() {
+    if (level) level.value = appliedLevel;
+    if (sortSubject) sortSubject.value = subject;
+    if (status) status.value = appliedStatus;
+    if (sortActiveDot) sortActiveDot.hidden = !(subject || appliedLevel || appliedStatus);
+  }
+
+  function closeSortPopover(returnFocus) {
+    if (!sortPopover || sortPopover.hidden) return;
+    sortPopover.hidden = true;
+    if (sortToggle) {
+      sortToggle.setAttribute('aria-expanded', 'false');
+      if (returnFocus) sortToggle.focus();
+    }
+  }
+
+  function getPageNumbers(totalPages, activePage) {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const pages = [1];
+    if (activePage > 3) pages.push('...');
+    const start = Math.max(2, activePage - 1);
+    const end = Math.min(totalPages - 1, activePage + 1);
+    for (let p = start; p <= end; p++) pages.push(p);
+    if (activePage < totalPages - 2) pages.push('...');
+    pages.push(totalPages);
+    return pages;
+  }
+
+  function renderPagination(totalItems) {
+    if (!paginationEl) return;
+    const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+    if (totalPages <= 1) {
+      paginationEl.hidden = true;
+      paginationEl.innerHTML = '';
+      return;
+    }
+    paginationEl.hidden = false;
+    const items = getPageNumbers(totalPages, currentPage);
+    const numsHtml = items.map(item => {
+      if (item === '...') {
+        return '<span class="catalog-page-ellipsis" aria-hidden="true">…</span>';
+      }
+      const currentAttr = item === currentPage ? ' aria-current="page"' : '';
+      return `<button type="button" class="catalog-page-num" data-page="${item}"${currentAttr}>${item}</button>`;
+    }).join('');
+    paginationEl.innerHTML = `<button type="button" class="catalog-page-arrow" data-page-nav="prev" aria-label="Halaman sebelumnya"${currentPage <= 1 ? ' disabled' : ''}>←</button><div class="catalog-page-pill">${numsHtml}</div><button type="button" class="catalog-page-arrow" data-page-nav="next" aria-label="Halaman seterusnya"${currentPage >= totalPages ? ' disabled' : ''}>→</button>`;
+  }
+
+  function scrollToCatalog() {
+    const catalog = $('simulasi');
+    if (catalog && catalog.scrollIntoView) {
+      catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   function render() {
-    const terms = search.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+    const terms = (search ? search.value : '').trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
     const results = catalogModules.filter(module => {
       const searchable = [module.title, module.topic, module.desc, module.keywords, module.subject, 'Tingkatan ' + module.level].join(' ').toLocaleLowerCase();
       return (!subject || module.subject === subject)
-        && (!level.value || String(module.level) === level.value)
-        && (!status.value || module.status === status.value)
+        && (!appliedLevel || String(module.level) === appliedLevel)
+        && (!appliedStatus || module.status === appliedStatus)
         && terms.every(term => searchable.includes(term));
     });
-    $('cards').innerHTML = results.map(renderCard).join('');
+    const totalPages = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+    const startIdx = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = results.slice(startIdx, startIdx + PAGE_SIZE);
+    $('cards').innerHTML = pageItems.map(renderCard).join('');
     updateRatingLabels();
+    renderPagination(results.length);
     $('empty').hidden = results.length !== 0;
     const total = catalogModules.filter(module => !subject || module.subject === subject).length;
     const count = results.length === total ? total : `${results.length} daripada ${total}`;
@@ -100,6 +173,7 @@ function setupCatalog() {
     if ($('count').textContent !== summary) $('count').textContent = summary;
     $('catalog-title').textContent = subject ? 'Simulasi ' + subject : 'Semua simulasi';
     subjectButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === subject)));
+    syncSortInputs();
   }
 
   function updateCounts() {
@@ -112,36 +186,108 @@ function setupCatalog() {
   subjectButtons.forEach(button => {
     button.onclick = () => {
       subject = button.dataset.filter;
+      currentPage = 1;
       render();
       const catalog = $('simulasi');
       catalog.focus({ preventScroll: true });
       catalog.scrollIntoView({ block: 'start' });
     };
   });
-  [search, level, status].forEach(input => input.addEventListener('input', render));
+  if (search) {
+    search.addEventListener('input', () => {
+      currentPage = 1;
+      render();
+    });
+    search.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        scrollToCatalog();
+      }
+    });
+  }
+  if (sortToggle && sortPopover) {
+    sortToggle.addEventListener('click', event => {
+      event.stopPropagation();
+      const willOpen = sortPopover.hidden;
+      if (willOpen) {
+        syncSortInputs();
+        sortPopover.hidden = false;
+        sortToggle.setAttribute('aria-expanded', 'true');
+      } else {
+        closeSortPopover(false);
+      }
+    });
+    if (typeof document.addEventListener === 'function') {
+      document.addEventListener('click', event => {
+        if (!sortPopover.hidden && event.target && event.target.closest && !event.target.closest('.catalog-sort-wrap')) {
+          closeSortPopover(false);
+        }
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !sortPopover.hidden) {
+          closeSortPopover(true);
+        }
+      });
+    }
+  }
+  if (applySortBtn) {
+    applySortBtn.addEventListener('click', () => {
+      appliedLevel = level ? level.value : '';
+      subject = sortSubject ? sortSubject.value : '';
+      appliedStatus = status ? status.value : '';
+      currentPage = 1;
+      closeSortPopover(false);
+      render();
+    });
+  }
+  if (paginationEl) {
+    paginationEl.addEventListener('click', event => {
+      const btn = event.target && event.target.closest ? event.target.closest('button') : null;
+      if (!btn || btn.disabled) return;
+      if (btn.dataset.page) {
+        currentPage = Number(btn.dataset.page) || 1;
+      } else if (btn.dataset.pageNav === 'prev') {
+        currentPage = Math.max(1, currentPage - 1);
+      } else if (btn.dataset.pageNav === 'next') {
+        currentPage += 1;
+      }
+      render();
+      scrollToCatalog();
+    });
+  }
   function clearFilters() {
     subject = '';
-    search.value = '';
-    level.value = '';
-    status.value = '';
+    appliedLevel = '';
+    appliedStatus = '';
+    currentPage = 1;
+    if (search) search.value = '';
+    if (level) level.value = '';
+    if (sortSubject) sortSubject.value = '';
+    if (status) status.value = '';
+    closeSortPopover(false);
     render();
-    search.focus();
   }
   $('clear').onclick = clearFilters;
-  $('empty-clear').onclick = clearFilters;
+  $('empty-clear').onclick = () => {
+    clearFilters();
+    if (search) search.focus();
+  };
   if (typeof location !== 'undefined' && typeof URLSearchParams === 'function') {
     const qp = new URLSearchParams(location.search);
     const s = qp.get('subjek');
     const lv = qp.get('tingkatan');
+    const q = qp.get('q');
     if (s && subjectStyles[s]) subject = s;
-    if (lv && (lv === '4' || lv === '5') && level) level.value = lv;
+    if (lv && (lv === '4' || lv === '5')) appliedLevel = lv;
+    if (q && search) search.value = q;
   }
   document.querySelectorAll('[data-footer-filter], [data-footer-level]').forEach(link => {
     link.addEventListener('click', event => {
       event.preventDefault();
       subject = link.dataset.footerFilter || '';
-      if (level) level.value = link.dataset.footerLevel || '';
-      if (status) status.value = '';
+      appliedLevel = link.dataset.footerLevel || '';
+      appliedStatus = '';
+      currentPage = 1;
       if (search) search.value = '';
       render();
       const catalog = $('simulasi');

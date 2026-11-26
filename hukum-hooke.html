@@ -38,266 +38,301 @@
       </div>
     </header>
 
-    <div class="hooke-intro-bar">
-      <p class="hooke-intro-desc" data-i18n="introSub">Gantung jisim berslot pada spring, ubah kekakuan serta susunan siri atau selari, dan terokai hubungan F = kx serta had kenyal.</p>
-      <div class="hooke-toolbar" role="region" aria-label="Tetapan eksperimen">
-        <div class="hooke-tool-grp">
-          <span class="hooke-tool-lbl" data-i18n="modeLabel">Mod</span>
-          <div class="hooke-seg" id="modeTabs" role="group" aria-label="Mod simulasi">
-            <button type="button" data-m="lab" class="on" aria-pressed="true"><span aria-hidden="true">🔬</span> <span data-i18n="modeLab">Makmal</span></button>
-            <button type="button" data-m="chal" aria-pressed="false"><span aria-hidden="true">🎮</span> <span data-i18n="modeChal">Cabaran</span></button>
+    <section class="hooke-studio" aria-label="Ruang kerja simulasi">
+      <section class="hooke-mission" id="missionBar" hidden aria-live="polite">
+        <div class="mtop">
+          <span class="mnum" id="mNum">?</span>
+          <b id="mTitle" data-i18n="mSelectTitle">Pilih misi</b>
+          <span class="stars" id="mStars" aria-label="Bintang diperoleh"></span>
+          <button type="button" class="hooke-mini-btn" id="mList" data-i18n="mListBtn">☰ Senarai misi</button>
+        </div>
+        <div class="mtxt" id="mText"></div>
+        <div class="mans" id="mAns" hidden>
+          <input type="text" id="mInput" inputmode="decimal" autocomplete="off" placeholder="Jawapan" aria-label="Masukkan jawapan">
+          <span class="u" id="mUnit"></span>
+          <button type="button" class="hooke-btn go" id="mCheck" data-i18n="mCheckBtn">✔ Semak</button>
+          <button type="button" class="hooke-btn sec" id="mHint" title="Petunjuk" aria-label="Petunjuk">💡</button>
+        </div>
+        <div class="mprog" id="mProg" hidden><span id="mProgBar"></span></div>
+        <div class="mfb" id="mFb" role="status"></div>
+      </section>
+
+      <div class="hooke-studio-grid">
+        <!-- LEFT WING: GRAPH / TABLE TABS + TELEMETRY -->
+        <aside class="hooke-wing-left" aria-label="Analisis, jadual dan bacaan langsung">
+          <section class="hooke-analysis-pane has-tabs lab-template-controls" id="graphCard" aria-labelledby="analysis-title">
+            <h2 id="analysis-title">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+              <span data-i18n="analysisTitle">Analisis &amp; data</span>
+            </h2>
+
+            <div class="lab-tabs" id="analysis-tabs" role="tablist" aria-labelledby="analysis-title">
+              <button type="button" role="tab" id="tab-graph" aria-controls="pane-graph" aria-selected="true" data-i18n="tabGraph">Graf F–x</button>
+              <button type="button" role="tab" id="tab-table" aria-controls="pane-table" tabindex="-1" aria-selected="false">
+                <span data-i18n="tabTable">Jadual</span>
+                <span id="tab-record-count" hidden>0</span>
+              </button>
+            </div>
+
+            <div class="lab-tab-panes">
+              <div class="hooke-graph-pane" id="pane-graph" role="tabpanel" aria-labelledby="tab-graph">
+                <div id="graphWrap">
+                  <canvas id="graph" role="img" data-i18n-aria="graphAria" aria-label="Graf daya F melawan pemanjangan x"></canvas>
+                </div>
+              </div>
+
+              <div class="lab-table lab-live-table hooke-table-pane" id="pane-table" role="tabpanel" aria-labelledby="tab-table" tabindex="0" inert>
+                <div class="hooke-table-actions">
+                  <button type="button" class="hooke-btn go grow" id="recBtn">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+                    <span data-i18n="recBtn">Rekod data</span>
+                  </button>
+                  <button type="button" class="hooke-btn sec" id="clearRec" data-i18n="clearRec">Padam</button>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col" data-i18n="colIdx">#</th>
+                      <th scope="col" data-i18n="colM">m (g)</th>
+                      <th scope="col" data-i18n="colF">F (N)</th>
+                      <th scope="col" data-i18n="colX">x (cm)</th>
+                      <th scope="col" data-i18n="colK">F/x (N m⁻¹)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tRows"></tbody>
+                </table>
+                <p class="hooke-note" id="tFit"></p>
+              </div>
+            </div>
+          </section>
+
+          <section class="hooke-telemetry" aria-labelledby="readings-title">
+            <h2 id="readings-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span data-i18n="readingsTitle">Bacaan langsung</span>
+            </h2>
+            <div class="kbox">
+              <div class="kv"><i id="kBoxLabel">Pemalar spring A, k</i><b id="kVal">41.7</b><u>N m⁻¹</u></div>
+              <div class="kbar"><span id="kBar"></span></div>
+              <div class="kmini" id="kMini"></div>
+            </div>
+            <dl class="hooke-telemetry-grid">
+              <div><dt data-i18n="rMass">Jisim, m</dt><dd><span id="rM">0</span> <small>g</small></dd></div>
+              <div><dt data-i18n="rForce">Daya (berat), F = mg</dt><dd><span id="rF">0.00</span> <small>N</small></dd></div>
+              <div><dt data-i18n="rExt">Pemanjangan, x</dt><dd><span id="rX">0.0</span> <small>cm</small></dd></div>
+              <div><dt data-i18n="rKmeas">k ukuran = F/x</dt><dd><span id="rK">–</span> <small>N m⁻¹</small></dd></div>
+              <div><dt data-i18n="rKtheo">k teori (susunan)</dt><dd><span id="rKt">–</span> <small>N m⁻¹</small></dd></div>
+              <div><dt data-i18n="rEnergy">Tenaga kenyal, E</dt><dd><span id="rE">0.000</span> <small>J</small></dd></div>
+            </dl>
+          </section>
+        </aside>
+
+        <!-- CENTER: APPARATUS STAGE + SLOTTED MASS DOCK -->
+        <section class="hooke-center" aria-labelledby="visual-title">
+          <div class="hooke-stage-head">
+            <h2 id="visual-title" data-i18n="stageH">Eksperimen spring &amp; beban</h2>
+            <div class="hooke-g-ctrl" role="group" aria-label="Pecutan graviti (m s⁻²)">
+              <span class="hooke-g-lbl" aria-hidden="true">g =</span>
+              <div class="hooke-seg hooke-seg-g" id="gSeg">
+                <button type="button" data-g="9.81" class="on" aria-pressed="true">9.81</button>
+                <button type="button" data-g="10" aria-pressed="false">10</button>
+              </div>
+              <span class="hooke-g-unit" aria-hidden="true">m s⁻²</span>
+            </div>
           </div>
-        </div>
-        <div class="hooke-tool-grp">
-          <span class="hooke-tool-lbl" data-i18n="gLabel">Graviti</span>
-          <div class="hooke-seg hooke-seg-g" id="gSeg" role="group" aria-label="Pecutan graviti (m s⁻²)">
-            <button type="button" data-g="9.81" class="on" aria-pressed="true">9.81 m s⁻²</button>
-            <button type="button" data-g="10" aria-pressed="false">10 m s⁻²</button>
-          </div>
-        </div>
-        <button type="button" class="hooke-sound-btn on" id="togSound" aria-pressed="true">
-          <span aria-hidden="true" id="soundIcon">🔊</span>
-          <span id="soundText" data-i18n="soundOn">Bunyi hidup</span>
-        </button>
-      </div>
-    </div>
 
-    <section class="lab-paper hooke-mission" id="missionBar" hidden aria-live="polite">
-      <div class="mtop">
-        <span class="mnum" id="mNum">?</span>
-        <b id="mTitle" data-i18n="mSelectTitle">Pilih misi</b>
-        <span class="stars" id="mStars" aria-label="Bintang diperoleh"></span>
-        <button type="button" class="hooke-mini-btn" id="mList" data-i18n="mListBtn">☰ Senarai misi</button>
-      </div>
-      <div class="mtxt" id="mText"></div>
-      <div class="mans" id="mAns" hidden>
-        <input type="text" id="mInput" inputmode="decimal" autocomplete="off" placeholder="Jawapan" aria-label="Masukkan jawapan">
-        <span class="u" id="mUnit"></span>
-        <button type="button" class="hooke-btn go" id="mCheck" data-i18n="mCheckBtn">✔ Semak</button>
-        <button type="button" class="hooke-btn sec" id="mHint" title="Petunjuk" aria-label="Petunjuk">💡</button>
-      </div>
-      <div class="mprog" id="mProg" hidden><span id="mProgBar"></span></div>
-      <div class="mfb" id="mFb" role="status"></div>
-    </section>
-
-    <div class="lab-work">
-      <section class="lab-visual" aria-labelledby="visual-title">
-        <div class="hooke-stage-head">
-          <h2 id="visual-title" data-i18n="stageH">Eksperimen spring &amp; beban</h2>
-          <span class="hooke-chip" id="statusChip" data-i18n="statusNone">Tiada beban</span>
-        </div>
-
-        <div class="lab-simulation-frame hooke-stage-frame">
           <div id="stageWrap">
             <canvas id="stage" tabindex="0" role="img" data-i18n-aria="stageAria" aria-label="Simulasi interaktif kekenyalan spring dan Hukum Hooke"></canvas>
             <div class="hud">
-              <div class="hooke-badge" id="hudL"></div>
               <div class="hooke-badge" id="hudR"></div>
+              <div class="hooke-badge" id="hudL"></div>
             </div>
             <div id="flash"></div>
             <div id="toast" role="status" aria-live="polite"></div>
             <div id="hint" data-i18n="hintDrag">⬆ Tarik jisim ke penggantung, atau ketik jisim</div>
           </div>
-        </div>
 
-        <div class="hooke-tray-card" id="trayCard">
-          <div class="hooke-tray-head">
-            <h3><span aria-hidden="true">⚖️</span> <span data-i18n="trayTitle">Jisim berslot</span></h3>
-            <strong class="hooke-tray-total" id="totM">0 g</strong>
-          </div>
-          <div class="tray" id="tray" role="group" aria-label="Pilihan jisim berslot"></div>
-          <div class="hooke-actions">
-            <button type="button" class="hooke-btn sec" id="undoBtn" data-i18n="undoBtn">↶ Buang terakhir</button>
-            <button type="button" class="hooke-btn sec" id="clearBtn" data-i18n="clearBtn">🗑 Kosongkan</button>
-            <button type="button" class="hooke-btn go grow" id="recBtn" data-i18n="recBtn">📌 Rekod data</button>
-          </div>
-          <p class="hooke-note" data-i18n="trayNote">Ketik jisim pada penggantung untuk membuangnya. Maksimum 2 kg (12 kepingan).</p>
-        </div>
-      </section>
-
-      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="control-title">
-        <h2 id="control-title" class="lab-control-title">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
-          <span data-i18n="controlsTitle">Panel kawalan</span>
-        </h2>
-
-        <div class="lab-tabs" id="hooke-tabs" role="tablist" aria-labelledby="control-title">
-          <button type="button" role="tab" id="tab-spring" aria-controls="pane-spring" aria-selected="true" data-i18n="tabSpring">Spring</button>
-          <button type="button" role="tab" id="tab-topo" aria-controls="pane-topo" tabindex="-1" aria-selected="false" data-i18n="tabTopo">Susunan</button>
-          <button type="button" role="tab" id="tab-table" aria-controls="pane-table" tabindex="-1" aria-selected="false">
-            <span data-i18n="tabTable">Jadual</span>
-            <span id="tab-record-count" hidden>0</span>
-          </button>
-        </div>
-
-        <div class="lab-tab-panes">
-          <div class="lab-control-pane" id="pane-spring" role="tabpanel" aria-labelledby="tab-spring">
-            <div class="hooke-subhead">
-              <span data-i18n="spSubPrefix">Spring </span><strong id="spSubName">A</strong>
+          <div class="hooke-tray-card" id="trayCard">
+            <div class="hooke-tray-head">
+              <h3>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3M5 7h14M6 7l-2.5 6a3 3 0 0 0 5 0L6 7Zm12 0-2.5 6a3 3 0 0 0 5 0L18 7ZM12 7v14M8 21h8"/></svg>
+                <span data-i18n="trayTitle">Jisim berslot</span>
+              </h3>
             </div>
-            <div class="sp-tabs" id="spTabs" role="group" aria-label="Pilih spring">
-              <button type="button" data-id="A" class="on" style="--c:#1d7fa6">A</button>
-              <button type="button" data-id="B" style="--c:#e08a00">B</button>
-              <button type="button" data-id="C" style="--c:#c2336b">C</button>
-            </div>
-
-            <div class="hooke-lbl" data-i18n="matLabel">Bahan dawai</div>
-            <div class="mats" id="mats"></div>
-
-            <div class="sl lab-control lab-step-range lab-range-stacked" data-k="L">
-              <div class="slt">
-                <label for="slider-L" data-i18n="lblL">Panjang asal, ℓ₀</label>
-                <small data-i18n="hintL">↑ panjang → k ↓</small>
-              </div>
-              <div class="lab-stepper">
-                <button type="button" class="lab-button lab-secondary" id="dec-L" data-i18n-aria="decL" aria-label="Kurangkan panjang asal"><span aria-hidden="true">−</span></button>
-                <input id="slider-L" type="range" min="8" max="20" step="1" value="12">
-                <button type="button" class="lab-button lab-secondary" id="inc-L" data-i18n-aria="incL" aria-label="Tambah panjang asal"><span aria-hidden="true">+</span></button>
-              </div>
-              <output id="out-L" for="slider-L">12 cm</output>
-            </div>
-
-            <div class="sl lab-control lab-step-range lab-range-stacked" data-k="d">
-              <div class="slt">
-                <label for="slider-d" data-i18n="lbld">Ketebalan dawai, d</label>
-                <small data-i18n="hintd">↑ tebal → k ↑</small>
-              </div>
-              <div class="lab-stepper">
-                <button type="button" class="lab-button lab-secondary" id="dec-d" data-i18n-aria="decd" aria-label="Kurangkan ketebalan dawai"><span aria-hidden="true">−</span></button>
-                <input id="slider-d" type="range" min="0.9" max="1.5" step="0.1" value="1">
-                <button type="button" class="lab-button lab-secondary" id="inc-d" data-i18n-aria="incd" aria-label="Tambah ketebalan dawai"><span aria-hidden="true">+</span></button>
-              </div>
-              <output id="out-d" for="slider-d">1 mm</output>
-            </div>
-
-            <div class="sl lab-control lab-step-range lab-range-stacked" data-k="D">
-              <div class="slt">
-                <label for="slider-D" data-i18n="lblD">Diameter spring, D</label>
-                <small data-i18n="hintD">↑ lebar → k ↓</small>
-              </div>
-              <div class="lab-stepper">
-                <button type="button" class="lab-button lab-secondary" id="dec-D" data-i18n-aria="decD" aria-label="Kurangkan diameter spring"><span aria-hidden="true">−</span></button>
-                <input id="slider-D" type="range" min="10" max="18" step="1" value="12">
-                <button type="button" class="lab-button lab-secondary" id="inc-D" data-i18n-aria="incD" aria-label="Tambah diameter spring"><span aria-hidden="true">+</span></button>
-              </div>
-              <output id="out-D" for="slider-D">12 mm</output>
-            </div>
-
-            <div class="kbox">
-              <div class="kv"><i data-i18n="kBoxLabel">Pemalar spring, k</i><b id="kVal">41.7</b><u>N m⁻¹</u></div>
-              <div class="kbar"><span id="kBar"></span></div>
-              <div class="kmini" id="kMini"></div>
-            </div>
-
-            <div class="prow">
-              <button type="button" class="pre" data-pre="lembut" data-i18n="preSoft">Lembut</button>
-              <button type="button" class="pre" data-pre="sederhana" data-i18n="preMed">Sederhana</button>
-              <button type="button" class="pre" data-pre="keras" data-i18n="preStiff">Keras</button>
-            </div>
-            <div class="prow">
-              <button type="button" class="hooke-btn-sm" id="sameBtn" data-i18n="sameBtn">⧉ Samakan semua</button>
-              <button type="button" class="hooke-btn-sm" id="renewBtn" data-i18n="renewBtn">♻ Spring baharu</button>
+            <div class="tray" id="tray" role="group" aria-label="Pilihan jisim berslot"></div>
+            <div class="hooke-actions">
+              <button type="button" class="hooke-btn sec grow" id="undoBtn">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+                <span data-i18n="undoBtn">Buang terakhir</span>
+              </button>
+              <button type="button" class="hooke-btn sec grow" id="clearBtn">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                <span data-i18n="clearBtn">Kosongkan</span>
+              </button>
+              <button type="button" class="hooke-btn sec hooke-jump-graph" id="jumpGraphBtn" data-i18n-aria="jumpGraphAria" aria-label="Tatal ke graf F melawan x">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+                <span data-i18n="jumpGraphBtn">Lihat graf</span>
+              </button>
             </div>
           </div>
+        </section>
 
-          <div class="lab-control-pane" id="pane-topo" role="tabpanel" aria-labelledby="tab-topo" tabindex="0" inert>
-            <div class="hooke-subhead">
-              <span data-i18n="topoHeader">Susunan Spring</span>
-              <strong id="topoSub">Tunggal</strong>
-            </div>
-            <div class="topos" id="topos"></div>
-            <div class="hooke-formula" id="formula"></div>
-            <div id="perSpring"></div>
+        <!-- RIGHT WING: CONTROL PANEL -->
+        <section class="hooke-wing-right lab-controls has-tabs lab-template-controls" aria-labelledby="control-title">
+          <h2 id="control-title" class="lab-control-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+            <span data-i18n="controlsTitle">Panel kawalan</span>
+          </h2>
+
+          <div class="lab-tabs" id="hooke-tabs" role="tablist" aria-labelledby="control-title">
+            <button type="button" role="tab" id="tab-spring" aria-controls="pane-spring" aria-selected="true" data-i18n="tabSpring">Spring</button>
+            <button type="button" role="tab" id="tab-topo" aria-controls="pane-topo" tabindex="-1" aria-selected="false" data-i18n="tabTopo">Susunan</button>
           </div>
 
-          <div class="lab-table lab-live-table" id="pane-table" role="tabpanel" aria-labelledby="tab-table" tabindex="0" inert>
-            <div class="hooke-table-head">
-              <span data-i18n="tableCaption">Jadual data eksperimen</span>
-              <button type="button" class="hooke-btn-sm" id="clearRec" data-i18n="clearRec">Padam</button>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col" data-i18n="colIdx">#</th>
-                  <th scope="col" data-i18n="colM">m (g)</th>
-                  <th scope="col" data-i18n="colF">F (N)</th>
-                  <th scope="col" data-i18n="colX">x (cm)</th>
-                  <th scope="col" data-i18n="colK">F/x (N m⁻¹)</th>
-                </tr>
-              </thead>
-              <tbody id="tRows"></tbody>
-            </table>
-            <p class="hooke-note" id="tFit"></p>
-          </div>
-        </div>
-      </section>
-    </div>
+          <div class="lab-tab-panes">
+            <div class="lab-control-pane" id="pane-spring" role="tabpanel" aria-labelledby="tab-spring">
+              <div class="hooke-subhead">
+                <span data-i18n="spSubPrefix">Spring</span>
+              </div>
+              <div class="sp-tabs" id="spTabs" role="group" aria-label="Pilih spring">
+                <button type="button" data-id="A" class="on" style="--c:#1d7fa6">A</button>
+                <button type="button" data-id="B" style="--c:#e08a00">B</button>
+                <button type="button" data-id="C" style="--c:#c2336b">C</button>
+              </div>
 
-    <section class="lab-readings" aria-labelledby="readings-title">
-      <h2 id="readings-title" data-i18n="readingsTitle">Bacaan langsung</h2>
-      <dl>
-        <div><dt data-i18n="rMass">Jisim, m</dt><dd><span id="rM">0</span> <small>g</small></dd></div>
-        <div><dt data-i18n="rForce">Daya (berat), F = mg</dt><dd><span id="rF">0.00</span> <small>N</small></dd></div>
-        <div><dt data-i18n="rExt">Pemanjangan, x</dt><dd><span id="rX">0.0</span> <small>cm</small></dd></div>
-        <div><dt data-i18n="rKmeas">k ukuran = F/x</dt><dd><span id="rK">–</span> <small>N m⁻¹</small></dd></div>
-        <div><dt data-i18n="rKtheo">k teori (susunan)</dt><dd><span id="rKt">–</span> <small>N m⁻¹</small></dd></div>
-        <div><dt data-i18n="rEnergy">Tenaga kenyal, E</dt><dd><span id="rE">0.000</span> <small>J</small></dd></div>
-      </dl>
+              <div class="hooke-lbl" data-i18n="matLabel">Bahan dawai</div>
+              <div class="mats" id="mats"></div>
+
+              <div class="sl hooke-slider-row" data-k="L">
+                <div class="slt">
+                  <label for="slider-L" data-i18n="lblL">Panjang asal, ℓ₀</label>
+                  <output id="out-L" for="slider-L">12 cm</output>
+                </div>
+                <input id="slider-L" class="hooke-range" type="range" min="8" max="20" step="1" value="12">
+              </div>
+
+              <div class="sl hooke-slider-row" data-k="d">
+                <div class="slt">
+                  <label for="slider-d" data-i18n="lbld">Ketebalan dawai, d</label>
+                  <output id="out-d" for="slider-d">1 mm</output>
+                </div>
+                <input id="slider-d" class="hooke-range" type="range" min="0.9" max="1.5" step="0.1" value="1">
+              </div>
+
+              <div class="sl hooke-slider-row" data-k="D">
+                <div class="slt">
+                  <label for="slider-D" data-i18n="lblD">Diameter spring, D</label>
+                  <output id="out-D" for="slider-D">12 mm</output>
+                </div>
+                <input id="slider-D" class="hooke-range" type="range" min="10" max="18" step="1" value="12">
+              </div>
+
+              <div class="hooke-lbl" data-i18n="presetLabel">Preset spring</div>
+              <div class="prow">
+                <button type="button" class="pre" data-pre="lembut" data-i18n="preSoft">Lembut</button>
+                <button type="button" class="pre" data-pre="sederhana" data-i18n="preMed">Sederhana</button>
+                <button type="button" class="pre" data-pre="keras" data-i18n="preStiff">Keras</button>
+              </div>
+              <div class="prow">
+                <button type="button" class="hooke-btn-sm" id="sameBtn">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span data-i18n="sameBtn">Samakan semua</span>
+                </button>
+                <button type="button" class="hooke-btn-sm" id="renewBtn">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                  <span data-i18n="renewBtn">Spring baharu</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="lab-control-pane" id="pane-topo" role="tabpanel" aria-labelledby="tab-topo" tabindex="0" inert>
+              <div class="hooke-subhead">
+                <span data-i18n="topoHeader">Susunan Spring</span>
+                <strong id="topoSub">Tunggal</strong>
+              </div>
+              <div class="topos" id="topos"></div>
+              <div class="hooke-formula" id="formula"></div>
+              <div id="perSpring"></div>
+            </div>
+          </div>
+        </section>
+      </div>
     </section>
 
-    <div class="hooke-analysis">
-      <section class="lab-paper" id="graphCard" aria-labelledby="graph-title">
-        <h2 id="graph-title"><span aria-hidden="true">📈</span> <span data-i18n="graphTitle">Graf F melawan x</span></h2>
-        <div id="graphWrap">
-          <canvas id="graph" role="img" data-i18n-aria="graphAria" aria-label="Graf daya F melawan pemanjangan x"></canvas>
-        </div>
-        <p class="hooke-note" id="graphNote"></p>
-      </section>
+    <section class="hooke-theory-section" id="theoryCard" aria-labelledby="theory-title">
+      <h2 id="theory-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span data-i18n="theoryTitle">Konsep Fizik</span>
+      </h2>
+      <div class="theory">
+        <details open>
+          <summary>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7a6 6 0 0 0 12 0V3M6 7h3m6 0h3"/></svg>
+            <span data-i18n="th1Sum">Kekenyalan &amp; Hukum Hooke</span>
+          </summary>
+          <p data-i18n-html="th1Body">Bahan kenyal kembali kepada bentuk dan saiz asal apabila daya yang dikenakan dikeluarkan. <b>Hukum Hooke</b>: pemanjangan spring berkadar terus dengan daya yang dikenakan selagi tidak melebihi <b>had kenyal</b>.</p>
+          <div class="eq">F = kx</div>
+          <p data-i18n-html="th1Tail">k ialah <b>pemalar spring</b> (N m⁻¹) dan merupakan <b>kecerunan graf F–x</b>. Spring yang keras mempunyai k yang besar.</p>
+        </details>
+        <details>
+          <summary>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg>
+            <span data-i18n="th2Sum">Faktor yang mempengaruhi k</span>
+          </summary>
+          <table>
+            <tr><th data-i18n="th2Col1">Faktor</th><th data-i18n="th2Col2">Jika bertambah</th><th>k</th></tr>
+            <tr><td data-i18n="th2Row1a">Kekerasan bahan</td><td data-i18n="th2Row1b">lebih keras</td><td data-i18n="th2Row1c">↑ bertambah</td></tr>
+            <tr><td data-i18n="th2Row2a">Panjang spring</td><td>↑</td><td data-i18n="th2Row2c">↓ berkurang</td></tr>
+            <tr><td data-i18n="th2Row3a">Ketebalan dawai, d</td><td>↑</td><td data-i18n="th2Row3c">↑ bertambah</td></tr>
+            <tr><td data-i18n="th2Row4a">Diameter spring, D</td><td>↑</td><td data-i18n="th2Row4c">↓ berkurang</td></tr>
+          </table>
+          <div class="eq">k ∝ d⁴ / (D³ n)</div>
+          <p data-i18n="th2Tail">n ialah bilangan lilitan. Spring yang lebih panjang mempunyai lebih banyak lilitan.</p>
+        </details>
+        <details>
+          <summary>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span data-i18n="th3Sum">Tenaga keupayaan kenyal</span>
+          </summary>
+          <p data-i18n-html="th3Body">Kerja yang dilakukan untuk meregang spring disimpan sebagai tenaga keupayaan kenyal, iaitu <b>luas di bawah graf F–x</b>.</p>
+          <div class="eq">E = ½Fx = ½kx² = F² / 2k</div>
+        </details>
+        <details>
+          <summary>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <span data-i18n="th4Sum">Susunan siri &amp; selari</span>
+          </summary>
+          <p data-i18n-html="th4Body"><b>Siri</b>: daya sama pada setiap spring, pemanjangan bertambah (x = x₁ + x₂).</p>
+          <div class="eq">1/k = 1/k₁ + 1/k₂</div>
+          <p data-i18n-html="th4Mid"><b>Selari</b>: daya dikongsi (F = F₁ + F₂), pemanjangan sama.</p>
+          <div class="eq">k = k₁ + k₂</div>
+          <p data-i18n-html="th4Tail">Untuk dua spring serupa: siri → k/2, selari → 2k. Susunan <b>gabungan</b> dikira langkah demi langkah.</p>
+        </details>
+        <details>
+          <summary>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <span data-i18n="th5Sum">Had kenyal</span>
+          </summary>
+          <p data-i18n-html="th5Body">Jika daya melebihi had kenyal, spring mengalami <b>ubah bentuk kekal (plastik)</b> dan tidak kembali ke panjang asal. Graf F–x tidak lagi garis lurus. Daya yang terlalu besar akan memutuskan spring.</p>
+        </details>
+      </div>
+    </section>
 
-      <section class="lab-paper" id="theoryCard" aria-labelledby="theory-title">
-        <h2 id="theory-title"><span aria-hidden="true">📘</span> <span data-i18n="theoryTitle">Konsep Fizik</span></h2>
-        <div class="theory">
-          <details open>
-            <summary data-i18n="th1Sum">🧲 Kekenyalan &amp; Hukum Hooke</summary>
-            <p data-i18n-html="th1Body">Bahan kenyal kembali kepada bentuk dan saiz asal apabila daya yang dikenakan dikeluarkan. <b>Hukum Hooke</b>: pemanjangan spring berkadar terus dengan daya yang dikenakan selagi tidak melebihi <b>had kenyal</b>.</p>
-            <div class="eq">F = kx</div>
-            <p data-i18n-html="th1Tail">k ialah <b>pemalar spring</b> (N m⁻¹) dan merupakan <b>kecerunan graf F–x</b>. Spring yang keras mempunyai k yang besar.</p>
-          </details>
-          <details>
-            <summary data-i18n="th2Sum">🔧 Faktor yang mempengaruhi k</summary>
-            <table>
-              <tr><th data-i18n="th2Col1">Faktor</th><th data-i18n="th2Col2">Jika bertambah</th><th>k</th></tr>
-              <tr><td data-i18n="th2Row1a">Kekerasan bahan</td><td data-i18n="th2Row1b">lebih keras</td><td data-i18n="th2Row1c">↑ bertambah</td></tr>
-              <tr><td data-i18n="th2Row2a">Panjang spring</td><td>↑</td><td data-i18n="th2Row2c">↓ berkurang</td></tr>
-              <tr><td data-i18n="th2Row3a">Ketebalan dawai, d</td><td>↑</td><td data-i18n="th2Row3c">↑ bertambah</td></tr>
-              <tr><td data-i18n="th2Row4a">Diameter spring, D</td><td>↑</td><td data-i18n="th2Row4c">↓ berkurang</td></tr>
-            </table>
-            <div class="eq">k ∝ d⁴ / (D³ n)</div>
-            <p data-i18n="th2Tail">n ialah bilangan lilitan. Spring yang lebih panjang mempunyai lebih banyak lilitan.</p>
-          </details>
-          <details>
-            <summary data-i18n="th3Sum">⚡ Tenaga keupayaan kenyal</summary>
-            <p data-i18n-html="th3Body">Kerja yang dilakukan untuk meregang spring disimpan sebagai tenaga keupayaan kenyal, iaitu <b>luas di bawah graf F–x</b>.</p>
-            <div class="eq">E = ½Fx = ½kx² = F² / 2k</div>
-          </details>
-          <details>
-            <summary data-i18n="th4Sum">🔗 Susunan siri &amp; selari</summary>
-            <p data-i18n-html="th4Body"><b>Siri</b>: daya sama pada setiap spring, pemanjangan bertambah (x = x₁ + x₂).</p>
-            <div class="eq">1/k = 1/k₁ + 1/k₂</div>
-            <p data-i18n-html="th4Mid"><b>Selari</b>: daya dikongsi (F = F₁ + F₂), pemanjangan sama.</p>
-            <div class="eq">k = k₁ + k₂</div>
-            <p data-i18n-html="th4Tail">Untuk dua spring serupa: siri → k/2, selari → 2k. Susunan <b>gabungan</b> dikira langkah demi langkah.</p>
-          </details>
-          <details>
-            <summary data-i18n="th5Sum">⚠️ Had kenyal</summary>
-            <p data-i18n-html="th5Body">Jika daya melebihi had kenyal, spring mengalami <b>ubah bentuk kekal (plastik)</b> dan tidak kembali ke panjang asal. Graf F–x tidak lagi garis lurus. Daya yang terlalu besar akan memutuskan spring.</p>
-          </details>
-        </div>
-      </section>
-    </div>
-
-    <div class="lab-tail has-companion" data-lab-tail></div>
     <p class="hooke-model-foot" data-i18n="footerNote">Model: spring helik (k ∝ Gd⁴ / D³n), Hukum Hooke dalam had kenyal, dan ubah bentuk plastik melebihi had. Lukisan tidak mengikut skala lebar; paksi pembaris mengikut skala panjang.</p>
+    <div class="hooke-mode-dock" id="modeDock" hidden>
+      <span class="hooke-tool-lbl" data-i18n="modeLabel">Mod</span>
+      <div class="hooke-seg" id="modeTabs" role="group" aria-label="Mod simulasi">
+        <button type="button" data-m="lab" class="on" aria-pressed="true">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8.5A2 2 0 0 0 7.2 19h9.6a2 2 0 0 0 1.7-2.5L14 8V3"/></svg>
+          <span data-i18n="modeLab">Makmal</span>
+        </button>
+        <button type="button" data-m="chal" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+          <span data-i18n="modeChal">Cabaran</span>
+        </button>
+      </div>
+    </div>
+    <div class="lab-tail has-companion" data-lab-tail></div>
     <section class="feedback-section" id="penilaian" data-simulation-feedback="hooke" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
   </main>
 
