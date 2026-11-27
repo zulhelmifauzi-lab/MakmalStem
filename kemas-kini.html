@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#634395">
+  <title>Kemas Kini — Makmal STEM</title>
+  <meta name="description" content="Log kemas kini rasmi Makmal STEM: ciri baharu, penambahbaikan dan pembaikan simulasi KSSM Tingkatan 4 &amp; 5.">
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="kemas-kini.css">
+  <script src="changelog-data.js"></script>
+  <script defer src="lab-chrome.js"></script>
+  <script defer src="feedback.js"></script>
+  <script defer src="kemas-kini.js"></script>
+</head>
+<body class="changelog-page">
+  <header class="lab-bar" data-lab-header></header>
+  <main class="cl-main">
+    <header class="cl-hero">
+      <h1 id="cl-title">Kemas Kini</h1>
+      <p id="cl-lead">Catatan perubahan, ciri baharu dan pembaikan berterusan pada portal Makmal STEM.</p>
+      <div class="cl-filters" id="cl-filters" role="group" aria-label="Tapis kemas kini mengikut kategori">
+        <button type="button" class="cl-filter-btn is-active" data-filter="all" aria-pressed="true">Semua</button>
+        <button type="button" class="cl-filter-btn" data-filter="new" aria-pressed="false">Baharu</button>
+        <button type="button" class="cl-filter-btn" data-filter="improved" aria-pressed="false">Diperbaik</button>
+        <button type="button" class="cl-filter-btn" data-filter="fixed" aria-pressed="false">Dibaiki</button>
+      </div>
+    </header>
+    <div id="changelog-list" class="cl-timeline" aria-live="polite"></div>
+  </main>
+</body>
+</html>

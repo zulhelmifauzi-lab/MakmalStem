@@ -2,10 +2,14 @@
 <html lang="ms">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Simulasi interaktif Ketaksamaan Linear dalam Dua Pemboleh Ubah KSSM Matematik Tingkatan 4: garis sempadan padu dan putus-putus, rantau berlorek, titik ujian dan sistem ketaksamaan linear.">
-  <title>Ketaksamaan Linear (BETA) — Makmal STEM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#252137">
+  <meta name="description" content="Simulasi interaktif Ketaksamaan Linear dalam Dua Pemboleh Ubah KSSM Matematik Tingkatan 4: garis sempadan padu dan putus-putus, rantau berlorek, titik ujian, sistem ketaksamaan linear dan misi cabaran.">
+  <title>Ketaksamaan Linear — Makmal STEM</title>
   <link rel="icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="brand.css">
   <link rel="stylesheet" href="feedback.css">
@@ -30,105 +34,364 @@
         </svg>
       </span>
       <div class="lab-module-heading">
-        <h1><span data-i18n="title">Ketaksamaan Linear</span> <span class="beta-label">(BETA)</span></h1>
+        <h1><span data-i18n="title">Ketaksamaan Linear</span></h1>
         <span class="lab-subject-badge" data-i18n="badge">Matematik T4 · Bab 6</span>
+        <div class="iq-mode-dock" id="modeDock">
+          <div class="iq-mode-switch" id="modeTabs" role="group" aria-label="Mod simulasi">
+            <button type="button" data-m="lab" class="on" aria-pressed="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8.5A2 2 0 0 0 7.2 19h9.6a2 2 0 0 0 1.7-2.5L14 8V3"/></svg>
+              <span data-i18n="modeLab">Makmal</span>
+            </button>
+            <button type="button" data-m="chal" aria-pressed="false">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+              <span data-i18n="modeChal">Cabaran</span>
+              <span class="iq-chal-badge" id="chalBadge" data-i18n="chalBadge">6 Misi</span>
+            </button>
+          </div>
+        </div>
       </div>
     </header>
 
-    <div class="lab-work">
-      <section class="lab-visual" aria-labelledby="graph-h">
-        <h2 id="graph-h" data-i18n="graphH">Satah Cartes interaktif</h2>
-        <div class="lab-simulation-frame">
-          <canvas id="plot" tabindex="0" role="img" data-i18n-aria="plotAria" aria-label="Graf ketaksamaan linear dalam dua pemboleh ubah. Seret titik ujian P atau guna kekunci anak panah untuk menggerakkan P."></canvas>
-        </div>
-        <div class="ineq-legend" id="ineq-legend" aria-hidden="true">
-          <span><i class="ineq-swatch l1"></i><b data-i18n="leg1">Ketaksamaan 1</b></span>
-          <span id="leg2-wrap" hidden><i class="ineq-swatch l2"></i><b data-i18n="leg2">Ketaksamaan 2</b></span>
-          <span id="legR-wrap" hidden><i class="ineq-swatch common"></i><b data-i18n="legR">Rantau sepunya (R)</b></span>
-        </div>
-      </section>
+    <section class="iq-studio" data-i18n-aria="workspaceAria" aria-label="Ruang kerja simulasi">
+      <div class="iq-studio-grid">
+        <!-- SAYAP KIRI: ANALISIS / JADUAL + BACAAN LANGSUNG -->
+        <aside class="iq-wing-left" data-i18n-aria="analysisAria" aria-label="Analisis, jadual dan bacaan langsung">
+          <section class="iq-analysis-pane has-tabs lab-template-controls" id="analysisCard" aria-labelledby="analysis-title">
+            <h2 id="analysis-title">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M6 16l6-6 6-4"/></svg>
+              <span data-i18n="analysisTitle">Analisis &amp; data</span>
+            </h2>
+            <div class="lab-tabs" id="analysis-tabs" role="tablist" aria-labelledby="analysis-title">
+              <button type="button" id="ineq-tab-table" role="tab" aria-selected="true" aria-controls="ineq-pane-table" data-i18n="tabTable">Jadual</button>
+              <button type="button" id="tab-log" role="tab" aria-selected="false" aria-controls="pane-log" tabindex="-1">
+                <span data-i18n="tabLog">Rekod ujian</span>
+                <span id="tab-record-count" hidden>0</span>
+              </button>
+            </div>
+            <div class="lab-tab-panes">
+              <div class="lab-table lab-live-table iq-table-pane" id="ineq-pane-table" role="tabpanel" aria-labelledby="ineq-tab-table" tabindex="0">
+                <table>
+                  <caption id="table-caption" data-i18n="coordinateCaption">10 pasangan koordinat garis sempadan</caption>
+                  <thead><tr><th scope="col"><var>x</var></th><th scope="col"><var>y</var></th></tr></thead>
+                  <tbody id="ineq-coordinates"></tbody>
+                </table>
+              </div>
+              <div class="lab-table lab-live-table iq-log-pane" id="pane-log" role="tabpanel" aria-labelledby="tab-log" tabindex="0" inert>
+                <div class="iq-table-actions">
+                  <button type="button" class="iq-btn go grow" id="recBtn">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+                    <span data-i18n="recordBtn">Rekod titik P</span>
+                  </button>
+                  <button type="button" class="iq-btn sec" id="clearRec" data-i18n="clearRec">Padam</button>
+                </div>
+                <table>
+                  <thead><tr><th scope="col" data-i18n="colIdx">#</th><th scope="col" data-i18n="colPt">Titik P</th><th scope="col" data-i18n="colIneq">Ketaksamaan</th><th scope="col" data-i18n="colStat">Status</th></tr></thead>
+                  <tbody id="tRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
 
-      <section class="lab-controls lab-paper has-tabs lab-template-controls" aria-labelledby="ctl-h">
-        <h2 id="ctl-h" class="lab-control-title">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
-          <span data-i18n="controls">Panel kawalan</span>
-        </h2>
-        <div class="lab-tabs" id="ineq-tabs" role="tablist" aria-labelledby="ctl-h">
-          <button type="button" id="ineq-tab-controls" role="tab" aria-selected="true" aria-controls="ineq-pane-controls" data-i18n="tabControls">Kawalan</button>
-          <button type="button" id="ineq-tab-table" role="tab" aria-selected="false" aria-controls="ineq-pane-table" tabindex="-1" data-i18n="tabTable">Jadual</button>
-        </div>
-        <div class="lab-tab-panes">
-          <div class="lab-control-pane" id="ineq-pane-controls" role="tabpanel" aria-labelledby="ineq-tab-controls">
-            <div class="ineq-segment" role="group" data-i18n-aria="modeGroup" aria-label="Mod ketaksamaan">
-              <button type="button" id="mode-single" aria-pressed="true" data-i18n="modeSingle">1 Ketaksamaan</button>
-              <button type="button" id="mode-system" aria-pressed="false" data-i18n="modeSystem">Sistem (2)</button>
+          <section class="iq-telemetry" aria-labelledby="feat-h">
+            <h2 id="feat-h">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span data-i18n="featH">Bacaan langsung</span>
+            </h2>
+            <div class="kbox">
+              <div class="kv"><i data-i18n="f_ineq">Ketaksamaan</i><b id="f-ineq">y ≥ x + 1</b></div>
             </div>
-            <div class="ineq-segment ineq-line-picker" id="line-picker" role="group" data-i18n-aria="lineGroup" aria-label="Pilih ketaksamaan" hidden>
-              <button type="button" id="pick-0" data-line="0" aria-pressed="true" data-i18n="line1">Ketaksamaan 1</button>
-              <button type="button" id="pick-1" data-line="1" aria-pressed="false" data-i18n="line2">Ketaksamaan 2</button>
-            </div>
-            <div class="ineq-ops" role="group" data-i18n-aria="opGroup" aria-label="Simbol ketaksamaan">
-              <button type="button" id="op-gt" data-op=">" aria-pressed="false">&gt;</button>
-              <button type="button" id="op-gte" data-op=">=" aria-pressed="true">≥</button>
-              <button type="button" id="op-lt" data-op="<" aria-pressed="false">&lt;</button>
-              <button type="button" id="op-lte" data-op="<=" aria-pressed="false">≤</button>
-            </div>
-            <div class="lab-control lab-step-range">
-              <label for="slider-m"><var>m</var></label>
-              <div class="lab-stepper">
-                <button type="button" class="lab-button lab-secondary" id="decrease-m" data-i18n-aria="decrease_m" aria-label="Kurangkan m"><span aria-hidden="true">−</span></button>
-                <input type="range" id="slider-m" min="-4" max="4" step="0.5" value="1">
-                <button type="button" class="lab-button lab-secondary" id="increase-m" data-i18n-aria="increase_m" aria-label="Tambah m"><span aria-hidden="true">+</span></button>
+            <dl class="iq-telemetry-grid">
+              <div><dt data-i18n="f_boundary">Garis sempadan</dt><dd id="f-boundary"></dd></div>
+              <div><dt data-i18n="f_region">Rantau berlorek</dt><dd id="f-region"></dd></div>
+              <div><dt data-i18n="f_point">Titik ujian P</dt><dd id="f-point"></dd></div>
+              <div><dt id="f-extra-label" data-i18n="f_intercepts">Pintasan paksi</dt><dd id="f-extra"></dd></div>
+            </dl>
+          </section>
+        </aside>
+
+        <!-- TENGAH: PENTAS SATAH CARTES + STATUS TITIK + PRATETAP -->
+        <section class="iq-center" aria-labelledby="graph-h">
+          <div class="iq-stage-head">
+            <h2 id="graph-h" data-i18n="graphH">Satah Cartes interaktif</h2>
+            <div class="iq-head-right">
+              <span class="iq-mode-lbl" data-i18n="modeLabel">Ketaksamaan :</span>
+              <div class="iq-seg iq-mode-seg" role="group" data-i18n-aria="modeGroup" aria-label="Mod ketaksamaan">
+                <button type="button" id="mode-single" aria-pressed="true" data-i18n="modeSingle">1</button>
+                <button type="button" id="mode-system" aria-pressed="false" data-i18n="modeSystem">2</button>
               </div>
-              <output id="out-m" for="slider-m"></output>
-            </div>
-            <div class="lab-control lab-step-range">
-              <label for="slider-c"><var>c</var></label>
-              <div class="lab-stepper">
-                <button type="button" class="lab-button lab-secondary" id="decrease-c" data-i18n-aria="decrease_c" aria-label="Kurangkan c"><span aria-hidden="true">−</span></button>
-                <input type="range" id="slider-c" min="-8" max="8" step="0.5" value="1">
-                <button type="button" class="lab-button lab-secondary" id="increase-c" data-i18n-aria="increase_c" aria-label="Tambah c"><span aria-hidden="true">+</span></button>
-              </div>
-              <output id="out-c" for="slider-c"></output>
-            </div>
-            <fieldset class="lab-display-options">
-              <legend data-i18n="show">Papar</legend>
-              <div class="lab-display-toggles">
-                <label class="lab-toggle"><input type="checkbox" data-show="shade" checked> <span data-i18n="s_shade">Rantau berlorek</span></label>
-                <label class="lab-toggle"><input type="checkbox" data-show="point" checked> <span data-i18n="s_point">Titik ujian P</span></label>
-                <label class="lab-toggle"><input type="checkbox" data-show="intercepts" checked> <span data-i18n="s_intercepts">Pintasan</span></label>
-                <label class="lab-toggle"><input type="checkbox" data-show="labels" checked> <span data-i18n="s_labels">Label rantau</span></label>
-              </div>
-            </fieldset>
-            <div class="lab-reset-row">
-              <button type="button" id="btn-reset" class="lab-button" data-i18n="reset">Set semula</button>
             </div>
           </div>
-          <div class="lab-table lab-live-table" id="ineq-pane-table" role="tabpanel" aria-labelledby="ineq-tab-table" tabindex="0" inert>
-            <table>
-              <caption id="table-caption" data-i18n="coordinateCaption">10 pasangan koordinat garis sempadan</caption>
-              <thead><tr><th scope="col"><var>x</var></th><th scope="col"><var>y</var></th></tr></thead>
-              <tbody id="ineq-coordinates"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-    </div>
 
-    <section class="lab-readings" aria-labelledby="feat-h">
-      <h2 id="feat-h" data-i18n="featH">Bacaan langsung</h2>
-      <dl>
-        <div><dt data-i18n="f_ineq">Ketaksamaan</dt><dd id="f-ineq"></dd></div>
-        <div><dt data-i18n="f_boundary">Garis sempadan</dt><dd id="f-boundary"></dd></div>
-        <div><dt data-i18n="f_region">Rantau berlorek</dt><dd id="f-region"></dd></div>
-        <div><dt data-i18n="f_point">Titik ujian P</dt><dd id="f-point"></dd></div>
-        <div><dt id="f-extra-label" data-i18n="f_intercepts">Pintasan</dt><dd id="f-extra"></dd></div>
-      </dl>
+          <div id="stageWrap">
+            <canvas id="plot" tabindex="0" role="img" data-i18n-aria="plotAria" aria-label="Graf ketaksamaan linear dalam dua pemboleh ubah. Seret titik ujian P atau guna kekunci anak panah untuk menggerakkan P."></canvas>
+            <div id="toast" role="status" aria-live="polite"></div>
+            <div id="hint" data-i18n="hintText">⬆ Klik atau seret untuk gerakkan P</div>
+          </div>
+
+          <div class="iq-ciri iq-ciri-row" aria-live="polite">
+            <div class="iq-ciri-top">
+              <h3 data-i18n="pointStatusTitle">Status titik ujian</h3>
+              <div class="tags" id="ciriTags"></div>
+            </div>
+            <p class="iq-ciri-pos" id="note" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="iq-tray-card">
+            <div class="iq-preset-bar">
+              <div class="iq-presets" id="presetBar" role="group" data-i18n-aria="presetGroup" aria-label="Pratetap contoh KSSM"></div>
+              <button type="button" id="btn-reset" class="iq-pre icon" data-i18n-aria="reset" title="Set semula" aria-label="Set semula">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+              </button>
+            </div>
+            <div class="iq-actions iq-mobile-actions">
+              <button type="button" class="iq-btn sec grow iq-jump-table" id="jumpTableBtn">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M6 16l6-6 6-4"/></svg>
+                <span data-i18n="jumpTable">Lihat jadual &amp; bacaan</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SAYAP KANAN: PANEL KAWALAN -->
+        <section class="iq-wing-right lab-controls has-tabs lab-template-controls" aria-labelledby="ctl-h">
+          <h2 id="ctl-h" class="lab-control-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h9m5 0h4M3 12h4m5 0h9M3 19h9m5 0h4M15 2.5v5M9 9.5v5M15 16.5v5"/></svg>
+            <span data-i18n="controls">Panel kawalan</span>
+          </h2>
+          <div class="lab-tabs" id="iq-tabs" role="tablist" aria-labelledby="ctl-h">
+            <button type="button" id="ineq-tab-controls" role="tab" aria-selected="true" aria-controls="ineq-pane-controls" data-i18n="tabControls">Ketaksamaan</button>
+            <button type="button" id="tab-view" role="tab" aria-selected="false" aria-controls="pane-view" tabindex="-1" data-i18n="tabView">Paparan</button>
+          </div>
+          <div class="lab-tab-panes">
+            <div class="lab-control-pane" id="ineq-pane-controls" role="tabpanel" aria-labelledby="ineq-tab-controls">
+              <div class="iq-group" id="linePickerGroup" hidden>
+                <div class="iq-lbl" data-i18n="lineGroup">Pilih ketaksamaan</div>
+                <div class="iq-seg iq-line-picker iq-seg-wide" id="line-picker" role="group" data-i18n-aria="lineGroup" aria-label="Pilih ketaksamaan" hidden>
+                  <button type="button" id="pick-0" data-line="0" aria-pressed="true" data-i18n="line1">Ketaksamaan 1</button>
+                  <button type="button" id="pick-1" data-line="1" aria-pressed="false" data-i18n="line2">Ketaksamaan 2</button>
+                </div>
+              </div>
+
+              <div class="iq-group">
+                <div class="iq-lbl" data-i18n="opGroup">Simbol ketaksamaan</div>
+                <div class="ineq-ops" role="group" data-i18n-aria="opGroup" aria-label="Simbol ketaksamaan">
+                  <button type="button" id="op-gt" data-op=">" aria-pressed="false">
+                    <span>&gt;</span>
+                    <svg viewBox="0 0 28 4" width="26" height="4" aria-hidden="true"><line x1="1" y1="2" x2="27" y2="2" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg>
+                  </button>
+                  <button type="button" id="op-gte" data-op=">=" aria-pressed="true">
+                    <span>≥</span>
+                    <svg viewBox="0 0 28 4" width="26" height="4" aria-hidden="true"><line x1="1" y1="2" x2="27" y2="2" stroke="currentColor" stroke-width="2.2"/></svg>
+                  </button>
+                  <button type="button" id="op-lt" data-op="<" aria-pressed="false">
+                    <span>&lt;</span>
+                    <svg viewBox="0 0 28 4" width="26" height="4" aria-hidden="true"><line x1="1" y1="2" x2="27" y2="2" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg>
+                  </button>
+                  <button type="button" id="op-lte" data-op="<=" aria-pressed="false">
+                    <span>≤</span>
+                    <svg viewBox="0 0 28 4" width="26" height="4" aria-hidden="true"><line x1="1" y1="2" x2="27" y2="2" stroke="currentColor" stroke-width="2.2"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="iq-group">
+                <div class="iq-slider-row">
+                  <div class="slt">
+                    <label for="slider-m" class="iq-lbl-inline">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 18L20 6"/><path d="M10 18h10v-7"/></svg>
+                      <span data-i18n="lblM">Kecerunan, m</span>
+                    </label>
+                    <span class="slt-r">
+                      <button type="button" class="iq-nudge" id="decrease-m" data-i18n-aria="decrease_m" aria-label="Kurangkan kecerunan m"><span aria-hidden="true">−</span></button>
+                      <output id="out-m" for="slider-m">1</output>
+                      <button type="button" class="iq-nudge" id="increase-m" data-i18n-aria="increase_m" aria-label="Tambah kecerunan m"><span aria-hidden="true">+</span></button>
+                    </span>
+                  </div>
+                  <input type="range" class="iq-range" id="slider-m" min="-4" max="4" step="0.5" value="1">
+                </div>
+
+                <div class="iq-slider-row">
+                  <div class="slt">
+                    <label for="slider-c" class="iq-lbl-inline">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M5 12h14"/><circle cx="12" cy="8" r="2.5"/></svg>
+                      <span data-i18n="lblC">Pintasan-y, c</span>
+                    </label>
+                    <span class="slt-r">
+                      <button type="button" class="iq-nudge" id="decrease-c" data-i18n-aria="decrease_c" aria-label="Kurangkan pintasan c"><span aria-hidden="true">−</span></button>
+                      <output id="out-c" for="slider-c">1</output>
+                      <button type="button" class="iq-nudge" id="increase-c" data-i18n-aria="increase_c" aria-label="Tambah pintasan c"><span aria-hidden="true">+</span></button>
+                    </span>
+                  </div>
+                  <input type="range" class="iq-range" id="slider-c" min="-8" max="8" step="0.5" value="1">
+                </div>
+              </div>
+
+              <div class="iq-group iq-action-group">
+                <div class="iq-actions">
+                  <button type="button" class="iq-btn sec grow" id="btn-test-origin">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+                    <span data-i18n="testOrigin">Uji asalan (0, 0)</span>
+                  </button>
+                  <button type="button" class="iq-btn go grow" id="recBtn2">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+                    <span data-i18n="recordBtn">Rekod titik P</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="iq-group iq-formula-group">
+                <div class="iq-lbl" data-i18n="formulaTitle">Gantian algebra titik P</div>
+                <div class="iq-formula" id="formulaBox"></div>
+              </div>
+            </div>
+
+            <div class="lab-control-pane" id="pane-view" role="tabpanel" aria-labelledby="tab-view" tabindex="0" inert>
+              <div class="iq-group">
+                <div class="iq-lbl" data-i18n="show">Papar pada graf</div>
+                <div class="iq-toggles">
+                  <label class="lab-toggle"><input type="checkbox" data-show="shade" checked> <span data-i18n="s_shade">Rantau berlorek</span></label>
+                  <label class="lab-toggle"><input type="checkbox" data-show="point" checked> <span data-i18n="s_point">Titik ujian P</span></label>
+                  <label class="lab-toggle"><input type="checkbox" data-show="intercepts" checked> <span data-i18n="s_intercepts">Pintasan / persilangan</span></label>
+                  <label class="lab-toggle"><input type="checkbox" data-show="labels" checked> <span data-i18n="s_labels">Label rantau</span></label>
+                  <label class="lab-toggle"><input type="checkbox" data-show="coords" checked> <span data-i18n="s_coords">Pratonton koordinat</span></label>
+                </div>
+              </div>
+              <div class="iq-group">
+                <div class="iq-lbl" data-i18n="legendTitle">Petunjuk warna</div>
+                <div class="ineq-legend" id="ineq-legend">
+                  <span><i class="ineq-swatch l1"></i><b data-i18n="leg1">Ketaksamaan 1</b></span>
+                  <span id="leg2-wrap" hidden><i class="ineq-swatch l2"></i><b data-i18n="leg2">Ketaksamaan 2</b></span>
+                  <span id="legR-wrap" hidden><i class="ineq-swatch common"></i><b data-i18n="legR">Rantau sepunya (R)</b></span>
+                </div>
+              </div>
+              <div class="iq-light-card">
+                <p class="iq-note" data-i18n="viewTip">Tip: Garis sempadan padu (≥, ≤) merangkumi titik pada garis, manakala garis putus-putus (&gt;, &lt;) mengecualikannya.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="iq-sum" aria-labelledby="sum-title">
+      <h2 id="sum-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>
+        <span data-i18n="sumTitle">Ringkasan simbol &amp; garis sempadan</span>
+      </h2>
+      <div class="iq-sum-wrap">
+        <table>
+          <thead><tr><th data-i18n="sumColSym">Simbol</th><th data-i18n="sumColLine">Garis sempadan</th><th data-i18n="sumColRegion">Kawasan berlorek</th><th data-i18n="sumColOnLine">Titik di atas garis</th><th data-i18n="sumColEg">Contoh</th></tr></thead>
+          <tbody id="sumRows"></tbody>
+        </table>
+      </div>
+      <p data-i18n="sumNote">Baris yang diserlahkan sepadan dengan simbol ketaksamaan aktif dalam panel kawalan.</p>
+    </section>
+
+    <section class="iq-theory-section" id="theoryCard" aria-labelledby="theory-title">
+      <h2 id="theory-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span data-i18n="theoryTitle">Konsep Matematik</span>
+      </h2>
+      <div class="theory">
+        <details open>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20L20 4"/><path d="M4 4h6v6" opacity=".45"/></svg><span>Ketaksamaan linear dalam dua pemboleh ubah</span></summary>
+          <p>Ketaksamaan linear dalam dua pemboleh ubah melibatkan dua pemboleh ubah seperti <i>x</i> dan <i>y</i> berkuasa satu dengan hubungan &gt;, ≥, &lt; atau ≤.</p>
+          <div class="eq">y &gt; mx + c &nbsp;·&nbsp; y ≥ mx + c &nbsp;·&nbsp; y &lt; mx + c &nbsp;·&nbsp; y ≤ mx + c</div>
+          <p>Setiap titik (<i>x</i>, <i>y</i>) dalam rantau berlorek ialah penyelesaian yang memuaskan ketaksamaan tersebut.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h18"/><path d="M3 16h18" stroke-dasharray="4 3"/></svg><span>Garis sempadan padu dan putus-putus</span></summary>
+          <p><b>Garis padu</b> digunakan untuk simbol <b>≥</b> atau <b>≤</b> kerana titik yang berada tepat di atas garis sempadan turut memuaskan ketaksamaan.</p>
+          <p><b>Garis putus-putus</b> digunakan untuk simbol <b>&gt;</b> atau <b>&lt;</b> kerana titik pada garis sempadan dikecualikan daripada penyelesaian.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span>Kaedah titik ujian (termasuk asalan)</span></summary>
+          <p>Untuk menentukan rantau berlorek, pilih satu titik ujian (paling mudah asalan <b>(0, 0)</b> jika garis tidak melaluinya) dan gantikan ke dalam ketaksamaan.</p>
+          <p>Jika pernyataan benar, lorekkan rantau yang mengandungi titik ujian itu; jika palsu, lorekkan rantau di sebelah bertentangan.</p>
+        </details>
+        <details>
+          <summary><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="4,18 12,6 20,18" fill="currentColor" fill-opacity=".14"/><path d="M4 18L16 6M20 18L8 6"/></svg><span>Sistem ketaksamaan linear &amp; rantau sepunya R</span></summary>
+          <p>Sistem ketaksamaan menggabungkan dua atau lebih ketaksamaan linear secara serentak. <b>Rantau sepunya R</b> ialah kawasan pertindihan yang memuaskan semua ketaksamaan tersebut.</p>
+          <p>Jika dua garis selari (nilai <i>m</i> sama) mempunyai lorekan ke arah bertentangan dan tidak bertindih, sistem tidak mempunyai rantau sepunya.</p>
+        </details>
+      </div>
     </section>
 
     <div class="lab-tail has-companion" data-lab-tail></div>
     <section class="feedback-section" id="penilaian" data-simulation-feedback="ketaksamaan-linear" data-review-panel data-no-shortcut aria-label="Penilaian dan komen"></section>
   </main>
+
+  <aside class="iq-bubble" id="missionBar" hidden aria-live="polite">
+    <div class="iq-bubble-card" id="mCard">
+      <div class="iq-bubble-head" id="mDragHandle" data-i18n-title="mDragHint" title="Seret untuk mengalih">
+        <span class="iq-grip" aria-hidden="true">⋮⋮</span>
+        <span class="mnum" id="mNum">?</span>
+        <div class="iq-bubble-head-info">
+          <b id="mTitle" data-i18n="mSelectTitle">Pilih misi</b>
+          <span class="stars" id="mStars" aria-label="Bintang diperoleh"></span>
+        </div>
+        <div class="iq-bubble-head-acts">
+          <button type="button" class="iq-bubble-ico" id="mList" data-i18n-aria="mListBtn" title="Senarai misi" aria-label="Senarai misi">☰</button>
+          <button type="button" class="iq-bubble-ico" id="mCollapse" data-i18n-aria="mCollapse" title="Kecilkan kad misi" aria-label="Kecilkan kad misi">−</button>
+        </div>
+      </div>
+      <div class="iq-bubble-body">
+        <div class="mtxt" id="mText"></div>
+        <div class="mans" id="mAns" hidden>
+          <input type="text" id="mInput" inputmode="decimal" autocomplete="off" placeholder="Jawapan" aria-label="Masukkan jawapan">
+          <span class="u" id="mUnit"></span>
+          <button type="button" class="iq-btn go" id="mCheck" data-i18n="mCheckBtn">✔ Semak</button>
+          <button type="button" class="iq-btn sec" id="mHint" title="Petunjuk" aria-label="Petunjuk">💡</button>
+        </div>
+        <div class="mprog" id="mProg" hidden><span id="mProgBar"></span></div>
+        <div class="mfb" id="mFb" role="status"></div>
+      </div>
+    </div>
+    <button type="button" class="iq-bubble-pill" id="mPill" hidden data-i18n-aria="mExpand" aria-label="Buka kad misi">
+      <span class="iq-pill-num" id="mPillNum">1</span>
+      <span class="iq-pill-info">
+        <strong id="mPillTitle">Misi</strong>
+        <small id="mPillSub"></small>
+      </span>
+      <span class="iq-pill-prog" id="mPillProg" hidden><span id="mPillProgBar"></span></span>
+      <svg class="iq-pill-up" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+  </aside>
+
+  <canvas id="ghost" aria-hidden="true"></canvas>
+
+  <div class="sheet" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listTitle">
+    <div class="sheetBody">
+      <div class="sheetHead">
+        <div>
+          <b id="listTitle" data-i18n="mSheetTitle">🎮 Misi Cabaran</b>
+          <small data-i18n="mSheetSub">Selesaikan secara hands-on. Kumpul bintang &amp; XP!</small>
+        </div>
+        <button type="button" id="listClose" data-i18n-aria="mClose" aria-label="Tutup">✕</button>
+      </div>
+      <div class="rank">
+        <span style="font-size:24px" aria-hidden="true">🏅</span>
+        <div><b id="rankName">Pelatih</b><br><small id="rankXp"></small></div>
+        <div class="xpbar"><span id="xpFill"></span></div>
+      </div>
+      <div class="mgrid" id="mGrid"></div>
+    </div>
+  </div>
+
+  <div class="sheet" id="winSheet" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+    <div class="sheetBody win">
+      <div style="font-size:46px" aria-hidden="true">🎉</div>
+      <h2 id="winTitle">Tahniah!</h2>
+      <div class="big" id="winStars"></div>
+      <div class="xp" id="winXp"></div>
+      <div class="expl" id="winExpl"></div>
+      <div class="iq-actions" style="justify-content:center">
+        <button type="button" class="iq-btn sec" id="winList" data-i18n="mWinList">☰ Senarai</button>
+        <button type="button" class="iq-btn sec" id="winRetry" data-i18n="mWinRetry">↻ Ulang</button>
+        <button type="button" class="iq-btn go" id="winNext" data-i18n="mWinNext">Misi seterusnya ▶</button>
+      </div>
+    </div>
+  </div>
 
 <script defer src="ketaksamaan-linear-model.js"></script>
 <script defer src="ketaksamaan-linear.js"></script>

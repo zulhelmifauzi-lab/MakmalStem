@@ -48,6 +48,7 @@
       infoLabel: 'Maklumat',
       preview: 'Pratonton',
       about: 'Tentang portal',
+      changelog: 'Kemas Kini',
       devPhase: 'Fasa Pembangunan',
       presentResumeText: 'Mod pembentangan aktif',
       presentResumeBtn: 'Sambung skrin penuh',
@@ -80,6 +81,7 @@
       infoLabel: 'Information',
       preview: 'Preview',
       about: 'About portal',
+      changelog: 'Changelog',
       devPhase: 'Development Phase',
       presentResumeText: 'Present mode active',
       presentResumeBtn: 'Resume fullscreen',
@@ -751,6 +753,7 @@
   <span class="sidebar-label" data-drawer-i18n="infoLabel">${esc(t.infoLabel)}</span>
   <a class="sidebar-item sidebar-extra" href="${url('index.html#pratonton')}"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 4 3-4 3Z"/></svg></span><span class="sidebar-text" data-drawer-i18n="preview">${esc(t.preview)}</span></a>
   <a class="sidebar-item sidebar-extra" href="${url('index.html#tentang')}"><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></span><span class="sidebar-text" data-drawer-i18n="about">${esc(t.about)}</span></a>
+  <a class="sidebar-item sidebar-extra" href="${url('kemas-kini.html')}"${typeof location !== 'undefined' && /\/kemas-kini\.html$/i.test(location.pathname) ? ' aria-current="page"' : ''}><span class="sidebar-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="sidebar-text" data-drawer-i18n="changelog">${esc(t.changelog)}</span></a>
 </nav>`;
       document.body.appendChild(drawer);
     }

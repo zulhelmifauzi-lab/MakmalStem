@@ -274,6 +274,7 @@ Maklumat|Information
 Pratonton|Preview
 Tentang Makmal STEM|About Makmal STEM
 Tentang portal|About portal
+Kemas Kini|Changelog
 KSSM Tingkatan 4 dan 5|KSSM Forms 4 and 5
 Terokai sains dan matematik|Explore science and mathematics
 Ubah pemboleh ubah dan lihat kesannya dalam simulasi Matematik, Fizik dan Kimia.|Change variables and observe their effects in Mathematics, Physics and Chemistry simulations.
